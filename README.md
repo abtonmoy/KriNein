@@ -50,6 +50,22 @@ Temporal clustering → LLM Vision API → Insights
 
 ---
 
+## Key Features Summary
+
+| Feature                        | Status         | Description                                             |
+| ------------------------------ | -------------- | ------------------------------------------------------- |
+| **Hierarchical Deduplication** | ✅ Core        | pHash → SSIM → CLIP (cheap to expensive)                |
+| **Scene-Aware Selection**      | ✅ Core        | Respects narrative structure via scene detection        |
+| **Batch Processing**           | ✅ Implemented | Parallel video processing + GPU-batched CLIP            |
+| **Temporal Reasoning**         | ✅ Implemented | Multi-frame prompts with timestamps & narrative context |
+| **Adaptive Schema**            | ✅ Implemented | Two-pass extraction with type-specific schemas          |
+| **Multilingual Support**       | 🟡 Planned     | Swap to multilingual OCR/ASR models                     |
+| **Audio-Visual Fusion**        | 🟡 Planned     | Boost frames near audio events                          |
+| **Streaming Processing**       | 🔴 Future      | Requires architecture redesign                          |
+| **Learned Thresholds**         | 🔴 Future      | Requires meta-learning research                         |
+
+---
+
 ## Technical Architecture
 
 ### Stage 1: Video Ingestion & Metadata Extraction
@@ -310,54 +326,196 @@ def extract_audio_events(audio_path):
 - GPT-4V (OpenAI)
 - Gemini Pro Vision (Google)
 
-**Extraction Schema:**
+**Temporal-Aware Prompt Construction:**
 
-```json
-{
-  "brand": {
-    "name": "string",
-    "logo_visible": "boolean",
-    "logo_timestamp": "float"
-  },
-  "product": {
-    "name": "string",
-    "category": "string",
-    "features_mentioned": ["string"]
-  },
-  "message": {
-    "primary_message": "string",
-    "call_to_action": "string",
-    "tagline": "string"
-  },
-  "creative_elements": {
-    "dominant_colors": ["string"],
-    "text_overlays": ["string"],
-    "faces_detected": "integer",
-    "emotions_detected": ["string"]
-  },
-  "persuasion_techniques": ["string"],
-  "target_audience": {
-    "age_group": "string",
-    "gender": "string",
-    "interests": ["string"]
-  }
-}
-```
+The LLM receives all keyframes together with temporal context, enabling narrative understanding:
 
-**Prompt Template:**
+```python
+def build_temporal_prompt(frames_with_timestamps, schema):
+    """
+    Build a prompt that gives LLM temporal context for narrative understanding.
 
-```
-You are analyzing a video advertisement through a series of keyframes.
+    Args:
+        frames_with_timestamps: List of (frame, timestamp) tuples
+        schema: JSON schema for extraction
 
-Frames are provided in chronological order with timestamps.
+    Returns:
+        Formatted prompt string
+    """
+    video_duration = frames_with_timestamps[-1][1]
+    num_frames = len(frames_with_timestamps)
+
+    prompt = f"""You are analyzing a {video_duration:.1f}-second video advertisement through {num_frames} keyframes.
+
+The frames are in CHRONOLOGICAL ORDER with timestamps. Analyze both individual frames AND the narrative progression.
+
+TEMPORAL CONTEXT:
+"""
+
+    for i, (frame, ts) in enumerate(frames_with_timestamps):
+        prompt += f"\n[Frame {i+1} @ {ts:.1f}s]"
+        if i > 0:
+            time_gap = ts - frames_with_timestamps[i-1][1]
+            prompt += f" (Δ {time_gap:.1f}s from previous)"
+
+        # Add position context
+        position = ts / video_duration
+        if position < 0.2:
+            prompt += " [OPENING]"
+        elif position > 0.8:
+            prompt += " [CLOSING]"
+
+    prompt += f"""
+
+ANALYSIS INSTRUCTIONS:
+1. Identify what CHANGES between frames (scene transitions, new elements, text changes)
+2. Track the NARRATIVE ARC (setup → development → conclusion/CTA)
+3. Note any RECURRING ELEMENTS (logo appearances, product shots, faces)
 
 Extract the following information in JSON format:
-{schema}
+{json.dumps(schema, indent=2)}
 
-Keyframes:
-{frames_with_timestamps}
+Respond ONLY with valid JSON."""
 
-Respond ONLY with valid JSON.
+    return prompt
+```
+
+**Adaptive Schema Selection:**
+
+The pipeline automatically selects the appropriate extraction schema based on detected ad type:
+
+```python
+class AdaptiveSchemaSelector:
+    """Select extraction schema based on ad type detection."""
+
+    # Base schema (always extracted)
+    BASE_SCHEMA = {
+        "brand": {
+            "name": "string",
+            "logo_visible": "boolean",
+            "logo_timestamps": ["float"]
+        },
+        "message": {
+            "primary_message": "string",
+            "call_to_action": "string | null",
+            "tagline": "string | null"
+        },
+        "creative_elements": {
+            "dominant_colors": ["string"],
+            "text_overlays": ["string"],
+            "music_mood": "string | null"
+        }
+    }
+
+    # Type-specific schema extensions
+    SCHEMA_EXTENSIONS = {
+        "product_demo": {
+            "product": {
+                "name": "string",
+                "category": "string",
+                "features_demonstrated": ["string"],
+                "price_shown": "string | null"
+            },
+            "demo_steps": ["string"]
+        },
+        "testimonial": {
+            "testimonial": {
+                "speaker_name": "string | null",
+                "speaker_role": "string | null",
+                "key_quotes": ["string"],
+                "credibility_markers": ["string"]
+            }
+        },
+        "brand_awareness": {
+            "emotional_appeal": {
+                "primary_emotion": "string",
+                "storytelling_elements": ["string"],
+                "brand_values_conveyed": ["string"]
+            }
+        },
+        "tutorial": {
+            "tutorial": {
+                "skill_taught": "string",
+                "steps": ["string"],
+                "tools_shown": ["string"]
+            }
+        },
+        "entertainment": {
+            "entertainment": {
+                "humor_type": "string | null",
+                "celebrity_featured": "string | null",
+                "viral_elements": ["string"]
+            }
+        }
+    }
+
+    def detect_ad_type(self, frames, llm_client):
+        """First pass: detect ad type from frames."""
+        detection_prompt = """
+        Classify this advertisement into exactly ONE category:
+        - product_demo (shows product features/usage)
+        - testimonial (features customer/expert reviews)
+        - brand_awareness (emotional storytelling, no specific product)
+        - tutorial (teaches how to do something)
+        - entertainment (comedy, celebrity, viral content)
+
+        Respond with ONLY the category name, nothing else.
+        """
+        ad_type = llm_client.extract(frames, detection_prompt).strip().lower()
+        return ad_type if ad_type in self.SCHEMA_EXTENSIONS else "brand_awareness"
+
+    def get_schema(self, ad_type):
+        """Get combined schema for ad type."""
+        schema = self.BASE_SCHEMA.copy()
+        if ad_type in self.SCHEMA_EXTENSIONS:
+            schema.update(self.SCHEMA_EXTENSIONS[ad_type])
+        return schema
+
+    def extract_adaptive(self, frames, llm_client):
+        """Two-pass extraction with adaptive schema."""
+        # Pass 1: Detect type
+        ad_type = self.detect_ad_type(frames, llm_client)
+
+        # Pass 2: Extract with type-specific schema
+        schema = self.get_schema(ad_type)
+        result = llm_client.extract(frames, schema)
+        result["_detected_ad_type"] = ad_type
+
+        return result
+```
+
+**Single-Pass Flexible Schema (Alternative):**
+
+For simpler use cases, use a universal flexible schema:
+
+```python
+FLEXIBLE_SCHEMA = {
+    "brand": {
+        "name": "string",
+        "logo_visible": "boolean"
+    },
+    "ad_type": "string (product_demo | testimonial | brand_awareness | tutorial | entertainment)",
+    "message": {
+        "primary_message": "string",
+        "call_to_action": "string | null"
+    },
+    "narrative": {
+        "opening_hook": "string",
+        "middle_development": "string",
+        "closing_resolution": "string"
+    },
+
+    # Conditional fields - LLM fills only if applicable
+    "product": "object | null (include if product is shown)",
+    "testimonial": "object | null (include if testimonial present)",
+    "emotional_appeal": "object | null (include if emotion-focused)",
+
+    "persuasion_techniques": ["string"],
+    "target_audience": {
+        "age_group": "string",
+        "interests": ["string"]
+    }
+}
 ```
 
 ---
@@ -533,6 +691,7 @@ deduplication:
     model: "ViT-B/32"
     threshold: 0.90
     device: "cuda" # Options: cuda, cpu
+    batch_size: 32 # GPU batching for efficiency
 
 # Representative selection
 selection:
@@ -546,7 +705,32 @@ extraction:
   model: "claude-sonnet-4-20250514"
   max_tokens: 2000
   temperature: 0.0
-  schema: "full" # Options: full, minimal, custom
+
+  # Temporal reasoning
+  temporal_context:
+    enabled: true
+    include_timestamps: true
+    include_time_deltas: true
+    include_position_labels: true # [OPENING], [CLOSING]
+    include_narrative_instructions: true
+
+  # Adaptive schema
+  schema:
+    mode: "adaptive" # Options: adaptive, fixed, flexible
+    # For adaptive mode: two-pass (detect type, then extract)
+    # For fixed mode: use schema_name
+    # For flexible mode: universal schema with optional fields
+    schema_name: "full" # Used when mode=fixed
+    confidence_sampling:
+      enabled: false
+      n_samples: 3
+      temperature: 0.3
+
+# Batch processing
+batch:
+  enabled: true
+  max_workers: 4 # Number of parallel video processors
+  gpu_batch_size: 32 # CLIP embedding batch size
 
 # Evaluation
 evaluation:
@@ -556,6 +740,61 @@ evaluation:
     - processing_time
     - extraction_accuracy
   save_intermediate: true
+```
+
+### Speed-Optimized Configuration (configs/fast.yaml)
+
+```yaml
+# Inherit from default
+_extends: default.yaml
+
+# Override for speed
+ingestion:
+  max_resolution: 480 # Lower resolution
+
+deduplication:
+  ssim:
+    enabled: false # Skip SSIM layer
+  clip:
+    model: "ViT-B/16" # Faster CLIP model
+    threshold: 0.85 # More aggressive dedup
+    batch_size: 64
+
+selection:
+  max_frames_per_scene: 2 # Fewer frames
+
+extraction:
+  schema:
+    mode: "fixed"
+    schema_name: "minimal"
+```
+
+### Quality-Optimized Configuration (configs/quality.yaml)
+
+```yaml
+# Inherit from default
+_extends: default.yaml
+
+# Override for quality
+scene_detection:
+  method: "transnet" # Neural scene detection
+
+deduplication:
+  phash:
+    threshold: 12 # Less aggressive
+  clip:
+    model: "ViT-L/14" # Larger CLIP model
+    threshold: 0.95 # Keep more frames
+
+selection:
+  max_frames_per_scene: 5 # More frames per scene
+
+extraction:
+  schema:
+    mode: "adaptive"
+    confidence_sampling:
+      enabled: true
+      n_samples: 3
 ```
 
 ---
@@ -579,9 +818,94 @@ print(f"Frames selected: {result.num_selected}")
 print(f"Reduction rate: {result.reduction_rate:.2%}")
 print(f"Extracted insights: {result.insights}")
 
-# Process batch
-results = pipeline.process_batch("path/to/video/directory/")
+# Process batch (parallelized)
+results = pipeline.process_batch("path/to/video/directory/", max_workers=4)
 ```
+
+### Batch Processing (Parallelized)
+
+```python
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+from src.pipeline import AdVideoPipeline
+
+class BatchProcessor:
+    def __init__(self, config_path="configs/default.yaml"):
+        self.config_path = config_path
+
+    def process_batch(self, video_paths, max_workers=4):
+        """Process multiple videos in parallel using multiprocessing."""
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+            results = list(executor.map(self._process_single, video_paths))
+        return results
+
+    def _process_single(self, video_path):
+        """Process a single video (each worker gets its own pipeline instance)."""
+        pipeline = AdVideoPipeline(config_path=self.config_path)
+        return pipeline.process(video_path)
+
+# Usage
+processor = BatchProcessor()
+video_paths = ["ad1.mp4", "ad2.mp4", "ad3.mp4", "ad4.mp4"]
+results = processor.process_batch(video_paths, max_workers=4)
+```
+
+### GPU-Batched CLIP Embeddings
+
+```python
+import torch
+import numpy as np
+
+class BatchedCLIPEmbedder:
+    """Efficient batched CLIP inference for multiple frames."""
+
+    def __init__(self, model_name="ViT-B/32", device="cuda", batch_size=32):
+        import clip
+        self.device = device
+        self.batch_size = batch_size
+        self.model, self.preprocess = clip.load(model_name, device=device)
+
+    def embed_batch(self, frames):
+        """
+        Embed multiple frames efficiently using GPU batching.
+
+        Args:
+            frames: List of PIL Images or numpy arrays
+
+        Returns:
+            numpy array of shape (num_frames, embedding_dim)
+        """
+        embeddings = []
+
+        for i in range(0, len(frames), self.batch_size):
+            batch = frames[i:i + self.batch_size]
+
+            # Preprocess batch
+            batch_tensor = torch.stack([
+                self.preprocess(self._to_pil(f)) for f in batch
+            ]).to(self.device)
+
+            # Batch inference
+            with torch.no_grad():
+                batch_embeddings = self.model.encode_image(batch_tensor)
+
+            embeddings.append(batch_embeddings.cpu().numpy())
+
+        return np.vstack(embeddings)
+
+    def _to_pil(self, frame):
+        """Convert numpy array to PIL Image if needed."""
+        from PIL import Image
+        if isinstance(frame, np.ndarray):
+            return Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        return frame
+
+# Usage
+embedder = BatchedCLIPEmbedder(batch_size=32, device="cuda")
+frames = [frame1, frame2, frame3, ...]  # List of 100+ frames
+embeddings = embedder.embed_batch(frames)  # Much faster than one-by-one
+```
+
+````
 
 ### Custom Configuration
 
@@ -604,7 +928,7 @@ pipeline = AdVideoPipeline(
     config_path="configs/default.yaml",
     overrides=custom_config
 )
-```
+````
 
 ### Evaluation
 
@@ -730,20 +1054,236 @@ mlflow>=2.5.0
 
 ## Known Limitations & Future Work
 
-### Current Limitations
+### Implemented Features (Previously Listed as Limitations)
 
-1. **Single-video processing:** No batch optimization yet
-2. **English-only:** OCR and ASR assume English content
-3. **No temporal reasoning:** LLM sees frames independently
-4. **Fixed schema:** Extraction schema not adaptive to ad type
+These items were initially considered limitations but are now implemented in the pipeline:
 
-### Future Work
+| Feature               | Implementation                                          | Complexity |
+| --------------------- | ------------------------------------------------------- | ---------- |
+| ✅ Batch processing   | `ProcessPoolExecutor` + GPU-batched CLIP                | Easy       |
+| ✅ Temporal reasoning | Multi-frame prompts with timestamps & narrative context | Easy       |
+| ✅ Adaptive schema    | Two-pass detection + type-specific schemas              | Easy       |
 
-1. **Multi-video learning:** Learn optimal thresholds across dataset
-2. **Reinforcement learning:** Learn frame selection policy
-3. **Multimodal fusion:** Better audio-visual integration
-4. **Streaming processing:** Real-time frame selection
-5. **Domain adaptation:** Transfer to other video types
+### Medium-Difficulty Enhancements (Planned)
+
+These require additional work but are achievable with existing tools:
+
+#### 1. Multilingual Support
+
+**Challenge:** OCR and ASR currently assume English content.
+
+**Solution Path:**
+
+```python
+# Use multilingual models
+from transformers import pipeline
+
+# Multilingual OCR
+ocr = pipeline("image-to-text", model="microsoft/trocr-large-printed")
+
+# Multilingual ASR
+asr = pipeline("automatic-speech-recognition", model="openai/whisper-large-v3")
+
+# Language detection
+from langdetect import detect
+detected_lang = detect(extracted_text)
+
+# Multilingual embeddings for text
+from sentence_transformers import SentenceTransformer
+multilingual_encoder = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+```
+
+**Status:** Requires model swaps and testing, ~2-3 days of work
+
+#### 2. Audio-Visual Fusion
+
+**Challenge:** Currently audio and visual tracks are processed independently.
+
+**Solution Path:**
+
+```python
+class AudioVisualAligner:
+    """Align audio events with visual keyframes."""
+
+    def __init__(self):
+        self.vad = load_vad_model()  # Voice Activity Detection
+        self.audio_classifier = load_audio_classifier()
+
+    def extract_audio_events(self, audio_path):
+        """Extract speech, music, and silence boundaries."""
+        y, sr = librosa.load(audio_path)
+
+        events = {
+            "speech_segments": self.vad.detect(y, sr),
+            "music_segments": self.detect_music(y, sr),
+            "silence_segments": self.detect_silence(y, sr),
+            "energy_peaks": self.detect_peaks(y, sr)
+        }
+        return events
+
+    def boost_frame_importance(self, frames, audio_events):
+        """Increase importance of frames near audio events."""
+        for frame in frames:
+            ts = frame["timestamp"]
+
+            # Boost if frame is at speech onset
+            if self.near_event(ts, audio_events["speech_segments"], "start"):
+                frame["importance"] *= 1.5
+
+            # Boost if frame is at music change
+            if self.near_event(ts, audio_events["music_segments"], "boundary"):
+                frame["importance"] *= 1.3
+
+            # Boost if frame is after silence (attention reset)
+            if self.near_event(ts, audio_events["silence_segments"], "end"):
+                frame["importance"] *= 1.4
+
+        return frames
+```
+
+**Status:** Requires audio ML integration, ~1 week of work
+
+#### 3. Confidence-Based Extraction
+
+**Challenge:** LLM extractions don't include confidence scores.
+
+**Solution Path:**
+
+```python
+def extract_with_confidence(frames, schema, llm_client, n_samples=3):
+    """
+    Extract multiple times and compute confidence via agreement.
+    """
+    extractions = []
+    for i in range(n_samples):
+        result = llm_client.extract(frames, schema, temperature=0.3)
+        extractions.append(result)
+
+    # Compute field-level confidence based on agreement
+    final_result = {}
+    confidences = {}
+
+    for field in schema.keys():
+        values = [e.get(field) for e in extractions]
+        most_common = Counter(values).most_common(1)[0]
+        final_result[field] = most_common[0]
+        confidences[field] = most_common[1] / n_samples
+
+    return final_result, confidences
+```
+
+**Status:** Simple to implement, adds API cost, ~1 day of work
+
+### Hard Limitations (Future Research Directions)
+
+These require significant research effort and are beyond the scope of the current project:
+
+#### 1. Real-Time Streaming Processing
+
+**Challenge:** Current pipeline processes complete videos. Streaming requires frame-by-frame decisions without future context.
+
+**Why It's Hard:**
+
+- Cannot use scene detection (needs full video)
+- Cannot cluster without all frames
+- Must make instant keep/discard decisions
+- Requires online learning algorithms
+
+**Research Directions:**
+
+- Reinforcement learning for frame selection policy
+- Recurrent models that maintain state
+- Predictive coding to anticipate scene changes
+
+**Estimated Effort:** 3-6 months research project
+
+#### 2. Learning Optimal Thresholds
+
+**Challenge:** Current thresholds (pHash distance=8, CLIP similarity=0.90) are hand-tuned. Optimal thresholds vary by ad type, video quality, and downstream task.
+
+**Why It's Hard:**
+
+- Requires large annotated dataset of "ideal" keyframes
+- Thresholds interact non-linearly
+- Different downstream tasks need different thresholds
+- Meta-learning or AutoML approaches needed
+
+**Research Directions:**
+
+- Bayesian optimization over threshold space
+- Meta-learning across ad categories
+- Reinforcement learning with extraction quality as reward
+
+**Estimated Effort:** 2-4 months research project
+
+#### 3. Cross-Video Transfer Learning
+
+**Challenge:** Learning from one set of videos to improve processing of new, unseen videos.
+
+**Why It's Hard:**
+
+- Ads vary dramatically in style, pacing, content
+- Domain shift between training and test videos
+- Few-shot adaptation needed for new ad categories
+- Need to learn "what makes a good keyframe" abstractly
+
+**Research Directions:**
+
+- Domain adaptation techniques
+- Self-supervised pre-training on unlabeled ads
+- Prototype-based learning for ad categories
+
+**Estimated Effort:** 6+ months research project
+
+#### 4. Causal Understanding of Ad Effectiveness
+
+**Challenge:** Understanding not just what's in an ad, but why it works (or doesn't).
+
+**Why It's Hard:**
+
+- Requires linking visual content to behavioral outcomes (clicks, purchases)
+- Confounding factors (audience, placement, timing)
+- Causal inference from observational data
+- Need access to performance metrics (proprietary data)
+
+**Research Directions:**
+
+- Causal discovery from ad A/B test data
+- Counterfactual reasoning with generative models
+- Integration with marketing attribution models
+
+**Estimated Effort:** Full PhD thesis territory
+
+#### 5. Temporal Grounding with Precise Localization
+
+**Challenge:** Precisely locating when specific events occur (e.g., "the exact frame where the product is first shown").
+
+**Why It's Hard:**
+
+- Requires frame-level annotations (expensive)
+- Ambiguous boundaries (gradual transitions)
+- Long-tail of event types
+- Temporal reasoning over variable-length sequences
+
+**Research Directions:**
+
+- Video temporal grounding models (e.g., Moment-DETR)
+- Dense video captioning with timestamps
+- Weakly-supervised temporal localization
+
+**Estimated Effort:** 3-6 months research project
+
+---
+
+## Difficulty Summary
+
+| Category           | Items                                                                                         | Effort          |
+| ------------------ | --------------------------------------------------------------------------------------------- | --------------- |
+| ✅ **Implemented** | Batch processing, temporal reasoning, adaptive schema                                         | Done            |
+| 🟡 **Medium**      | Multilingual, audio-visual fusion, confidence scores                                          | 1-2 weeks each  |
+| 🔴 **Hard**        | Streaming, learned thresholds, cross-video transfer, causal understanding, temporal grounding | Months to years |
+
+The current pipeline addresses the **easy** items and is scoped appropriately for a publishable paper. The **medium** items are good follow-up work or paper extensions. The **hard** items represent future research directions that could each be separate papers.
 
 ---
 
