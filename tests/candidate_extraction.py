@@ -11,7 +11,7 @@ def main():
     
     print("Testing candidate detector")
     print("Test video:", video)
-    change_detector = EdgeChangeDetector()
+    change_detector = AdaptiveChangeDetector() # HistogramDetector
     test2 = CandidateFrameExtractor(change_detector)
     result2 = test2.extract_candidates(video_path=video, max_resolution=720)
     print("result: ", result2)
