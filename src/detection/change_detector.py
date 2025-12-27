@@ -126,7 +126,7 @@ def get_change_detector(method: str = "histogram") -> ChangeDetector:
     return detectors[method]()
 
 
-class AdaptiveChangeDetector:
+class AdaptiveChangeDetector(ChangeDetector):
     """
     Adaptive change detection that adjusts threshold based on video statistics.
     """
@@ -141,6 +141,19 @@ class AdaptiveChangeDetector:
         self.base_threshold = base_threshold
         self.adaptation_window = adaptation_window
         self.change_history = []
+
+    def compute_change(self, frame1: np.ndarray, frame2: np.ndarray) -> float:
+        """
+        Compute change score between two frames using the underlying detector.
+        
+        Args:
+            frame1: First frame (BGR)
+            frame2: Second frame (BGR)
+            
+        Returns:
+            Change score (higher = more change)
+        """
+        return self.detector.compute_change(frame1, frame2)
     
     def get_adaptive_threshold(self) -> float:
         """Compute adaptive threshold based on recent changes."""
