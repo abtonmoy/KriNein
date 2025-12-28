@@ -7,8 +7,8 @@ def main():
     video_path = "data/ads/ads/videos/v0002.mp4"
     
     # Extract candidate frames using your existing tools
-    print("Extracting candidate frames...")
-    change_detector = EdgeChangeDetector()
+    print("Extracting candidate frames... Histogram")
+    change_detector = HistogramDetector()
     extractor = CandidateFrameExtractor(change_detector)
     candidates = extractor.extract_candidates(video_path=video_path, max_resolution=720)
     
