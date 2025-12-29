@@ -135,3 +135,7 @@ dmypy.json
 *.bak
 *.swp
 .~lock.*
+
+# custom
+data/hussain_videos/
+*.mp4
