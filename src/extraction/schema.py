@@ -34,7 +34,7 @@ BASE_SCHEMA = {
         "text_overlays": "list of text shown on screen"
     },
     "content_rating": {
-        "is_nsfw": "boolean (true if explicit sexual content, graphic violence, or not-safe-for-work material)"
+    "is_nsfw": "boolean (true if contains: explicit/suggestive sexual content, revealing attire used for sex appeal, graphic violence, drug content, or anything inappropriate for workplace viewing)"
     },
     "target_audience": {
         "age_group": "string (e.g., 18-25, 25-40, all ages)",
