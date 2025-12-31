@@ -1,13 +1,15 @@
 # src\pipeline.py
 """
 Main pipeline orchestrator for video advertisement analysis with enhanced audio support.
+
+OPTIMIZED: Audio and frame pipelines now run in parallel for improved performance.
 """
 
 import time
 import logging
 from pathlib import Path
-from typing import Dict, Any, Optional, List
-from concurrent.futures import ProcessPoolExecutor
+from typing import Dict, Any, Optional, List, Tuple
+from concurrent.futures import ThreadPoolExecutor
 import numpy as np
 from src.utils.config import load_config, deep_merge, get_device
 from src.utils.logging import setup_logging
@@ -34,12 +36,10 @@ class AdVideoPipeline:
     
     Pipeline stages:
     1. Video ingestion & metadata extraction
-    2. Scene boundary detection (with fallback)
-    3. Lightweight change detection for candidate extraction
-    4. Hierarchical deduplication (pHash → SSIM → CLIP)
-    5. Audio context extraction (transcription, mood, tempo) [ENHANCED]
+    2-4. [PARALLEL] Frame pipeline: Scene detection → Candidate extraction → Deduplication
+    5.   [PARALLEL] Audio pipeline: Audio context extraction (transcription, mood, tempo)
     6. Temporal clustering & representative selection (density-based)
-    7. LLM extraction with temporal + audio context [ENHANCED]
+    7. LLM extraction with temporal + audio context
     """
     
     def __init__(
@@ -254,7 +254,7 @@ class AdVideoPipeline:
             return None
         
         try:
-            logger.info("Stage 5: Extracting audio context...")
+            logger.info("Audio pipeline: Extracting audio context...")
             
             # Get transcription settings
             transcription_config = audio_config.get("transcription", {})
@@ -298,35 +298,30 @@ class AdVideoPipeline:
         except Exception as e:
             logger.error(f"Audio context extraction failed: {e}")
             return None
-    
-    def process(
-        self,
-        video_path: str,
-        skip_extraction: bool = False
-    ) -> PipelineResult:
+
+    def _process_frames_pipeline(
+        self, 
+        video_path: str, 
+        metadata
+    ) -> Tuple[List, List, Dict, List[tuple], int]:
         """
-        Process a single video through the complete pipeline.
+        Execute the frame processing pipeline (Stages 2-4).
+        
+        This runs in parallel with the audio pipeline.
         
         Args:
             video_path: Path to video file
-            skip_extraction: If True, skip LLM extraction stage
+            metadata: Video metadata object
             
         Returns:
-            PipelineResult with metadata, frames, and extraction results
+            Tuple of (deduped_frames, embeddings, dedup_stats, scene_boundaries, total_frames_sampled)
         """
-        start_time = time.time()
-        logger.info(f"Processing video: {video_path}")
-        
-        # Stage 1: Load video and extract metadata
-        logger.info("Stage 1: Loading video...")
-        metadata, audio_path = self.loader.load(video_path)
-        
         # Stage 2: Detect scenes (with fallback)
-        logger.info("Stage 2: Detecting scenes...")
+        logger.info("Frame pipeline: Stage 2 - Detecting scenes...")
         scene_boundaries = self._detect_scenes_with_fallback(video_path, metadata)
         
         # Stage 3: Extract candidate frames
-        logger.info("Stage 3: Extracting candidate frames...")
+        logger.info("Frame pipeline: Stage 3 - Extracting candidate frames...")
         change_config = self.config.get("change_detection", {})
         change_detector = get_change_detector(change_config.get("method", "histogram"))
         
@@ -342,16 +337,84 @@ class AdVideoPipeline:
         )
         
         total_frames_sampled = len(candidates)
-        logger.info(f"Extracted {total_frames_sampled} candidate frames")
+        logger.info(f"Frame pipeline: Extracted {total_frames_sampled} candidate frames")
         
         # Stage 4: Hierarchical deduplication
-        logger.info("Stage 4: Hierarchical deduplication...")
+        logger.info("Frame pipeline: Stage 4 - Hierarchical deduplication...")
         deduped_frames, embeddings, dedup_stats = self.deduplicator.deduplicate(candidates)
         
-        # Stage 5: Extract audio context (ENHANCED - now includes transcription)
-        audio_context = None
-        if audio_path:
-            audio_context = self._extract_audio_context(audio_path)
+        logger.info(f"Frame pipeline complete: {len(deduped_frames)} frames after deduplication")
+        
+        return deduped_frames, embeddings, dedup_stats, scene_boundaries, total_frames_sampled
+
+    def _process_audio_pipeline(self, audio_path: Optional[str]) -> Optional[Dict]:
+        """
+        Execute the audio processing pipeline (Stage 5).
+        
+        This runs in parallel with the frame pipeline.
+        
+        Args:
+            audio_path: Path to extracted audio file, or None
+            
+        Returns:
+            Audio context dict or None
+        """
+        if not audio_path:
+            logger.info("Audio pipeline: No audio path provided, skipping")
+            return None
+        
+        return self._extract_audio_context(audio_path)
+
+    def process(
+        self,
+        video_path: str,
+        skip_extraction: bool = False
+    ) -> PipelineResult:
+        """
+        Process a single video through the complete pipeline.
+        
+        OPTIMIZED: Frame pipeline (stages 2-4) and audio pipeline (stage 5) 
+        now run in parallel, then merge before selection and LLM extraction.
+        
+        Args:
+            video_path: Path to video file
+            skip_extraction: If True, skip LLM extraction stage
+            
+        Returns:
+            PipelineResult with metadata, frames, and extraction results
+        """
+        start_time = time.time()
+        logger.info(f"Processing video: {video_path}")
+        
+        # Stage 1: Load video and extract metadata
+        logger.info("Stage 1: Loading video...")
+        metadata, audio_path = self.loader.load(video_path)
+        
+        # ========== PARALLEL EXECUTION (Stages 2-5) ==========
+        # Run frame pipeline and audio pipeline concurrently
+        logger.info("Starting parallel processing: Frame pipeline + Audio pipeline")
+        
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            # Submit both pipeline tasks
+            frame_future = executor.submit(
+                self._process_frames_pipeline,
+                video_path,
+                metadata
+            )
+            audio_future = executor.submit(
+                self._process_audio_pipeline,
+                audio_path
+            )
+            
+            # Wait for both to complete and get results
+            frame_result = frame_future.result()
+            audio_context = audio_future.result()
+        
+        # ========== MERGE RESULTS ==========
+        # Unpack frame pipeline results
+        deduped_frames, embeddings, dedup_stats, scene_boundaries, total_frames_sampled = frame_result
+        
+        logger.info("Parallel processing complete, merging results...")
         
         # Stage 6: Select representatives (density-based)
         logger.info("Stage 6: Selecting representative frames...")
@@ -379,7 +442,7 @@ class AdVideoPipeline:
                 extraction_result = self.extractor.extract(
                     frames=selected_frames,
                     video_duration=metadata.duration,
-                    audio_context=audio_context  # <-- NEW: Pass audio context
+                    audio_context=audio_context
                 )
             except Exception as e:
                 logger.error(f"Extraction failed: {e}")

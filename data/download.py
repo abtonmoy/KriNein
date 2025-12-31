@@ -3,17 +3,35 @@ import pandas as pd
 import yt_dlp
 import time
 import random
+import json
 
 # --- CONFIGURATION ---
 CSV_PATH = "data/final_video_id_list.csv"
 OUTPUT_DIR = "data/hussain_videos"
 LOG_FILE = "download_log.txt"
-MIN_DELAY = 5.0   # Increased from 3.0
-MAX_DELAY = 15.0  # Increased from 8.0
-BOT_DETECTION_PAUSE = 300  # 5 minutes pause if bot detection kicks in
+PROGRESS_FILE = "download_progress.json"  # NEW: Track progress
+MIN_DELAY = 5.0
+MAX_DELAY = 15.0
+BOT_DETECTION_PAUSE = 300
 
 # Create output directory (and any parent directories)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+def load_progress():
+    """Load the last processed index from progress file."""
+    if os.path.exists(PROGRESS_FILE):
+        try:
+            with open(PROGRESS_FILE, 'r') as f:
+                data = json.load(f)
+                return data.get('last_index', -1)
+        except:
+            return -1
+    return -1
+
+def save_progress(index):
+    """Save the current progress index."""
+    with open(PROGRESS_FILE, 'w') as f:
+        json.dump({'last_index': index}, f)
 
 def scan_existing_videos(output_dir):
     """Scan the output directory and return a set of already downloaded video IDs."""
@@ -42,12 +60,20 @@ def clean_video_id(raw_id):
     return cleaned
 
 def download_videos():
-    # 1. Scan existing videos
+    # 1. Load last progress
+    last_index = load_progress()
+    print(f"Last processed index: {last_index}")
+    if last_index >= 0:
+        print(f"Resuming from index {last_index + 1}\n")
+    else:
+        print("Starting fresh download\n")
+    
+    # 2. Scan existing videos
     print("Scanning existing videos...")
     existing_videos = scan_existing_videos(OUTPUT_DIR)
     print(f"Found {len(existing_videos)} already downloaded videos\n")
     
-    # 2. Load the CSV (no headers, just video IDs)
+    # 3. Load the CSV (no headers, just video IDs)
     try:
         df = pd.read_csv(CSV_PATH, header=None)
         df.columns = ['video_id']
@@ -61,7 +87,7 @@ def download_videos():
         print(f"Error loading CSV: {e}")
         return
 
-    # 3. Configure yt-dlp
+    # 4. Configure yt-dlp
     ydl_opts = {
         'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
         'outtmpl': f'{OUTPUT_DIR}/%(id)s.%(ext)s',
@@ -84,10 +110,15 @@ def download_videos():
     
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         for index, row in df.iterrows():
+            # Skip videos we've already processed
+            if index <= last_index:
+                continue
+            
             video_id = row['clean_id']
             
             if not video_id or len(video_id) != 11:
                 print(f"[{index+1}/{len(df)}] Skipping invalid ID: {video_id}")
+                save_progress(index)  # Save progress even for invalid IDs
                 continue
             
             # Skip if already in our scanned list
@@ -95,6 +126,7 @@ def download_videos():
                 skip_count += 1
                 success_count += 1
                 print(f"[{index+1}/{len(df)}] Skipping {video_id} (Already exists)")
+                save_progress(index)  # Save progress
                 continue
             
             video_url = f"https://www.youtube.com/watch?v={video_id}"
@@ -110,11 +142,13 @@ def download_videos():
                     success_count += 1
                     download_count += 1
                     existing_videos.add(video_id)
+                    save_progress(index)  # Save progress after successful download
                 else:
                     print(f"[{index+1}/{len(df)}] Failed {video_id} (Unavailable)")
                     fail_count += 1
                     with open(LOG_FILE, "a") as f:
                         f.write(f"{video_id},unavailable\n")
+                    save_progress(index)  # Save progress
             
             except Exception as e:
                 error_msg = str(e)
@@ -141,6 +175,8 @@ def download_videos():
                 
                 with open(LOG_FILE, "a") as f:
                     f.write(f"{video_id},error:{error_msg[:100]}\n")
+                
+                save_progress(index)  # Save progress even on error
             
             # Rate limiting - increased delay
             delay = random.uniform(MIN_DELAY, MAX_DELAY)

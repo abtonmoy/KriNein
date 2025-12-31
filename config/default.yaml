@@ -107,7 +107,7 @@ selection:
   # - kmeans: K-means clustering on CLIP embeddings (good for semantic diversity)
   # - uniform: Uniform temporal sampling (simple fallback)
   # - hybrid: NMS with K-means diversity constraints (balanced approach)
-  method: "kmeans"
+  method: "hybrid"
 
   # Density and constraints
   target_frame_density: 0.25 # ~1 frame every 4 seconds
