@@ -1,7 +1,6 @@
 #src\extraction\prompts.py
 """
 Prompt building for LLM extraction.
-Includes Topic and Sentiment classification from video ad dataset taxonomy.
 """
 
 import json
@@ -86,94 +85,6 @@ def prepare_frames_for_prompt(
     return prepared
 
 
-def get_topic_reference() -> str:
-    """
-    Get the topic categories reference for the prompt.
-    
-    Returns:
-        Formatted string of all topic categories
-    """
-    return """TOPIC CATEGORIES (select ONE primary topic by ID):
-1. Restaurants, cafe, fast food
-2. Chocolate, cookies, candy, ice cream
-3. Chips, snacks, nuts, fruit, gum, cereal, yogurt, soups
-4. Seasoning, condiments, ketchup
-5. Pet food
-6. Alcohol
-7. Coffee, tea
-8. Soda, juice, milk, energy drinks, water
-9. Cars, automobiles (car sales, auto parts, car insurance, car repair, gas, motor oil, etc.)
-10. Electronics (computers, laptops, tablets, cellphones, TVs, etc.)
-11. Phone, TV and internet service providers
-12. Financial services (banks, credit cards, investment firms, etc.)
-13. Education (universities, colleges, kindergarten, online degrees, etc.)
-14. Security and safety services (anti-theft, safety courses, etc.)
-15. Software (internet radio, streaming, job search website, grammar correction, travel planning, etc.)
-16. Other services (dating, tax, legal, loan, religious, printing, catering, etc.)
-17. Beauty products and cosmetics (deodorants, toothpaste, makeup, hair products, laser hair removal, etc.)
-18. Healthcare and medications (hospitals, health insurance, allergy, cold remedy, home tests, vitamins)
-19. Clothing and accessories (jeans, shoes, eye glasses, handbags, watches, jewelry)
-20. Baby products (baby food, sippy cups, diapers, etc.)
-21. Games and toys (including video and mobile games)
-22. Cleaning products (detergents, fabric softeners, soap, tissues, paper towels, etc.)
-23. Home improvements and repairs (furniture, decoration, lawn care, plumbing, etc.)
-24. Home appliances (coffee makers, dishwashers, cookware, vacuum cleaners, heaters, music players, etc.)
-25. Vacation and travel (airlines, cruises, theme parks, hotels, travel agents, etc.)
-26. Media and arts (TV shows, movies, musicals, books, audio books, etc.)
-27. Sports equipment and activities
-28. Shopping (department stores, drug stores, groceries, etc.)
-29. Gambling (lotteries, casinos, etc.)
-30. Environment, nature, pollution, wildlife
-31. Animal rights, animal abuse
-32. Human rights
-33. Safety, safe driving, fire safety
-34. Smoking, alcohol abuse
-35. Domestic violence
-36. Self esteem, bullying, cyber bullying
-37. Political candidates (support or opposition)
-38. Charities"""
-
-
-def get_sentiment_reference() -> str:
-    """
-    Get the sentiment categories reference for the prompt.
-    
-    Returns:
-        Formatted string of all sentiment categories
-    """
-    return """SENTIMENT CATEGORIES (select primary sentiment by ID, and up to 3 secondary sentiments):
-1. Active (energetic, adventurous, vibrant, enthusiastic, playful)
-2. Afraid (horrified, scared, fearful)
-3. Alarmed (concerned, worried, anxious, overwhelmed)
-4. Alert (attentive, curious)
-5. Amazed (surprised, astonished, awed, fascinated, intrigued)
-6. Amused (humored, laughing)
-7. Angry (annoyed, irritated)
-8. Calm (soothed, peaceful, comforted, fulfilled, cozy)
-9. Cheerful (delighted, happy, joyful, carefree, optimistic)
-10. Confident (assured, strong, healthy)
-11. Conscious (aware, thoughtful, prepared)
-12. Conscious (aware, thoughtful, prepared)
-13. Disturbed (disgusted, shocked)
-14. Eager (hungry, thirsty, passionate)
-15. Educated (informed, enlightened, smart, savvy, intelligent)
-16. Emotional (vulnerable, moved, nostalgic, reminiscent)
-17. Empathetic (sympathetic, supportive, understanding, receptive)
-18. Fashionable (trendy, elegant, beautiful, attractive, sexy)
-19. Feminine (womanly, girlish)
-20. Grateful (thankful)
-21. Inspired (motivated, ambitious, empowered, hopeful, determined)
-22. Jealous
-23. Loving (loved, romantic)
-24. Manly
-25. Persuaded (impressed, enchanted, immersed)
-26. Pessimistic (skeptical)
-27. Proud (patriotic)
-28. Sad (depressed, upset, betrayed, distant)
-29. Thrifty (frugal)
-30. Youthful (childlike)"""
-
-
 def build_temporal_prompt(
     frames: List[FrameForPrompt],
     video_duration: float,
@@ -253,12 +164,7 @@ The frames are in CHRONOLOGICAL ORDER. Analyze both individual frames AND the na
                 prompt += f"- \"{phrase['text']}\" at {phrase['timestamp']:.1f}s\n"
             prompt += "\n"
     
-    # Add Topic reference
     prompt += f"""
-
-{get_topic_reference()}
-
-{get_sentiment_reference()}
 
 Extract the following information in JSON format:
 
@@ -296,31 +202,6 @@ Content Rating:
 - is_nsfw: Set to true ONLY if content contains explicit sexual content, graphic violence, or other not-safe-for-work material
   Most advertisements should be false
 
-Topic Classification:
-- topic_id: Select the SINGLE most appropriate topic category ID (1-38) from the list above
-- topic_name: Provide the full name of the selected topic category
-- topic_confidence: Rate your confidence in the classification (low/medium/high)
-  * Consider: Does the ad clearly fit one category, or could it belong to multiple?
-
-Sentiment Classification:
-- primary_sentiment_id: Select the SINGLE most dominant sentiment ID (1-30) that the ad is designed to evoke in viewers
-- primary_sentiment_name: Provide the full name of the primary sentiment
-- secondary_sentiments: List up to 3 additional sentiment IDs that also apply (can be empty list)
-- sentiment_intensity: Rate how strongly the sentiment is conveyed (low/medium/high)
-  * low: Subtle emotional appeal
-  * medium: Clear emotional messaging
-  * high: Strong, unmistakable emotional impact
-
-Engagement Metrics:
-- is_funny: Rate 0.0 to 1.0 - likelihood the ad uses humor (0.0 = not at all, 1.0 = primarily comedic)
-- is_exciting: Rate 0.0 to 1.0 - likelihood the ad is exciting/thrilling (0.0 = calm/mundane, 1.0 = high energy/thrilling)
-- effectiveness_score: Rate 1-5 how effective you predict this ad to be
-  * 1: Poor - confusing, off-putting, or likely to be ignored
-  * 2: Below average - some issues with messaging or execution
-  * 3: Average - competent but not memorable
-  * 4: Good - clear message, engaging, likely to resonate
-  * 5: Excellent - highly compelling, memorable, likely to drive action
-
 IMPORTANT FORMATTING RULES:
 - Respond with ONLY valid JSON, no markdown code blocks or explanations
 - Use null for fields where information is not available or not applicable
@@ -328,7 +209,6 @@ IMPORTANT FORMATTING RULES:
 - Do NOT use emojis in any field
 - Keep responses professional and factual
 - Extract exact text as it appears, maintaining proper spelling and capitalization
-- For topic_id and sentiment IDs, use INTEGER values (not strings)
 
 JSON Response:"""
     
@@ -351,61 +231,3 @@ def build_type_detection_prompt() -> str:
 - entertainment: Comedy, celebrity content, viral/shareable moments
 
 Respond with ONLY the category name, nothing else. Do not use emojis or additional formatting."""
-
-
-def build_topic_only_prompt() -> str:
-    """
-    Build a prompt specifically for topic classification.
-    
-    Returns:
-        Prompt string for topic classification only
-    """
-    return f"""Analyze this advertisement and classify it into exactly ONE topic category.
-
-{get_topic_reference()}
-
-Respond with ONLY the topic ID number (1-38), nothing else."""
-
-
-def build_sentiment_only_prompt() -> str:
-    """
-    Build a prompt specifically for sentiment classification.
-    
-    Returns:
-        Prompt string for sentiment classification only
-    """
-    return f"""Analyze this advertisement and identify the PRIMARY sentiment it is designed to evoke in viewers.
-
-{get_sentiment_reference()}
-
-Respond with ONLY the sentiment ID number (1-30), nothing else."""
-
-
-def build_engagement_prompt() -> str:
-    """
-    Build a prompt for engagement metrics (funny, exciting, effective).
-    
-    Returns:
-        Prompt string for engagement metrics
-    """
-    return """Analyze this advertisement and rate the following:
-
-1. FUNNY: How humorous/comedic is this ad? (0.0 to 1.0)
-   - 0.0 = No humor at all
-   - 0.5 = Some humor elements
-   - 1.0 = Primarily a comedy ad
-
-2. EXCITING: How exciting/thrilling is this ad? (0.0 to 1.0)
-   - 0.0 = Calm, mundane
-   - 0.5 = Moderately engaging
-   - 1.0 = High energy, thrilling
-
-3. EFFECTIVE: How effective do you predict this ad to be? (1 to 5)
-   - 1 = Poor
-   - 2 = Below average
-   - 3 = Average
-   - 4 = Good
-   - 5 = Excellent
-
-Respond with ONLY three numbers separated by commas: funny_score,exciting_score,effectiveness_score
-Example: 0.3,0.7,4"""

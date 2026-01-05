@@ -1,6 +1,6 @@
 # main.py
 """
-Batch video advertisement analysis with parallel processing, incremental saving, and resume capability.
+Batch video advertisement analysis with incremental saving and resume capability.
 
 Usage:
     python main.py
@@ -16,28 +16,28 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any, Optional, Set
 import sys
+import threading
 import os
 import warnings
-import time
-
-# Suppress warnings early
-warnings.filterwarnings("ignore", category=UserWarning)
-warnings.filterwarnings("ignore", category=FutureWarning)
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn, TimeElapsedColumn, TimeRemainingColumn, MofNCompleteColumn
 from rich.logging import RichHandler
 from rich.theme import Theme
 from rich import box
 from rich.text import Text
-from rich.live import Live
-from rich.layout import Layout
 
 from dotenv import load_dotenv
 load_dotenv()
+
+# Suppress noisy warnings before importing pipeline
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+from src.pipeline import AdVideoPipeline
 
 # Configuration
 INPUT_DIR = "data/hussain_videos"
@@ -55,22 +55,38 @@ custom_theme = Theme({
     "error": "bold red",
     "success": "bold green",
     "highlight": "magenta",
-    "dim": "dim white",
 })
 console = Console(theme=custom_theme)
 
+# Thread lock for safe file writing and console output
+file_lock = threading.Lock()
+print_lock = threading.Lock()
+
+# Track progress
+progress_state = {
+    "completed": 0,
+    "failed": 0,
+    "total": 0,
+    "active": 0
+}
+
 
 def setup_logging(verbose: bool = False):
-    """Setup logging."""
+    """Setup logging - suppress most logs unless verbose."""
     Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
     
+    # Set level based on verbose flag
     level = logging.DEBUG if verbose else logging.WARNING
     
     # Suppress noisy loggers
-    for logger_name in ["whisper", "torch", "PIL", "urllib3", "open_clip", "lpips", 
-                        "matplotlib", "numba", "filelock", "transformers", "multiprocessing"]:
-        logging.getLogger(logger_name).setLevel(logging.ERROR)
+    logging.getLogger("whisper").setLevel(logging.ERROR)
+    logging.getLogger("torch").setLevel(logging.ERROR)
+    logging.getLogger("PIL").setLevel(logging.ERROR)
+    logging.getLogger("urllib3").setLevel(logging.ERROR)
+    logging.getLogger("open_clip").setLevel(logging.ERROR)
+    logging.getLogger("lpips").setLevel(logging.ERROR)
     
+    # File handler gets everything, console only gets warnings+
     file_handler = logging.FileHandler('results/processing.log')
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
@@ -91,7 +107,7 @@ def setup_logging(verbose: bool = False):
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description='Batch process video advertisements with parallel processing',
+        description='Batch process video advertisements with resume capability',
     )
     
     parser.add_argument(
@@ -116,7 +132,7 @@ def parse_args():
     parser.add_argument(
         '--verbose',
         action='store_true',
-        help='Enable verbose logging'
+        help='Enable verbose logging (show all pipeline logs)'
     )
     
     return parser.parse_args()
@@ -174,18 +190,19 @@ def load_progress() -> Dict[str, Any]:
 
 
 def save_progress(progress: Dict[str, Any]):
-    """Save progress to progress file."""
-    progress_path = Path(PROGRESS_FILE)
-    
-    data = {
-        "processed_videos": list(progress["processed_videos"]),
-        "failed_videos": list(progress["failed_videos"]),
-        "started_at": progress["started_at"],
-        "last_updated": datetime.now().isoformat()
-    }
-    
-    with open(progress_path, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2)
+    """Save progress to progress file (thread-safe)."""
+    with file_lock:
+        progress_path = Path(PROGRESS_FILE)
+        
+        data = {
+            "processed_videos": list(progress["processed_videos"]),
+            "failed_videos": list(progress["failed_videos"]),
+            "started_at": progress["started_at"],
+            "last_updated": datetime.now().isoformat()
+        }
+        
+        with open(progress_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2)
 
 
 def load_results() -> Dict[str, Any]:
@@ -212,27 +229,77 @@ def load_results() -> Dict[str, Any]:
 
 
 def save_results(results_data: Dict[str, Any]):
-    """Save results to results file."""
-    results_path = Path(RESULTS_FILE)
+    """Save results to results file (thread-safe)."""
+    with file_lock:
+        results_path = Path(RESULTS_FILE)
+        
+        results_data["metadata"]["last_updated"] = datetime.now().isoformat()
+        results_data["metadata"]["successful"] = sum(
+            1 for r in results_data["results"] if r.get("status") == "success"
+        )
+        results_data["metadata"]["failed"] = sum(
+            1 for r in results_data["results"] if r.get("status") == "failed"
+        )
+        
+        with open(results_path, 'w', encoding='utf-8') as f:
+            json.dump(results_data, f, indent=2, ensure_ascii=False)
+
+
+def result_to_dict(result, video_path: str) -> Dict[str, Any]:
+    """Convert PipelineResult to dictionary for JSON serialization."""
+    if result is None:
+        return {
+            "status": "failed",
+            "video_path": video_path,
+            "video_name": Path(video_path).name,
+            "error": "Processing failed",
+            "processed_at": datetime.now().isoformat()
+        }
     
-    results_data["metadata"]["last_updated"] = datetime.now().isoformat()
-    results_data["metadata"]["successful"] = sum(
-        1 for r in results_data["results"] if r.get("status") == "success"
-    )
-    results_data["metadata"]["failed"] = sum(
-        1 for r in results_data["results"] if r.get("status") == "failed"
-    )
-    
-    with open(results_path, 'w', encoding='utf-8') as f:
-        json.dump(results_data, f, indent=2, ensure_ascii=False)
+    return {
+        "status": "success",
+        "video_path": result.video_path,
+        "video_name": Path(result.video_path).name,
+        "processed_at": datetime.now().isoformat(),
+        "metadata": {
+            "duration": result.metadata.duration,
+            "fps": result.metadata.fps,
+            "width": result.metadata.width,
+            "height": result.metadata.height
+        },
+        "scenes": [
+            {
+                "scene_id": scene.scene_id,
+                "start_time": scene.start_time,
+                "end_time": scene.end_time
+            }
+            for scene in result.scenes
+        ],
+        "selected_frames": [
+            {
+                "timestamp": frame.timestamp,
+                "scene_id": frame.scene_id,
+                "importance_score": frame.importance_score
+            }
+            for frame in result.selected_frames
+        ],
+        "pipeline_stats": {
+            "total_frames_sampled": result.total_frames_sampled,
+            "frames_after_phash": result.frames_after_phash,
+            "frames_after_ssim": result.frames_after_ssim,
+            "frames_after_clip": result.frames_after_clip,
+            "final_frame_count": result.final_frame_count,
+            "reduction_rate": result.reduction_rate,
+            "processing_time_s": result.processing_time_s
+        },
+        "extraction": result.extraction_result if result.extraction_result else None
+    }
 
 
 def print_header():
     """Print application header."""
     header = Text()
     header.append("Video Advertisement Batch Processor", style="bold cyan")
-    header.append(" | ", style="dim")
-    header.append("Parallel Mode", style="bold yellow")
     
     console.print(Panel(
         header,
@@ -242,15 +309,14 @@ def print_header():
     ))
 
 
-def print_config_info(video_count: int, pending_count: int, skip_extraction: bool, workers: int):
+def print_config_info(video_count: int, skip_extraction: bool, workers: int):
     """Print configuration information."""
     table = Table(show_header=False, box=box.ROUNDED, padding=(0, 2))
     table.add_column("Setting", style="cyan")
     table.add_column("Value", style="white")
     
     table.add_row("Input Directory", INPUT_DIR)
-    table.add_row("Total Videos", str(video_count))
-    table.add_row("Pending Videos", f"[yellow]{pending_count}[/yellow]")
+    table.add_row("Videos Found", str(video_count))
     table.add_row("Output File", RESULTS_FILE)
     table.add_row("Parallel Workers", f"[yellow]{workers}[/yellow]")
     table.add_row("LLM Extraction", "[red]Disabled[/red]" if skip_extraction else "[green]Enabled[/green]")
@@ -258,12 +324,9 @@ def print_config_info(video_count: int, pending_count: int, skip_extraction: boo
     console.print(Panel(table, title="[bold]Configuration[/bold]", box=box.ROUNDED))
 
 
-def print_video_list(video_paths: List[str], max_display: int = 15):
+def print_video_list(video_paths: List[str], max_display: int = 20):
     """Print list of videos to process."""
-    if not video_paths:
-        return
-        
-    table = Table(title=f"Videos to Process ({len(video_paths)} total)", box=box.SIMPLE_HEAD)
+    table = Table(title="Videos to Process", box=box.SIMPLE_HEAD)
     table.add_column("#", style="dim", width=4)
     table.add_column("Filename", style="cyan")
     table.add_column("Size", justify="right", style="green")
@@ -282,8 +345,34 @@ def print_video_list(video_paths: List[str], max_display: int = 15):
     console.print()
 
 
+def print_progress_line():
+    """Print current progress status."""
+    completed = progress_state["completed"]
+    failed = progress_state["failed"]
+    total = progress_state["total"]
+    active = progress_state["active"]
+    
+    pct = (completed + failed) / total * 100 if total > 0 else 0
+    
+    # Build progress bar
+    bar_width = 30
+    filled = int(bar_width * pct / 100)
+    bar = "[green]" + "=" * filled + "[/green]" + "[dim]" + "-" * (bar_width - filled) + "[/dim]"
+    
+    status = (
+        f"  Progress: [{bar}] {pct:5.1f}% | "
+        f"[green]{completed}[/green] done | "
+        f"[red]{failed}[/red] failed | "
+        f"[yellow]{active}[/yellow] active | "
+        f"{total - completed - failed} remaining"
+    )
+    
+    with print_lock:
+        console.print(status)
+
+
 def print_summary(results_data: Dict[str, Any]):
-    """Print summary statistics."""
+    """Print beautiful summary statistics."""
     results = results_data.get("results", [])
     
     successful = [r for r in results if r.get("status") == "success"]
@@ -302,45 +391,51 @@ def print_summary(results_data: Dict[str, Any]):
     
     console.print(Panel(summary_text, title="[bold]Processing Summary[/bold]", box=box.DOUBLE))
     
-    # Successful videos table (show last 20)
+    # Successful videos table
     if successful:
-        display_results = successful[-20:] if len(successful) > 20 else successful
-        
         table = Table(
-            title=f"Successfully Processed (last {len(display_results)} of {len(successful)})",
+            title="Successfully Processed Videos",
             box=box.ROUNDED,
-            show_lines=False,
+            show_lines=True,
             title_style="bold green"
         )
-        table.add_column("Video", style="cyan", max_width=35)
+        table.add_column("Video", style="cyan", max_width=30)
         table.add_column("Duration", justify="right")
+        table.add_column("Scenes", justify="center")
         table.add_column("Frames", justify="center")
         table.add_column("Reduction", justify="right", style="green")
         table.add_column("Time", justify="right", style="yellow")
+        table.add_column("Brand", max_width=15)
         
         total_reduction = 0
         total_time = 0
         
         for result in successful:
-            total_reduction += result.get('pipeline_stats', {}).get('reduction_rate', 0)
-            total_time += result.get('pipeline_stats', {}).get('processing_time_s', 0)
-        
-        for result in display_results:
             video_name = result.get('video_name', 'unknown')
             stats = result.get('pipeline_stats', {})
             metadata = result.get('metadata', {})
+            extraction = result.get('extraction', {})
+            
+            brand = "N/A"
+            if extraction:
+                brand = extraction.get('brand', {}).get('name', 'N/A')
             
             frames_before = stats.get('total_frames_sampled', 0)
             frames_after = stats.get('final_frame_count', 0)
-            frames_display = f"{frames_before}->{frames_after}"
+            frames_display = f"{frames_before} -> {frames_after}"
             
             table.add_row(
-                video_name[:35],
+                video_name[:30],
                 f"{metadata.get('duration', 0):.1f}s",
+                str(len(result.get('scenes', []))),
                 frames_display,
                 f"{stats.get('reduction_rate', 0):.1%}",
                 f"{stats.get('processing_time_s', 0):.1f}s",
+                brand[:15] if brand else "N/A"
             )
+            
+            total_reduction += stats.get('reduction_rate', 0)
+            total_time += stats.get('processing_time_s', 0)
         
         console.print(table)
         
@@ -353,7 +448,7 @@ def print_summary(results_data: Dict[str, Any]):
         avg_time = total_time / len(successful) if successful else 0
         
         agg_table.add_row("Average Reduction Rate", f"{avg_reduction:.1%}")
-        agg_table.add_row("Total Processing Time", f"{total_time:.1f}s ({total_time/60:.1f} min)")
+        agg_table.add_row("Total Processing Time", f"{total_time:.1f}s")
         agg_table.add_row("Average Time per Video", f"{avg_time:.1f}s")
         
         console.print(Panel(agg_table, title="[bold]Aggregate Statistics[/bold]", box=box.ROUNDED))
@@ -361,20 +456,17 @@ def print_summary(results_data: Dict[str, Any]):
     # Failed videos table
     if failed:
         table = Table(
-            title=f"Failed Videos ({len(failed)})",
+            title="Failed Videos",
             box=box.ROUNDED,
             title_style="bold red"
         )
         table.add_column("Video", style="cyan")
-        table.add_column("Error", style="red", max_width=50)
+        table.add_column("Error", style="red")
         
-        for result in failed[:20]:  # Show first 20 failures
+        for result in failed:
             video_name = result.get('video_name', 'unknown')
             error = result.get('error', 'Unknown error')
             table.add_row(video_name, error[:50])
-        
-        if len(failed) > 20:
-            table.add_row(f"... and {len(failed) - 20} more", "")
         
         console.print(table)
     
@@ -390,31 +482,50 @@ def print_summary(results_data: Dict[str, Any]):
     console.print(files_panel)
 
 
-def process_videos_parallel(
-    video_paths: List[str],
-    progress_data: Dict[str, Any],
-    results_data: Dict[str, Any],
-    num_workers: int = 4,
-    skip_extraction: bool = False
-):
-    """Process videos in parallel with progress display."""
+def process_single_video(
+    video_path: str,
+    pipeline: AdVideoPipeline,
+    skip_extraction: bool
+) -> tuple:
+    """Process a single video. Returns (video_path, result_dict, success, result)."""
+    video_name = Path(video_path).name
     
-    # Import parallel pipeline here to avoid multiprocessing issues
-    from src.parallel_pipeline import ParallelPipeline, VideoResult
+    try:
+        result = pipeline.process(video_path, skip_extraction=skip_extraction)
+        result_dict = result_to_dict(result, video_path)
+        return (video_path, result_dict, True, result)
+    except Exception as e:
+        result_dict = {
+            "status": "failed",
+            "video_path": video_path,
+            "video_name": video_name,
+            "error": str(e),
+            "processed_at": datetime.now().isoformat()
+        }
+        return (video_path, result_dict, False, None)
+
+
+def process_videos(
+    video_paths: List[str],
+    pipeline: AdVideoPipeline,
+    progress: Dict[str, Any],
+    results_data: Dict[str, Any],
+    skip_extraction: bool = False,
+    max_workers: int = DEFAULT_WORKERS
+):
+    """Process videos in parallel with progress tracking and incremental saving."""
     
     # Filter out already processed videos
     pending_videos = [
         vp for vp in video_paths 
-        if vp not in progress_data["processed_videos"] and vp not in progress_data["failed_videos"]
+        if vp not in progress["processed_videos"] and vp not in progress["failed_videos"]
     ]
     
-    already_done = len(progress_data["processed_videos"])
-    already_failed = len(progress_data["failed_videos"])
+    already_done = len(video_paths) - len(pending_videos)
     
-    if already_done + already_failed > 0:
+    if already_done > 0:
         console.print(Panel(
-            f"[cyan]Resuming:[/cyan] [green]{already_done}[/green] done, "
-            f"[red]{already_failed}[/red] failed, "
+            f"[cyan]Resuming:[/cyan] {already_done} videos already processed, "
             f"[yellow]{len(pending_videos)}[/yellow] remaining",
             box=box.ROUNDED
         ))
@@ -423,121 +534,107 @@ def process_videos_parallel(
         console.print("[success]All videos have been processed![/success]")
         return
     
+    # Initialize progress state
+    progress_state["completed"] = already_done
+    progress_state["failed"] = 0
+    progress_state["total"] = len(video_paths)
+    progress_state["active"] = 0
+    
     # Update metadata
     results_data["metadata"]["total_videos"] = len(video_paths)
     
-    # Stats tracking
-    stats = {
-        "successful": already_done,
-        "failed": already_failed,
-        "total": len(video_paths)
-    }
+    console.print()
+    print_progress_line()
+    console.print()
     
-    console.print(f"\n[info]Initializing {num_workers} worker processes (loading models)...[/info]")
-    console.print("[dim]This may take a minute on first run...[/dim]\n")
-    
-    # Create progress display
-    with Progress(
-        SpinnerColumn(),
-        TextColumn("[progress.description]{task.description}"),
-        BarColumn(bar_width=40),
-        MofNCompleteColumn(),
-        TextColumn("[dim]|[/dim]"),
-        TimeElapsedColumn(),
-        TextColumn("[dim]|[/dim]"),
-        TimeRemainingColumn(),
-        console=console,
-        refresh_per_second=2,
-        transient=False
-    ) as progress:
+    # Process with ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Submit all pending videos
+        future_to_video = {
+            executor.submit(
+                process_single_video,
+                video_path,
+                pipeline,
+                skip_extraction
+            ): video_path
+            for video_path in pending_videos
+        }
         
-        task = progress.add_task(
-            "[cyan]Processing videos",
-            total=len(video_paths),
-            completed=already_done + already_failed
-        )
-        
-        def on_video_complete(result: VideoResult):
-            """Callback when a video completes."""
-            nonlocal stats
-            
-            # Update progress tracking
-            if result.success:
-                progress_data["processed_videos"].add(result.video_path)
-                stats["successful"] += 1
-            else:
-                progress_data["failed_videos"].add(result.video_path)
-                stats["failed"] += 1
-            
-            # Add result
-            if result.result_dict:
-                results_data["results"].append(result.result_dict)
-            
-            # Save incrementally
-            save_progress(progress_data)
-            save_results(results_data)
-            
-            # Update progress bar
-            progress.update(task, advance=1)
-            
-            # Print result
-            if result.success:
-                result_dict = result.result_dict or {}
-                pipeline_stats = result_dict.get('pipeline_stats', {})
-                console.print(
-                    f"  [success][+][/success] {result.video_name} - "
-                    f"[cyan]{pipeline_stats.get('final_frame_count', '?')}[/cyan] frames, "
-                    f"[green]{pipeline_stats.get('reduction_rate', 0):.1%}[/green] reduction, "
-                    f"[yellow]{result.processing_time:.1f}s[/yellow]"
-                )
-            else:
-                console.print(
-                    f"  [error][x][/error] {result.video_name} - "
-                    f"[red]{result.error[:60] if result.error else 'Unknown error'}[/red]"
-                )
+        progress_state["active"] = min(len(future_to_video), max_workers)
         
         try:
-            # Create and run parallel pipeline
-            with ParallelPipeline(
-                config_path=CONFIG_PATH,
-                num_workers=num_workers,
-                suppress_worker_logs=True
-            ) as pipeline:
+            for future in as_completed(future_to_video):
+                video_path = future_to_video[future]
+                video_name = Path(video_path).name
                 
-                console.print(f"[success]Workers initialized! Starting processing...[/success]\n")
+                try:
+                    video_path, result_dict, success, result = future.result()
+                    
+                    # Thread-safe update of results
+                    with file_lock:
+                        results_data["results"].append(result_dict)
+                        
+                        if success:
+                            progress["processed_videos"].add(video_path)
+                            progress_state["completed"] += 1
+                        else:
+                            progress["failed_videos"].add(video_path)
+                            progress_state["failed"] += 1
+                    
+                    # Save progress and results
+                    save_progress(progress)
+                    save_results(results_data)
+                    
+                    # Update display
+                    with print_lock:
+                        if success:
+                            console.print(
+                                f"  [success][+][/success] {video_name} - "
+                                f"[cyan]{result.final_frame_count}[/cyan] frames, "
+                                f"[green]{result.reduction_rate:.1%}[/green] reduction, "
+                                f"[yellow]{result.processing_time_s:.1f}s[/yellow]"
+                            )
+                        else:
+                            error_msg = result_dict.get('error', 'Unknown error')[:50]
+                            console.print(f"  [error][x][/error] {video_name} - [red]{error_msg}[/red]")
+                    
+                except Exception as e:
+                    with print_lock:
+                        console.print(f"  [error][x][/error] {video_name} - [red]{str(e)[:50]}[/red]")
+                    
+                    with file_lock:
+                        progress["failed_videos"].add(video_path)
+                        progress_state["failed"] += 1
+                        results_data["results"].append({
+                            "status": "failed",
+                            "video_path": video_path,
+                            "video_name": video_name,
+                            "error": str(e),
+                            "processed_at": datetime.now().isoformat()
+                        })
+                    
+                    save_progress(progress)
+                    save_results(results_data)
                 
-                # Process videos
-                pipeline.process_batch(
-                    video_paths=pending_videos,
-                    skip_extraction=skip_extraction,
-                    callback=on_video_complete
-                )
-                
+                # Update active count and show progress
+                remaining = len(pending_videos) - progress_state["completed"] - progress_state["failed"] + already_done
+                progress_state["active"] = min(remaining, max_workers)
+                print_progress_line()
+                    
         except KeyboardInterrupt:
-            console.print("\n[warning]Processing interrupted by user[/warning]")
-            save_progress(progress_data)
+            console.print("\n[warning]Processing interrupted - waiting for active jobs...[/warning]")
+            executor.shutdown(wait=False, cancel_futures=True)
+            save_progress(progress)
             save_results(results_data)
             console.print("[info]Progress saved. Run again to resume.[/info]")
             raise
-    
-    console.print()
-    console.print(
-        f"[info]Batch complete: "
-        f"[green]{stats['successful']}[/green] successful, "
-        f"[red]{stats['failed']}[/red] failed[/info]"
-    )
 
 
 def main():
     """Main entry point."""
-    # Required for Windows multiprocessing
-    if sys.platform == 'win32':
-        import multiprocessing
-        multiprocessing.freeze_support()
-    
     args = parse_args()
     
-    # Ensure output directory exists
+    # Ensure output directory exists first
     ensure_output_dir()
     
     # Setup logging
@@ -573,41 +670,34 @@ def main():
         console.print(f"[dim]Searched for extensions: {VIDEO_EXTENSIONS}[/dim]")
         sys.exit(1)
     
+    # Print config and video list
+    print_config_info(len(video_paths), args.skip_extraction, args.workers)
+    print_video_list(video_paths)
+    
     # Load progress and results
-    progress_data = load_progress()
+    progress = load_progress()
     results_data = load_results()
     
-    # Calculate pending
-    pending_videos = [
-        vp for vp in video_paths 
-        if vp not in progress_data["processed_videos"] and vp not in progress_data["failed_videos"]
-    ]
-    
-    # Print config and video list
-    print_config_info(len(video_paths), len(pending_videos), args.skip_extraction, args.workers)
-    print_video_list(pending_videos)
-    
-    if not pending_videos:
-        console.print("[success]All videos have been processed![/success]\n")
-        print_summary(results_data)
-        return
+    # Initialize pipeline
+    console.print("[info]Initializing pipeline...[/info]")
+    try:
+        pipeline = AdVideoPipeline(config_path=CONFIG_PATH)
+        console.print("[success]Pipeline initialized[/success]\n")
+    except Exception as e:
+        console.print(f"[error]Failed to initialize pipeline: {e}[/error]")
+        sys.exit(1)
     
     # Process videos
-    console.print(Panel(
-        f"[bold cyan]Starting Parallel Processing[/bold cyan]\n"
-        f"[dim]{args.workers} workers | {len(pending_videos)} videos[/dim]",
-        box=box.DOUBLE
-    ))
-    
-    start_time = time.time()
+    console.print(Panel(f"[bold cyan]Starting Video Processing ({args.workers} workers)[/bold cyan]", box=box.DOUBLE))
     
     try:
-        process_videos_parallel(
+        process_videos(
             video_paths=video_paths,
-            progress_data=progress_data,
+            pipeline=pipeline,
+            progress=progress,
             results_data=results_data,
-            num_workers=args.workers,
-            skip_extraction=args.skip_extraction
+            skip_extraction=args.skip_extraction,
+            max_workers=args.workers
         )
     except KeyboardInterrupt:
         console.print("\n[info]Processing stopped. Run again to resume.[/info]")
@@ -617,21 +707,19 @@ def main():
         import traceback
         traceback.print_exc()
         
-        save_progress(progress_data)
+        save_progress(progress)
         save_results(results_data)
         sys.exit(1)
     
-    total_time = time.time() - start_time
-    
     # Final save
-    save_progress(progress_data)
+    save_progress(progress)
     save_results(results_data)
     
     # Print summary
     console.print()
     print_summary(results_data)
     
-    console.print(f"\n[success]Processing complete in {total_time/60:.1f} minutes![/success]")
+    console.print("\n[success]Processing complete![/success]")
 
 
 if __name__ == "__main__":
