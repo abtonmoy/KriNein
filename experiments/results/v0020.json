@@ -1,0 +1,297 @@
+{
+  "video": {
+    "path": "data\\ads\\ads\\videos\\v0020.mp4",
+    "name": "v0020",
+    "duration": 15.014999999999999,
+    "resolution": "1920x1080",
+    "fps": 23.976023976023978
+  },
+  "shared_pipeline": {
+    "time_seconds": 35.26397085189819,
+    "scenes_detected": 8,
+    "total_candidates": 18,
+    "after_phash": 17,
+    "after_ssim": 15,
+    "after_clip": 9,
+    "frames_after_dedup": 9,
+    "audio_segments": 5,
+    "key_phrases_found": 3,
+    "audio_mood": "neutral"
+  },
+  "methods": {
+    "nms": {
+      "selection_time_seconds": 0.12426948547363281,
+      "extraction_time_seconds": 32.264232873916626,
+      "total_time_seconds": 32.39001822471619,
+      "final_frames": 8,
+      "importance_range": [
+        1.4949999999999999,
+        6.551999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": "Prime",
+          "logo_visible": true,
+          "logo_timestamps": [
+            0.0
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Prime Big Deal Days",
+          "industry": "E-commerce"
+        },
+        "promotion": {
+          "promo_present": true,
+          "promo_text": "up to 40% off",
+          "promo_deadline": "October 7-8",
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": true,
+          "cta_type": "Shop deals"
+        },
+        "message": {
+          "primary_message": "With deals from Prime Big Deal Days, you can acquire tools that unlock your creative potential and bring you joy.",
+          "tagline": "greatness is a deal away."
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "brown",
+            "white",
+            "blue",
+            "beige"
+          ],
+          "text_overlays": [
+            "Prime Big Deal Days October 7-8"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-40",
+          "interests": [
+            "Cooking",
+            "Home goods",
+            "Online shopping",
+            "Creative hobbies",
+            "Bargain hunting"
+          ]
+        },
+        "persuasion_techniques": [
+          "Emotion",
+          "Urgency",
+          "Storytelling",
+          "Aspirational"
+        ],
+        "demo_details": {
+          "features_demonstrated": [
+            "Using a new knife set for creative cooking and food art."
+          ],
+          "demo_steps": [
+            "Unboxing a knife set from an Amazon package.",
+            "Skillfully chopping vegetables.",
+            "Arranging chopped vegetables into an artistic fish design on a plate."
+          ]
+        },
+        "_metadata": {
+          "ad_type": "product_demo",
+          "schema_mode": "adaptive",
+          "num_frames": 8,
+          "video_duration": 15.014999999999999,
+          "has_audio_context": true
+        }
+      }
+    },
+    "kmeans": {
+      "selection_time_seconds": 2.11562442779541,
+      "extraction_time_seconds": 27.673424243927002,
+      "total_time_seconds": 29.790050745010376,
+      "final_frames": 8,
+      "importance_range": [
+        1.4949999999999999,
+        6.551999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": "Prime",
+          "logo_visible": true,
+          "logo_timestamps": [
+            0.0
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Prime Big Deal Days",
+          "industry": "E-commerce"
+        },
+        "promotion": {
+          "promo_present": true,
+          "promo_text": "up to 40% off",
+          "promo_deadline": "October 7-8",
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": true,
+          "cta_type": "Shop deals"
+        },
+        "message": {
+          "primary_message": "With deals from Prime Big Deal Days, you can acquire tools that unlock your creative potential and bring you joy.",
+          "tagline": "greatness is a deal away."
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "brown",
+            "white",
+            "blue",
+            "beige"
+          ],
+          "text_overlays": [
+            "Prime Big Deal Days October 7-8"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-40",
+          "interests": [
+            "Cooking",
+            "Home goods",
+            "Online shopping",
+            "Creative hobbies",
+            "Bargain hunting"
+          ]
+        },
+        "persuasion_techniques": [
+          "Emotion",
+          "Urgency",
+          "Storytelling",
+          "Aspirational"
+        ],
+        "demo_details": {
+          "features_demonstrated": [
+            "Using a new knife set for creative cooking and food art."
+          ],
+          "demo_steps": [
+            "Unboxing a knife set from an Amazon package.",
+            "Skillfully chopping vegetables.",
+            "Arranging chopped vegetables into an artistic fish design on a plate."
+          ]
+        },
+        "_metadata": {
+          "ad_type": "product_demo",
+          "schema_mode": "adaptive",
+          "num_frames": 8,
+          "video_duration": 15.014999999999999,
+          "has_audio_context": true
+        }
+      }
+    },
+    "hybrid": {
+      "selection_time_seconds": 0.16077971458435059,
+      "extraction_time_seconds": 32.82330584526062,
+      "total_time_seconds": 32.98408555984497,
+      "final_frames": 8,
+      "importance_range": [
+        1.4949999999999999,
+        6.551999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": "Prime",
+          "logo_visible": true,
+          "logo_timestamps": [
+            0.0
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Prime Big Deal Days",
+          "industry": "E-commerce"
+        },
+        "promotion": {
+          "promo_present": true,
+          "promo_text": "up to 40% off",
+          "promo_deadline": "October 7-8",
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": true,
+          "cta_type": "Shop deals"
+        },
+        "message": {
+          "primary_message": "With deals on products from Amazon, you can unlock your creative potential and achieve greatness.",
+          "tagline": "greatness is a deal away."
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "brown",
+            "white",
+            "blue"
+          ],
+          "text_overlays": [
+            "Prime Big Deal Days October 7-8"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-40",
+          "interests": [
+            "Cooking",
+            "Home goods",
+            "Online shopping",
+            "Creative hobbies"
+          ]
+        },
+        "persuasion_techniques": [
+          "Emotion",
+          "Storytelling",
+          "Urgency",
+          "Aspirational"
+        ],
+        "demo_details": {
+          "features_demonstrated": [
+            "Receiving a delivered package",
+            "Using a purchased product to create something new"
+          ],
+          "demo_steps": [
+            "A woman unboxes an Amazon package containing a knife set.",
+            "She uses the new knives to skillfully chop vegetables.",
+            "She creates an elaborate piece of food art in the shape of a fish.",
+            "The final, impressive dish is presented."
+          ]
+        },
+        "_metadata": {
+          "ad_type": "product_demo",
+          "schema_mode": "adaptive",
+          "num_frames": 8,
+          "video_duration": 15.014999999999999,
+          "has_audio_context": true
+        }
+      }
+    }
+  },
+  "comparison": {
+    "ad_type_agreement": true,
+    "ad_types": {
+      "nms": "product_demo",
+      "kmeans": "product_demo",
+      "hybrid": "product_demo"
+    },
+    "primary_message_agreement": false,
+    "text_overlay_counts": {
+      "nms": 1,
+      "kmeans": 1,
+      "hybrid": 1
+    },
+    "fastest_method": "kmeans",
+    "most_overlays_method": "nms"
+  }
+}

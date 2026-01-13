@@ -80,7 +80,6 @@ data/*/videos/*.avi
 output/
 outputs/
 # results/
-results/
 results1/
 temp/
 tmp/

@@ -1,0 +1,173 @@
+[
+  {
+    "video": "-1yXdOufzKE.mp4",
+    "method": "uniform_1.0fps",
+    "num_frames": 31,
+    "compression_ratio": 0.9655172413793104,
+    "sampling_time_s": 0.5913021564483643,
+    "extraction_time_s": 33.00855827331543,
+    "total_time_s": 33.599860429763794,
+    "fps_equivalent": 1.0334493093113781,
+    "extraction_success": true,
+    "extracted_fields": [
+      "brand",
+      "product",
+      "promotion",
+      "call_to_action",
+      "message",
+      "visual_elements",
+      "content_rating",
+      "target_audience",
+      "topic",
+      "sentiment",
+      "engagement_metrics",
+      "persuasion_techniques",
+      "emotional_appeal",
+      "_metadata"
+    ],
+    "extraction_data": {
+      "brand": {
+        "brand_name_text": "COLORADO",
+        "logo_visible": true,
+        "logo_timestamps": [
+          27.1,
+          28.1,
+          29.0
+        ],
+        "brand_text_contrast": "high"
+      },
+      "product": {
+        "product_name": "Colorado Tourism",
+        "industry": "Vacation and travel"
+      },
+      "promotion": {
+        "promo_present": false,
+        "promo_text": null,
+        "promo_deadline": null,
+        "price_value": null
+      },
+      "call_to_action": {
+        "cta_present": true,
+        "cta_type": "Visit website"
+      },
+      "message": {
+        "primary_message": "Experience the breathtaking natural beauty and outdoor adventures of Colorado.",
+        "tagline": "COME TO LIFE"
+      },
+      "visual_elements": {
+        "text_density": "low",
+        "dominant_colors": [
+          "Blue",
+          "Green",
+          "Orange",
+          "Grey"
+        ],
+        "text_overlays": [
+          "COME TO LIFE",
+          "COLORADO",
+          "GET THE GUIDE AT COLORADO.COM"
+        ]
+      },
+      "content_rating": {
+        "is_nsfw": false
+      },
+      "target_audience": {
+        "age_group": "all ages",
+        "interests": [
+          "Hiking",
+          "Nature",
+          "Travel",
+          "Outdoors",
+          "Adventure"
+        ]
+      },
+      "topic": {
+        "topic_id": 25,
+        "topic_name": "Vacation and travel",
+        "topic_confidence": "high"
+      },
+      "sentiment": {
+        "primary_sentiment_id": 8,
+        "primary_sentiment_name": "Calm",
+        "secondary_sentiments": [
+          1,
+          5,
+          21
+        ],
+        "sentiment_intensity": "high"
+      },
+      "engagement_metrics": {
+        "is_funny": 0.0,
+        "is_exciting": 0.6,
+        "effectiveness_score": 5
+      },
+      "persuasion_techniques": [
+        "emotion",
+        "visual beauty"
+      ],
+      "emotional_appeal": {
+        "primary_emotion": "Awe",
+        "storytelling_elements": [
+          "scenic journey",
+          "outdoor exploration"
+        ],
+        "brand_values_conveyed": [
+          "Adventure",
+          "Natural beauty",
+          "Rejuvenation"
+        ]
+      },
+      "_metadata": {
+        "ad_type": "brand_awareness",
+        "schema_mode": "adaptive",
+        "num_frames": 31,
+        "video_duration": 29.996633333333335,
+        "has_audio_context": false
+      }
+    }
+  },
+  {
+    "video": "-1yXdOufzKE.mp4",
+    "method": "uniform_10frames",
+    "num_frames": 10,
+    "compression_ratio": 0.9888765294771968,
+    "sampling_time_s": 0.23812294006347656,
+    "extraction_time_s": 8.017997980117798,
+    "total_time_s": 8.256120920181274,
+    "fps_equivalent": 0.33337074493915425,
+    "extraction_error": "429 Resource has been exhausted (e.g. check quota)."
+  },
+  {
+    "video": "-1yXdOufzKE.mp4",
+    "method": "first_last_mid_quartiles",
+    "num_frames": 5,
+    "compression_ratio": 0.9944382647385984,
+    "sampling_time_s": 0.11337757110595703,
+    "extraction_time_s": 4.689164161682129,
+    "total_time_s": 4.802541732788086,
+    "fps_equivalent": 0.16668537246957713,
+    "extraction_error": "429 Resource has been exhausted (e.g. check quota)."
+  },
+  {
+    "video": "-1yXdOufzKE.mp4",
+    "method": "histogram_change",
+    "num_frames": 7,
+    "compression_ratio": 0.9922135706340378,
+    "sampling_time_s": 1.596630334854126,
+    "extraction_time_s": 6.243923664093018,
+    "total_time_s": 7.8405539989471436,
+    "fps_equivalent": 0.233359521457408,
+    "extraction_error": "429 Resource has been exhausted (e.g. check quota)."
+  },
+  {
+    "video": "-1yXdOufzKE.mp4",
+    "method": "scene_midpoint",
+    "num_frames": 5,
+    "compression_ratio": 0.9944382647385984,
+    "sampling_time_s": 0.943988561630249,
+    "extraction_time_s": 5.681819200515747,
+    "total_time_s": 6.625807762145996,
+    "fps_equivalent": 0.16668537246957713,
+    "extraction_error": "429 Resource has been exhausted (e.g. check quota)."
+  }
+]
