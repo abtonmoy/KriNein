@@ -1,9 +1,9 @@
 # config/default.yaml
 
-# Pipeline configuration with audio-enhanced extraction and NMS-based frame selection
+# Pipeline configuration with audio-enhanced extraction and temporal-aware NMS
 pipeline:
   name: "video-ad-pipeline"
-  version: "2.2.2"
+  version: "2.3.0" # Updated for temporal-aware NMS
 
 # Video ingestion
 ingestion:
@@ -109,10 +109,10 @@ deduplication:
     device: "cpu"
     batch_size: 32
 
-# Frame selection with NMS-based importance-aware selection
+# Frame selection with temporal-aware NMS
 selection:
   # Selection method: "nms", "kmeans", "uniform", or "hybrid"
-  # - nms: Non-Maximum Suppression using importance scores
+  # - nms: Non-Maximum Suppression using importance scores (NOW WITH TEMPORAL AWARENESS)
   # - kmeans: K-means clustering on CLIP embeddings (good for semantic diversity)
   # - uniform: Uniform temporal sampling (simple fallback)
   # - hybrid: NMS with K-means diversity constraints (balanced approach)
@@ -129,7 +129,7 @@ selection:
 
   # NMS-specific configuration
   nms:
-    # Semantic similarity threshold for suppression (0.0-1.0)
+    # Base semantic similarity threshold for suppression (0.0-1.0)
     # Higher = more aggressive suppression of similar frames
     semantic_threshold: 0.88
 
@@ -140,6 +140,33 @@ selection:
     # Bonus for selecting frames that are semantically different from already-selected
     # Higher = more diverse selections
     diversity_bonus: 0.1
+
+    # NEW: Temporal-aware threshold adaptation
+    # Relaxes semantic threshold for frames far apart in time
+    # This prevents over-suppression of important repeated content (logos, CTAs)
+    temporal_aware:
+      # Enable/disable temporal-aware thresholds
+      enabled: false
+
+      # How much to relax threshold with distance (0.0-1.0)
+      # 0.0 = no relaxation (original behavior)
+      # 0.3 = moderate relaxation (recommended)
+      # 0.5 = aggressive relaxation
+      scaling: 0.3
+
+      # Time constant for exponential decay (seconds)
+      # Controls how quickly threshold relaxation approaches maximum
+      # Lower = faster relaxation, higher = slower relaxation
+      # 5.0 means half-effect at ~5 seconds
+      decay_rate: 5.0
+
+    # Example behavior with these settings:
+    # Time diff | Effective threshold | Effect
+    # --------- | ------------------- | ------
+    # 0.5s      | 0.88               | Original (strict)
+    # 1.0s      | 0.93               | Slightly relaxed
+    # 5.0s      | 1.02               | Hard to suppress
+    # 20.0s     | 1.12               | Nearly impossible
 
   # Importance scoring configuration
   importance:
@@ -169,7 +196,7 @@ selection:
 # LLM extraction with audio context
 extraction:
   provider: "gemini"
-  model: "gemini-3-flash-preview" #"gemini-3-pro-preview" "gemini-2.5-flash" #"gemini-2.5-pro" #"gemini-2.0-flash-exp"
+  model: "gemini-3-flash-preview"
   max_tokens: 4000
   temperature: 0.0
 
@@ -179,7 +206,7 @@ extraction:
     include_transcription: true
     include_key_phrases: true
     include_mood: true
-    max_transcription_segments: 10 # Limit for token efficiency
+    max_transcription_segments: 10
 
   # Temporal reasoning
   temporal_context:
@@ -191,7 +218,7 @@ extraction:
 
   # Schema configuration
   schema:
-    mode: "adaptive" # Options: adaptive, fixed, flexible
+    mode: "adaptive"
 
 # Batch processing
 batch:
@@ -207,7 +234,8 @@ evaluation:
     - processing_time
     - extraction_accuracy
     - audio_enhancement_impact
-    - importance_score_lift # NEW: measures if NMS selects higher-importance frames
+    - importance_score_lift
+    - temporal_spread_score # NEW: measures temporal distribution
   save_intermediate: true
 
 # Logging
@@ -225,4 +253,5 @@ output:
   debug:
     save_all_candidates: false
     save_importance_scores: true
-    save_suppression_reasons: false # Log why frames were suppressed by NMS
+    save_suppression_reasons: true # Now includes temporal threshold info
+    save_temporal_analysis: true # NEW: save temporal-aware threshold decisions

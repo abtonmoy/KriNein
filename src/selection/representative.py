@@ -1,10 +1,9 @@
 # src/selection/representative.py
 """
-Representative frame selection with importance scoring.
+Representative frame selection with importance scoring and temporal-aware NMS.
 
-Integrates with clustering.py to provide importance-aware frame selection.
-The key improvement is that NMS-based selection now directly uses importance
-scores, unlike K-means which ignored them.
+ENHANCED: The create_selector function now reads temporal-aware threshold
+configuration from the config file.
 """
 
 import logging
@@ -250,9 +249,9 @@ class FrameSelector:
     """
     Main frame selection class that combines clustering/NMS and importance scoring.
     
-    The key improvement over the original K-means approach is that NMS directly
-    uses importance scores to select frames, ensuring high-value moments
-    (CTAs, brand reveals, key phrases) are prioritized.
+    ENHANCED: Now supports temporal-aware NMS thresholds that adapt based on
+    the time distance between frames, preventing over-suppression of important
+    repeated content like brand logos and CTAs at video start/end.
     """
     
     def __init__(
@@ -268,6 +267,10 @@ class FrameSelector:
         semantic_threshold: float = 0.88,
         use_semantic_suppression: bool = True,
         diversity_bonus: float = 0.1,
+        # NEW: Temporal-aware threshold options
+        use_temporal_aware_threshold: bool = True,
+        temporal_threshold_scaling: float = 0.3,
+        temporal_decay_rate: float = 5.0,
         # Importance scorer options
         position_weight: float = 1.0,
         scene_weight: float = 1.0,
@@ -283,9 +286,12 @@ class FrameSelector:
             clustering_method: "nms" (recommended), "kmeans", "uniform", or "hybrid"
             adaptive_density: Adjust density based on scene complexity
             use_importance_scoring: Whether to compute importance scores
-            semantic_threshold: Cosine similarity threshold for NMS suppression
+            semantic_threshold: Base cosine similarity threshold for NMS suppression
             use_semantic_suppression: Use embedding similarity in NMS
             diversity_bonus: Bonus for semantically diverse frames in NMS
+            use_temporal_aware_threshold: Enable temporal-aware threshold adaptation
+            temporal_threshold_scaling: How much to relax threshold (0.0-1.0)
+            temporal_decay_rate: Time constant for exponential decay (seconds)
             position_weight: Weight for video position in importance
             scene_weight: Weight for scene position in importance
             audio_weight: Weight for audio events in importance
@@ -300,7 +306,11 @@ class FrameSelector:
             adaptive_density=adaptive_density,
             semantic_threshold=semantic_threshold,
             use_semantic_suppression=use_semantic_suppression,
-            diversity_bonus=diversity_bonus
+            diversity_bonus=diversity_bonus,
+            # NEW: Pass temporal-aware parameters
+            use_temporal_aware_threshold=use_temporal_aware_threshold,
+            temporal_threshold_scaling=temporal_threshold_scaling,
+            temporal_decay_rate=temporal_decay_rate
         )
         
         self.scorer = ImportanceScorer(
@@ -408,33 +418,19 @@ class FrameSelector:
         }
 
 
+
 def create_selector(config: Dict) -> FrameSelector:
     """
     Create FrameSelector from configuration dictionary.
     
-    Expected config structure:
+    ENHANCED: Now reads temporal-aware threshold configuration from:
     ```yaml
     selection:
-      method: "nms"  # or "kmeans", "uniform", "hybrid"
-      target_frame_density: 0.25
-      min_frames_per_scene: 2
-      max_frames_per_scene: 10
-      min_temporal_gap_s: 0.5
-      adaptive_density: true
-      
-      # NMS-specific (optional)
       nms:
-        semantic_threshold: 0.88
-        use_semantic_suppression: true
-        diversity_bonus: 0.1
-      
-      # Importance scoring (optional)
-      importance:
-        enabled: true
-        position_weight: 1.0
-        scene_weight: 1.0
-        audio_weight: 1.0
-        key_phrase_boost: 1.5
+        temporal_aware:
+          enabled: true
+          scaling: 0.3
+          decay_rate: 5.0
     ```
     
     Args:
@@ -446,6 +442,9 @@ def create_selector(config: Dict) -> FrameSelector:
     selection_config = config.get("selection", {})
     nms_config = selection_config.get("nms", {})
     importance_config = selection_config.get("importance", {})
+    
+    # NEW: Read temporal-aware configuration
+    temporal_aware_config = nms_config.get("temporal_aware", {})
     
     # Determine clustering method
     method = selection_config.get("method", selection_config.get("clustering_method", "nms"))
@@ -462,6 +461,10 @@ def create_selector(config: Dict) -> FrameSelector:
         semantic_threshold=nms_config.get("semantic_threshold", 0.88),
         use_semantic_suppression=nms_config.get("use_semantic_suppression", True),
         diversity_bonus=nms_config.get("diversity_bonus", 0.1),
+        # NEW: Temporal-aware options
+        use_temporal_aware_threshold=temporal_aware_config.get("enabled", True),
+        temporal_threshold_scaling=temporal_aware_config.get("scaling", 0.3),
+        temporal_decay_rate=temporal_aware_config.get("decay_rate", 5.0),
         # Importance options
         position_weight=importance_config.get("position_weight", 1.0),
         scene_weight=importance_config.get("scene_weight", 1.0),
