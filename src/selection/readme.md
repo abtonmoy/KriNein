@@ -20,11 +20,12 @@ Main frame selection pipeline combining clustering and importance scoring.
 | Text presence | 1.3x | Frames with text overlays |
 | Face presence | 1.2x | Testimonials, presenters |
 
-**Smart Frame Budget:**
-Limits total frames sent to LLM based on video duration with diminishing returns:
-- 2s video → 5 frames (minimum)
-- 40s video → 10 frames
-- 200s video → 25 frames (capped at `global_max_frames`)
+**Smart Frame Budget (Intrinsic Semantic Dimensionality):**
+By default, limits the total frames sent to the LLM mathematically using SVD on the visual CLIP embeddings:
+- Computes how many principal components are required to explain 90% of visual variance (ISD).
+- Ceiling floats automatically: `Base Budget + (ISD * 1.5)`.
+- highly redundant videos are clamped heavily to save tokens, chaotic videos dynamically expand to preserve narrative entropy.
+- Can be disabled to fallback to a strict static `global_max_frames` cap.
 
 ```python
 selector = create_selector(config)

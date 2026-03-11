@@ -10,6 +10,13 @@
 New config options in `selection:`:
 ```yaml
 selection:
-  global_max_frames: 25     # Max total frames sent to LLM
+  global_max_frames: 25     # Max total frames sent to LLM (for legacy mode)
+  use_hib_budget: true       # Enables ISD scaling instead of legacy mode
   use_visual_features: true  # Auto-detect text/faces for scoring
 ```
+
+## Intrinsic Semantic Dimensionality (ISD)
+The `global_max_frames` cap is no longer a strict absolute limit when `use_hib_budget` is enabled. Instead, the dynamic maximum cap is mathematically determined via the Singular Value Decomposition (SVD) of the visual embeddings.
+- **Boring Videos:** SVD finds 1 or 2 principal components; budget is capped heavily (e.g. 5-8 frames)
+- **Chaotic Videos:** SVD determines high semantic cardinality; budget dynamically expands (e.g. 30-50 frames)
+This prevents the pipeline from overflowing token costs on repetitive videos, whilst allowing chaotic clips to provide full semantic context without token truncation.

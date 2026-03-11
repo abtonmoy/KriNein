@@ -383,9 +383,10 @@ class FrameSelector:
         else:
             e_p = 1.0
 
-        # 3. Kinetic Energy (E_k) = Semantic Velocity
+        # 3. Kinetic Energy (E_k) = Semantic Velocity & ISD
         # Variance/Derivative of embeddings over time
         e_k = 1.0
+        isd = 1  # Intrinsic Semantic Dimensionality
         if candidates:
             embeddings_list = [c.embedding for c in candidates if c.embedding is not None]
             if len(embeddings_list) > 1:
@@ -397,6 +398,22 @@ class FrameSelector:
                 # For normalized CLIP embeddings, diffs are typically between 0.1 and 1.0
                 # We scale this so average kinetic energy is roughly 1.0
                 e_k = max(0.2, mean_diff * 2.5)
+                
+                # Calculate Intrinsic Semantic Dimensionality (ISD) via SVD
+                if len(embeddings_list) > 2:
+                    # Center the embeddings for PCA
+                    centered_emb = stacked_emb - np.mean(stacked_emb, axis=0)
+                    try:
+                        # Full matrices=False for efficiency
+                        _, s, _ = np.linalg.svd(centered_emb, full_matrices=False)
+                        # Calculate explained variance ratio
+                        var_explained = (s ** 2) / (np.sum(s ** 2) + 1e-9)
+                        cum_var = np.cumsum(var_explained)
+                        # ISD is the number of components needed to explain 90% of variance
+                        isd = int(np.argmax(cum_var >= 0.90)) + 1
+                    except np.linalg.LinAlgError:
+                        logger.warning("SVD failed to converge, falling back to heuristic ISD.")
+                        isd = max(1, len(embeddings_list) // 5)
 
         # 4. Total Information Density Multiplier
         # H(t) = a*E_k + b*E_p (represented multiplicatively for budget scaling)
@@ -405,19 +422,24 @@ class FrameSelector:
         # 5. Dynamic Calculation
         raw_adaptive = base_budget + (video_duration * density * info_multiplier)
         
-        budget = min(self.global_max_frames, max(base_budget, int(raw_adaptive)))
-        
         # Switch between HIB and the legacy static budget
         if not self.use_hib_budget:
             raw_legacy = video_duration * density
+            # Retain global_max_frames as a hard ceiling for legacy mode only
             budget = min(max(5, int(raw_legacy)), self.global_max_frames)
             logger.info(f"Using legacy static budget: {budget}")
             return budget
             
+        # 6. Apply ISD bounding (No absolute hard-coded ceiling)
+        # We ensure a minimum of base_budget (usually 5) to guarantee basic coverage
+        dynamic_max = int(max(5, base_budget) + (isd * 1.5))
+        budget = min(dynamic_max, max(base_budget, int(raw_adaptive)))
+        
         logger.info(
-            f"Hamiltonian Budget | Scenes: {num_scenes} | "
+            f"ISD Adaptive Budget | Scenes: {num_scenes} | "
+            f"ISD: {isd} -> Max Cap: {dynamic_max} | "
             f"E_k (Velocity): {e_k:.2f} | E_p (Yield): {e_p:.2f} | "
-            f"Multiplier: {info_multiplier:.2f} -> Budget: {budget}/{self.global_max_frames}"
+            f"Raw Adaptive: {int(raw_adaptive)} -> Final Budget: {budget}"
         )
         
         return budget
