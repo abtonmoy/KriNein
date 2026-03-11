@@ -127,6 +127,16 @@ selection:
   # Adaptive density adjusts frame count based on scene complexity
   adaptive_density: true
 
+  # Smart global frame budget (improvement #10)
+  # After NMS, keep only top frames by importance. Uses diminishing returns:
+  # short videos get proportionally more frames, long videos are capped.
+  global_max_frames: 25
+
+  # Visual feature detection for importance scoring (improvement #5)
+  # Uses OpenCV to detect text regions and faces in frames.
+  # Frames with text/faces get higher importance scores.
+  use_visual_features: true
+
   # NMS-specific configuration
   nms:
     # Base semantic similarity threshold for suppression (0.0-1.0)
@@ -199,6 +209,21 @@ extraction:
   model: "gemini-3-flash-preview"
   max_tokens: 4000
   temperature: 0.0
+
+  # Single-pass extraction (improvement #4)
+  # Detects ad type AND extracts content in one LLM call (saves ~50% API cost)
+  single_pass: true
+
+  # Segment-level prompting (improvement #13)
+  # Groups frames by scene for better temporal context. More accurate but
+  # uses more tokens. Set to true for research, false for cost efficiency.
+  segment_prompting: false
+
+  # OCR pre-processing (improvement #14)
+  # Runs text detection on selected frames before LLM extraction.
+  # Adds text region info to the prompt so the LLM can focus on text-heavy frames.
+  ocr_context:
+    enabled: true
 
   # Audio context integration
   audio_context:

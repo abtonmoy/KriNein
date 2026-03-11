@@ -381,6 +381,131 @@ def build_sentiment_only_prompt() -> str:
 Respond with ONLY the sentiment ID number (1-30), nothing else."""
 
 
+def build_single_pass_prompt(
+    frames: List[FrameForPrompt],
+    video_duration: float,
+    schema: Dict,
+    include_timestamps: bool = True,
+    include_time_deltas: bool = True,
+    include_position_labels: bool = True,
+    include_narrative_instructions: bool = True,
+    audio_context: Optional[Dict] = None,
+) -> str:
+    """
+    Build a single-pass prompt that combines ad type detection + extraction.
+
+    This eliminates the need for a separate detect_ad_type() call,
+    reducing API costs by ~50%.
+
+    Args:
+        frames: Prepared frames with base64 images
+        video_duration: Total video duration
+        schema: Schema dictionary for extraction
+        include_timestamps: Whether to show timestamps
+        include_time_deltas: Whether to show time gaps
+        include_position_labels: Whether to show OPENING/CLOSING labels
+        include_narrative_instructions: Whether to include narrative instructions
+        audio_context: Optional audio context
+
+    Returns:
+        Prompt string
+    """
+    # Add ad_type to schema
+    enhanced_schema = {"ad_type": "string (one of: product_demo, testimonial, brand_awareness, tutorial, entertainment)"}
+    enhanced_schema.update(schema)
+
+    return build_temporal_prompt(
+        frames,
+        video_duration,
+        enhanced_schema,
+        include_timestamps=include_timestamps,
+        include_time_deltas=include_time_deltas,
+        include_position_labels=include_position_labels,
+        include_narrative_instructions=include_narrative_instructions,
+        audio_context=audio_context,
+    )
+
+
+def build_segmented_prompt(
+    frames: List[FrameForPrompt],
+    video_duration: float,
+    schema: Dict,
+    scene_boundaries: List[Tuple[float, float]],
+    audio_context: Optional[Dict] = None,
+) -> str:
+    """
+    Build a segment-level prompt that groups frames by scene.
+
+    For longer videos (60s+), grouping frames by scene gives the LLM
+    better context about narrative structure.
+
+    Args:
+        frames: Prepared frames with base64 images
+        video_duration: Total video duration
+        schema: Schema dictionary for extraction
+        scene_boundaries: List of (start, end) tuples for scenes
+        audio_context: Optional audio context
+
+    Returns:
+        Prompt string
+    """
+    prompt = f"""You are analyzing a {video_duration:.1f}-second video advertisement through {len(frames)} keyframes organized by scene.
+
+ANALYSIS APPROACH:
+1. Understand each scene independently
+2. Track the narrative arc across scenes
+3. Synthesize into a single extraction
+
+"""
+
+    # Group frames by scene
+    for scene_idx, (scene_start, scene_end) in enumerate(scene_boundaries):
+        scene_frames = [
+            f for f in frames
+            if scene_start <= f.timestamp < scene_end
+        ]
+
+        if not scene_frames:
+            continue
+
+        prompt += f"\n--- SCENE {scene_idx + 1} ({scene_start:.1f}s - {scene_end:.1f}s) ---\n"
+
+        for i, frame in enumerate(scene_frames):
+            line = f"  Frame @ {frame.timestamp:.1f}s"
+            if frame.position_label:
+                line += f" [{frame.position_label}]"
+            prompt += line + "\n"
+
+    # Add audio context
+    if audio_context:
+        prompt += "\n\nAUDIO CONTEXT:\n"
+
+        if "transcription" in audio_context and audio_context["transcription"]:
+            prompt += "Spoken Content:\n"
+            for segment in audio_context["transcription"][:10]:
+                prompt += f'- [{segment["start"]:.1f}s-{segment["end"]:.1f}s]: "{segment["text"]}"\n'
+
+        if "mood" in audio_context:
+            prompt += f"Audio Mood: {audio_context['mood']}\n"
+
+    # Add schema
+    prompt += f"""
+
+{get_topic_reference()}
+
+{get_sentiment_reference()}
+
+Extract the following information in JSON format, synthesizing across ALL scenes:
+
+{json.dumps(schema, indent=2)}
+
+IMPORTANT: Respond with ONLY valid JSON. Synthesize information from all scenes into a single response.
+
+JSON Response:"""
+
+    return prompt
+
+
 def build_engagement_prompt() -> str:
     """
     Build a prompt for engagement metrics (funny, exciting, effective).

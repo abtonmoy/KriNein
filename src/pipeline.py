@@ -20,6 +20,7 @@ from src.ingestion.video_loader import VideoLoader
 from src.ingestion.audio_extractor import AudioExtractor
 from src.detection.change_detector import get_change_detector
 from src.detection.scene_detector import CandidateFrameExtractor, SceneDetector
+from src.detection.ocr_extractor import OCRExtractor
     
 from src.deduplication.hierarchical import create_deduplicator
 from src.selection.representative import create_selector 
@@ -82,6 +83,7 @@ class AdVideoPipeline:
         self._deduplicator = None
         self._selector = None
         self._extractor = None
+        self._ocr_extractor = None
     
     def _get_default_config(self) -> Dict:
         """Get default configuration."""
@@ -170,6 +172,12 @@ class AdVideoPipeline:
             self._extractor = create_extractor(self.config)
         return self._extractor
     
+    @property
+    def ocr_extractor(self) -> OCRExtractor:
+        if self._ocr_extractor is None:
+            self._ocr_extractor = OCRExtractor()
+        return self._ocr_extractor
+    
     def _detect_scenes_with_fallback(self, video_path: str, metadata) -> List[tuple]:
         """
         Detect scenes with automatic fallback for difficult videos.
@@ -239,7 +247,8 @@ class AdVideoPipeline:
         """
         Extract comprehensive audio context for LLM.
         
-        NEW: Uses extract_full_context() instead of get_audio_events()
+        Performance: Pre-detects speech segments and passes them to
+        extract_full_context() to avoid redundant VAD detection.
         
         Args:
             audio_path: Path to extracted audio file
@@ -263,20 +272,23 @@ class AdVideoPipeline:
             model_size = transcription_config.get("model", "base")
             
             # Performance optimization: check for speech first if configured
+            # Pre-detected segments are passed to extract_full_context to avoid re-detection
+            pre_detected_speech = None
             skip_if_no_speech = audio_config.get("performance", {}).get("skip_if_no_speech", False)
             
             if skip_if_no_speech and transcribe:
-                # Quick check for speech segments
-                speech_segments = self.audio_extractor.detect_speech_segments(audio_path)
-                if not speech_segments:
+                # Quick check for speech segments — will be reused downstream
+                pre_detected_speech = self.audio_extractor.detect_speech_segments(audio_path)
+                if not pre_detected_speech:
                     logger.info("No speech detected, skipping transcription")
                     transcribe = False
             
-            # Extract full context
+            # Extract full context — passes pre-detected speech to avoid redundant VAD
             audio_context = self.audio_extractor.extract_full_context(
                 audio_path,
                 transcribe=transcribe,
-                model_size=model_size
+                model_size=model_size,
+                pre_detected_speech=pre_detected_speech
             )
             
             logger.info(f"Audio context extracted: "
@@ -435,15 +447,31 @@ class AdVideoPipeline:
         # Convert to frame list
         selected_frames = [(c.timestamp, c.frame) for c in selected_candidates]
         
-        # Stage 7: LLM Extraction (ENHANCED - now passes audio_context)
+        # Stage 7: LLM Extraction (ENHANCED - now passes audio_context + OCR context)
         extraction_result = None
         if not skip_extraction and selected_frames:
             logger.info("Stage 7: LLM extraction with audio context...")
+            
+            # Improvement #14: OCR pre-processing
+            ocr_config = self.config.get("extraction", {}).get("ocr_context", {})
+            if ocr_config.get("enabled", False):
+                try:
+                    ocr_prompt_context = self.ocr_extractor.build_ocr_context_for_prompt(selected_frames)
+                    if ocr_prompt_context:
+                        # Inject OCR text into audio_context so the extractor prompt includes it
+                        if audio_context is None:
+                            audio_context = {}
+                        audio_context["ocr_context"] = ocr_prompt_context
+                        logger.info(f"OCR context added ({len(ocr_prompt_context)} chars)")
+                except Exception as e:
+                    logger.warning(f"OCR pre-processing failed (non-fatal): {e}")
+            
             try:
                 extraction_result = self.extractor.extract(
                     frames=selected_frames,
                     video_duration=metadata.duration,
-                    audio_context=audio_context
+                    audio_context=audio_context,
+                    scene_boundaries=scene_boundaries,
                 )
             except Exception as e:
                 logger.error(f"Extraction failed: {e}")
@@ -466,6 +494,7 @@ class AdVideoPipeline:
         frame_infos = [
             FrameInfo(
                 timestamp=c.timestamp,
+                frame=c.frame,
                 scene_id=c.scene_id,
                 importance_score=c.importance_score
             )
@@ -499,36 +528,61 @@ class AdVideoPipeline:
         self,
         video_paths: List[str],
         max_workers: int = 4,
-        skip_extraction: bool = False
+        skip_extraction: bool = False,
     ) -> List[PipelineResult]:
         """
-        Process multiple videos in parallel.
-        
+        Process multiple videos with parallel execution.
+
+        Uses ThreadPoolExecutor for true parallelism. Thread-safe because
+        each video gets its own processing context. CLIP model and LLM
+        clients handle their own thread safety.
+
         Args:
             video_paths: List of video file paths
-            max_workers: Number of parallel workers (currently sequential)
+            max_workers: Number of parallel workers
             skip_extraction: If True, skip LLM extraction
-            
+
         Returns:
-            List of PipelineResult objects
+            List of PipelineResult objects (None for failed videos)
         """
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+
         logger.info(f"Processing batch of {len(video_paths)} videos with {max_workers} worker(s)")
-        
-        results = []
-        
-        # Sequential processing to avoid multiprocessing issues with CLIP/LLM
-        # In production, would use proper multiprocessing with serializable config
-        for video_path in video_paths:
+
+        def _process_one(video_path: str):
             try:
-                result = self.process(video_path, skip_extraction=skip_extraction)
-                results.append(result)
+                return self.process(video_path, skip_extraction=skip_extraction)
             except Exception as e:
                 logger.error(f"Failed to process {video_path}: {e}")
-                results.append(None)
-        
+                return None
+
+        # Use parallel processing when max_workers > 1
+        if max_workers > 1:
+            results_map = {}
+
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                future_to_path = {
+                    executor.submit(_process_one, path): (idx, path)
+                    for idx, path in enumerate(video_paths)
+                }
+
+                for future in as_completed(future_to_path):
+                    idx, path = future_to_path[future]
+                    try:
+                        results_map[idx] = future.result()
+                    except Exception as e:
+                        logger.error(f"Worker failed for {path}: {e}")
+                        results_map[idx] = None
+
+            # Reconstruct results in original order
+            results = [results_map.get(i) for i in range(len(video_paths))]
+        else:
+            # Sequential fallback
+            results = [_process_one(path) for path in video_paths]
+
         successful = sum(1 for r in results if r is not None)
         logger.info(f"Batch complete: {successful}/{len(video_paths)} videos processed successfully")
-        
+
         return results
     
     def get_metrics(self, result: PipelineResult) -> Dict[str, Any]:

@@ -7,6 +7,7 @@ Usage:
     python main.py --skip-extraction  # No LLM calls
     python main.py --reset  # Start fresh, ignore previous progress
     python main.py --workers 8  # Use 8 parallel workers
+    python main.py --output results/my_custom_results.json  # Save results to a custom file
 """
 
 import argparse
@@ -42,8 +43,8 @@ load_dotenv()
 # Configuration
 INPUT_DIR = "data/hussain_videos"
 OUTPUT_DIR = "results"
-RESULTS_FILE = "results/processing_results.json"
-PROGRESS_FILE = "results/progress.json"
+RESULTS_FILE = "results/new/processing_results.json"
+PROGRESS_FILE = "results/new/progress.json"
 CONFIG_PATH = "config/default.yaml"
 VIDEO_EXTENSIONS = ['.mp4', '.mov', '.avi', '.mkv', '.webm']
 DEFAULT_WORKERS = 4
@@ -71,7 +72,8 @@ def setup_logging(verbose: bool = False):
                         "matplotlib", "numba", "filelock", "transformers", "multiprocessing"]:
         logging.getLogger(logger_name).setLevel(logging.ERROR)
     
-    file_handler = logging.FileHandler('results/processing.log')
+    log_file = Path(OUTPUT_DIR) / 'processing.log'
+    file_handler = logging.FileHandler(str(log_file))
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
     
@@ -117,6 +119,18 @@ def parse_args():
         '--verbose',
         action='store_true',
         help='Enable verbose logging'
+    )
+    
+    parser.add_argument(
+        '--batch',
+        type=str,
+        help='Directory containing videos to process in batch'
+    )
+    
+    parser.add_argument(
+        '--output',
+        type=str,
+        help='Path to the output results JSON file (directories will be created automatically)'
     )
     
     return parser.parse_args()
@@ -383,7 +397,7 @@ def print_summary(results_data: Dict[str, Any]):
     files_panel = Panel(
         f"Results:  [cyan]{RESULTS_FILE}[/cyan]\n"
         f"Progress: [cyan]{PROGRESS_FILE}[/cyan]\n"
-        f"Log:      [cyan]results/processing.log[/cyan]",
+        f"Log:      [cyan]{Path(OUTPUT_DIR) / 'processing.log'}[/cyan]",
         title="[bold]Output Files[/bold]",
         box=box.ROUNDED
     )
@@ -530,6 +544,8 @@ def process_videos_parallel(
 
 def main():
     """Main entry point."""
+    global INPUT_DIR, OUTPUT_DIR, RESULTS_FILE, PROGRESS_FILE
+    
     # Required for Windows multiprocessing
     if sys.platform == 'win32':
         import multiprocessing
@@ -537,7 +553,16 @@ def main():
     
     args = parse_args()
     
-    # Ensure output directory exists
+    if args.batch:
+        INPUT_DIR = args.batch
+        
+    if args.output:
+        RESULTS_FILE = args.output
+        output_path = Path(RESULTS_FILE)
+        OUTPUT_DIR = str(output_path.parent)
+        PROGRESS_FILE = str(output_path.parent / "progress.json")
+        
+    # Ensure output directory exists (this handles creating the folder if it doesn't exist)
     ensure_output_dir()
     
     # Setup logging
