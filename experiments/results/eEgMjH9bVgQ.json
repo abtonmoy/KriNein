@@ -1,0 +1,306 @@
+{
+  "video": {
+    "path": "data\\hussain_videos\\eEgMjH9bVgQ.mp4",
+    "name": "eEgMjH9bVgQ",
+    "duration": 46.44,
+    "resolution": "320x240",
+    "fps": 25.0
+  },
+  "shared_pipeline": {
+    "time_seconds": 49.079752922058105,
+    "scenes_detected": 25,
+    "total_candidates": 182,
+    "after_phash": 126,
+    "after_ssim": 126,
+    "after_clip": 36,
+    "frames_after_dedup": 36,
+    "audio_segments": 18,
+    "key_phrases_found": 0,
+    "audio_mood": "dramatic"
+  },
+  "methods": {
+    "nms": {
+      "selection_time_seconds": 0.027983427047729492,
+      "extraction_time_seconds": 31.795100927352905,
+      "total_time_seconds": 31.823084354400635,
+      "final_frames": 26,
+      "importance_range": [
+        1.1,
+        5.039999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": "Gregg's",
+          "logo_visible": true,
+          "logo_timestamps": [
+            41.0
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Distinction Coffee",
+          "industry": "Food & Beverage"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "Gregg's Distinction coffee provides the boldness to handle frustrating situations.",
+          "tagline": null
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "grey",
+            "black",
+            "red",
+            "green",
+            "blue"
+          ],
+          "text_overlays": [
+            "www.funnyplace.org",
+            "QZ5718",
+            "SO FAB",
+            "Gregg's",
+            "Distinction",
+            "RICH, FULL-BODIED ROAST",
+            "Granulated"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-50",
+          "interests": [
+            "coffee",
+            "dark humor",
+            "situational comedy",
+            "driving"
+          ]
+        },
+        "persuasion_techniques": [
+          "humor",
+          "storytelling",
+          "emotion",
+          "association"
+        ],
+        "entertainment": {
+          "humor_type": "dark humor",
+          "celebrity_featured": null,
+          "viral_elements": [
+            "Relatable parking frustration",
+            "Unexpected vengeful act",
+            "Twist ending"
+          ]
+        },
+        "_metadata": {
+          "ad_type": "entertainment",
+          "schema_mode": "adaptive",
+          "num_frames": 26,
+          "video_duration": 46.44,
+          "has_audio_context": true
+        }
+      }
+    },
+    "kmeans": {
+      "selection_time_seconds": 1.6186833381652832,
+      "extraction_time_seconds": 29.53821039199829,
+      "total_time_seconds": 31.156893730163574,
+      "final_frames": 26,
+      "importance_range": [
+        1.1,
+        5.039999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": "Gregg's",
+          "logo_visible": true,
+          "logo_timestamps": [
+            41.0
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Distinction Coffee",
+          "industry": "Food & Beverage"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "The advertisement humorously suggests that the brand's coffee provides the boldness and energy to handle frustrating situations in an extreme way.",
+          "tagline": null
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "silver",
+            "black",
+            "red",
+            "green"
+          ],
+          "text_overlays": [
+            "www.funnyplace.org",
+            "OZ5718",
+            "SO FAB",
+            "Gregg's",
+            "Distinction",
+            "RICH, FULL-BODIED ROAST",
+            "Granulated"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-50",
+          "interests": [
+            "Coffee",
+            "Dark humor",
+            "Situational comedy"
+          ]
+        },
+        "persuasion_techniques": [
+          "Humor",
+          "Storytelling",
+          "Relatability"
+        ],
+        "entertainment": {
+          "humor_type": "Dark humor",
+          "celebrity_featured": null,
+          "viral_elements": [
+            "Unexpected plot twist",
+            "Parking rage scenario",
+            "Destruction of property as a punchline"
+          ]
+        },
+        "_metadata": {
+          "ad_type": "entertainment",
+          "schema_mode": "adaptive",
+          "num_frames": 26,
+          "video_duration": 46.44,
+          "has_audio_context": true
+        }
+      }
+    },
+    "hybrid": {
+      "selection_time_seconds": 0.14682221412658691,
+      "extraction_time_seconds": 29.690006017684937,
+      "total_time_seconds": 29.836828231811523,
+      "final_frames": 26,
+      "importance_range": [
+        1.1,
+        5.039999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": "Gregg's",
+          "logo_visible": true,
+          "logo_timestamps": [
+            41.0
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Distinction Coffee",
+          "industry": "Food & Beverage"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "The advertisement humorously suggests that the brand's coffee provides the boldness and energy to handle frustrating situations in an extreme way.",
+          "tagline": null
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "silver",
+            "black",
+            "red",
+            "green"
+          ],
+          "text_overlays": [
+            "www.funnyplace.org",
+            "OZ5718",
+            "SO FAB",
+            "Gregg's",
+            "Distinction",
+            "RICH, FULL-BODIED ROAST",
+            "Granulated"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-50",
+          "interests": [
+            "Coffee",
+            "Dark humor",
+            "Situational comedy"
+          ]
+        },
+        "persuasion_techniques": [
+          "Humor",
+          "Storytelling",
+          "Relatability"
+        ],
+        "entertainment": {
+          "humor_type": "Dark humor",
+          "celebrity_featured": null,
+          "viral_elements": [
+            "Unexpected plot twist",
+            "Parking rage scenario",
+            "Destruction of property as a punchline"
+          ]
+        },
+        "_metadata": {
+          "ad_type": "entertainment",
+          "schema_mode": "adaptive",
+          "num_frames": 26,
+          "video_duration": 46.44,
+          "has_audio_context": true
+        }
+      }
+    }
+  },
+  "comparison": {
+    "ad_type_agreement": true,
+    "ad_types": {
+      "nms": "entertainment",
+      "kmeans": "entertainment",
+      "hybrid": "entertainment"
+    },
+    "primary_message_agreement": false,
+    "text_overlay_counts": {
+      "nms": 7,
+      "kmeans": 7,
+      "hybrid": 7
+    },
+    "fastest_method": "hybrid",
+    "most_overlays_method": "nms"
+  }
+}

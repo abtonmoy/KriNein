@@ -1,0 +1,350 @@
+{
+  "video": {
+    "path": "data\\hussain_videos\\9ypxRGSrS-k.mp4",
+    "name": "9ypxRGSrS-k",
+    "duration": 60.8,
+    "resolution": "1920x1080",
+    "fps": 25.0
+  },
+  "shared_pipeline": {
+    "time_seconds": 258.25717782974243,
+    "scenes_detected": 36,
+    "total_candidates": 284,
+    "after_phash": 264,
+    "after_ssim": 263,
+    "after_clip": 96,
+    "frames_after_dedup": 96,
+    "audio_segments": 7,
+    "key_phrases_found": 1,
+    "audio_mood": "dramatic"
+  },
+  "methods": {
+    "nms": {
+      "selection_time_seconds": 1.7001969814300537,
+      "extraction_time_seconds": 48.94005560874939,
+      "total_time_seconds": 50.64025259017944,
+      "final_frames": 45,
+      "importance_range": [
+        1.0,
+        5.039999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": "HYUNDAI",
+          "logo_visible": true,
+          "logo_timestamps": [
+            2.9,
+            4.7,
+            11.1,
+            21.6,
+            27.9,
+            37.1,
+            39.6,
+            43.5,
+            58.5
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Creta",
+          "industry": "automotive"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "The Hyundai Creta is the perfect SUV for achieving a perfect, sophisticated, and adventurous lifestyle.",
+          "tagline": "NEW THINKING. NEW POSSIBILITIES."
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "black",
+            "white",
+            "silver"
+          ],
+          "text_overlays": [
+            "CRETA",
+            "TN 21 BZ 0760",
+            "The actions in this advertisement are performed by professionals and should not be imitated.",
+            "CRETA THE PERFECT SUV",
+            "HYUNDAI",
+            "NEW THINKING. NEW POSSIBILITIES."
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-40",
+          "interests": [
+            "automotive",
+            "technology",
+            "luxury lifestyle",
+            "adventure",
+            "urban living"
+          ]
+        },
+        "persuasion_techniques": [
+          "lifestyle appeal",
+          "emotion",
+          "association",
+          "visual spectacle"
+        ],
+        "demo_details": {
+          "features_demonstrated": [
+            "Exterior design",
+            "Interior design (seats, dashboard)",
+            "Driving performance on various terrains (city, wet roads, dirt roads)",
+            "Build quality (implied with 'high strength steel')"
+          ],
+          "demo_steps": [
+            "Futuristic CGI sequence showing the car's creation/assembly.",
+            "A couple enters the vehicle in a modern setting.",
+            "The car is shown driving through a city, splashing through water, and on dirt roads.",
+            "The couple is shown enjoying the drive and arriving at a modern building.",
+            "The ad concludes with hero shots of the car on a rooftop overlooking a city."
+          ]
+        },
+        "_metadata": {
+          "ad_type": "product_demo",
+          "schema_mode": "adaptive",
+          "num_frames": 45,
+          "video_duration": 60.8,
+          "has_audio_context": true
+        }
+      }
+    },
+    "kmeans": {
+      "selection_time_seconds": 5.306999444961548,
+      "extraction_time_seconds": 41.01262640953064,
+      "total_time_seconds": 46.31962585449219,
+      "final_frames": 46,
+      "importance_range": [
+        1.0,
+        5.039999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": "HYUNDAI",
+          "logo_visible": true,
+          "logo_timestamps": [
+            2.9,
+            4.7,
+            9.1,
+            11.1,
+            13.7,
+            20.5,
+            21.6,
+            37.1,
+            38.9,
+            43.5,
+            50.1,
+            58.5
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Creta",
+          "industry": "automotive"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "The Hyundai Creta is the 'perfect SUV,' combining advanced technology and high-strength materials to offer a versatile and sophisticated driving experience for both urban and adventurous lifestyles.",
+          "tagline": "NEW THINKING. NEW POSSIBILITIES."
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "black",
+            "white",
+            "silver",
+            "grey"
+          ],
+          "text_overlays": [
+            "CRETA",
+            "The actors in this advertisement are performed by professionals and should not be imitated.",
+            "HYUNDAI",
+            "NEW THINKING. NEW POSSIBILITIES."
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-40",
+          "interests": [
+            "automotive",
+            "technology",
+            "urban lifestyle",
+            "adventure"
+          ]
+        },
+        "persuasion_techniques": [
+          "lifestyle association",
+          "emotion",
+          "visual appeal",
+          "technical jargon"
+        ],
+        "demo_details": {
+          "features_demonstrated": [
+            "exterior design",
+            "interior design",
+            "infotainment and navigation system",
+            "all-terrain performance (city, wet roads, dirt roads)"
+          ],
+          "demo_steps": [
+            "A CGI sequence shows the car being assembled from its core components.",
+            "A couple drives the car through various environments, including a modern city and unpaved roads.",
+            "The car is shown handling obstacles like a puddle and a pile of rocks.",
+            "Close-ups highlight the interior, including the dashboard, steering wheel, and navigation screen.",
+            "The couple arrives at a modern building, showcasing the car's suitability for a professional lifestyle."
+          ]
+        },
+        "_metadata": {
+          "ad_type": "product_demo",
+          "schema_mode": "adaptive",
+          "num_frames": 46,
+          "video_duration": 60.8,
+          "has_audio_context": true
+        }
+      }
+    },
+    "hybrid": {
+      "selection_time_seconds": 2.1790812015533447,
+      "extraction_time_seconds": 39.917826652526855,
+      "total_time_seconds": 42.09831237792969,
+      "final_frames": 45,
+      "importance_range": [
+        1.0,
+        5.039999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": "HYUNDAI",
+          "logo_visible": true,
+          "logo_timestamps": [
+            2.9,
+            4.7,
+            9.1,
+            11.1,
+            43.5,
+            58.5
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Creta",
+          "industry": "Automotive"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "The Hyundai Creta is the perfect SUV, combining cutting-edge technology and high-strength steel to enable a sophisticated, successful, and adventurous lifestyle.",
+          "tagline": "THE PERFECT SUV"
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "black",
+            "white",
+            "silver",
+            "grey"
+          ],
+          "text_overlays": [
+            "CRETA",
+            "The actions in this advertisement are performed by professionals and should not be imitated.",
+            "TN 21BZ 0760",
+            "THE PERFECT SUV",
+            "HYUNDAI",
+            "NEW THINKING. NEW POSSIBILITIES."
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-40",
+          "interests": [
+            "modern lifestyle",
+            "technology",
+            "adventure",
+            "driving",
+            "SUVs"
+          ]
+        },
+        "persuasion_techniques": [
+          "lifestyle appeal",
+          "emotional appeal",
+          "implied expertise",
+          "repetition"
+        ],
+        "demo_details": {
+          "features_demonstrated": [
+            "Exterior design",
+            "Interior design and space",
+            "In-dash navigation system",
+            "Performance on paved roads",
+            "Performance in wet conditions",
+            "Off-road capability"
+          ],
+          "demo_steps": [
+            "A CGI sequence shows the car being assembled, highlighting its components.",
+            "A couple is shown driving the car through various environments: a city, a winding road, and a dirt path.",
+            "The car is shown driving through a large puddle, splashing water.",
+            "The passenger is shown using the navigation screen.",
+            "The car performs a drift on a dirt road, kicking up dust.",
+            "The couple arrives at a modern building, looking satisfied."
+          ]
+        },
+        "_metadata": {
+          "ad_type": "product_demo",
+          "schema_mode": "adaptive",
+          "num_frames": 45,
+          "video_duration": 60.8,
+          "has_audio_context": true
+        }
+      }
+    }
+  },
+  "comparison": {
+    "ad_type_agreement": true,
+    "ad_types": {
+      "nms": "product_demo",
+      "kmeans": "product_demo",
+      "hybrid": "product_demo"
+    },
+    "primary_message_agreement": false,
+    "text_overlay_counts": {
+      "nms": 6,
+      "kmeans": 4,
+      "hybrid": 6
+    },
+    "fastest_method": "hybrid",
+    "most_overlays_method": "nms"
+  }
+}

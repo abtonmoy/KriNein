@@ -2,13 +2,13 @@
 """
 Temporal clustering and NMS-based frame selection with adaptive density-based allocation.
 
+ENHANCED: NMS now uses temporal-aware similarity thresholds that relax for frames
+far apart in time, preventing over-suppression of important repeated content.
+
 Supports multiple selection methods:
 - nms: Non-Maximum Suppression using importance scores (recommended for ads)
 - kmeans: K-means clustering on embeddings (good for semantic diversity)
 - uniform: Uniform temporal sampling (fallback)
-
-NMS is preferred for ad extraction because it directly uses importance scores
-to prioritize frames near key moments (CTAs, brand reveals, audio events).
 """
 
 import logging
@@ -43,14 +43,18 @@ class FrameCandidate:
 
 class NMSSelector:
     """
-    Non-Maximum Suppression based frame selection.
+    Non-Maximum Suppression based frame selection with temporal-aware thresholds.
     
-    Unlike K-means which ignores importance scores, NMS directly uses them
-    to prioritize high-value frames while suppressing redundant neighbors.
+    ENHANCEMENT: The semantic similarity threshold now adapts based on temporal distance:
+    - Frames close in time: strict threshold (original behavior)
+    - Frames far in time: relaxed threshold (allows important repeated content)
+    
+    This prevents over-suppression of semantically similar but temporally distant frames,
+    such as brand logos at video start and end, or repeated CTAs.
     
     Suppression criteria:
-    1. Temporal proximity: Frames too close in time
-    2. Semantic similarity: Frames with similar CLIP embeddings
+    1. Temporal proximity: Frames too close in time (hard cutoff)
+    2. Semantic similarity: Frames with similar CLIP embeddings (adaptive threshold)
     3. Scene-aware: Can optionally enforce per-scene limits
     """
     
@@ -60,21 +64,70 @@ class NMSSelector:
         semantic_threshold: float = 0.88,
         use_semantic_suppression: bool = True,
         importance_weight: float = 1.0,
-        diversity_bonus: float = 0.1
+        diversity_bonus: float = 0.1,
+        # NEW: Temporal-aware threshold parameters
+        use_temporal_aware_threshold: bool = True,
+        temporal_threshold_scaling: float = 0.3,
+        temporal_decay_rate: float = 5.0
     ):
         """
         Args:
             temporal_threshold_s: Minimum time gap between selected frames
-            semantic_threshold: Cosine similarity above which frames are suppressed
+            semantic_threshold: Base cosine similarity above which frames are suppressed
             use_semantic_suppression: Whether to use embedding similarity for suppression
             importance_weight: Weight for importance score in selection
             diversity_bonus: Bonus for frames that are semantically different from selected
+            use_temporal_aware_threshold: If True, relax semantic threshold for distant frames
+            temporal_threshold_scaling: How much to relax threshold (0.0-1.0, higher = more relaxation)
+            temporal_decay_rate: Time constant for exponential decay (seconds, higher = slower decay)
         """
         self.temporal_threshold_s = temporal_threshold_s
         self.semantic_threshold = semantic_threshold
         self.use_semantic_suppression = use_semantic_suppression
         self.importance_weight = importance_weight
         self.diversity_bonus = diversity_bonus
+        
+        # NEW: Temporal-aware threshold parameters
+        self.use_temporal_aware_threshold = use_temporal_aware_threshold
+        self.temporal_threshold_scaling = temporal_threshold_scaling
+        self.temporal_decay_rate = temporal_decay_rate
+        
+        if use_temporal_aware_threshold:
+            logger.info(f"Temporal-aware thresholds enabled: "
+                       f"base={semantic_threshold:.2f}, "
+                       f"scaling={temporal_threshold_scaling:.2f}, "
+                       f"decay_rate={temporal_decay_rate:.1f}s")
+    
+    def _get_adaptive_threshold(self, time_diff: float) -> float:
+        """
+        Calculate adaptive semantic threshold based on temporal distance.
+        
+        The threshold increases with temporal distance, making it harder to suppress
+        frames that are far apart in time even if they're semantically similar.
+        
+        Args:
+            time_diff: Time difference between frames in seconds
+            
+        Returns:
+            Adjusted similarity threshold
+            
+        Example:
+            time_diff=0.5s  -> threshold ≈ 0.88 (original)
+            time_diff=5.0s  -> threshold ≈ 1.02 (much harder to suppress)
+            time_diff=20.0s -> threshold ≈ 1.12 (nearly impossible to suppress)
+        """
+        if not self.use_temporal_aware_threshold:
+            return self.semantic_threshold
+        
+        # Exponential decay: effect diminishes with distance
+        temporal_decay = np.exp(-time_diff / self.temporal_decay_rate)
+        
+        # Adjust threshold: increases as temporal_decay approaches 0
+        adjusted = self.semantic_threshold * (
+            1 + self.temporal_threshold_scaling * (1 - temporal_decay)
+        )
+        
+        return adjusted
     
     def select(
         self,
@@ -137,9 +190,6 @@ class NMSSelector:
             
             cand.is_representative = True
             selected.append(cand)
-            
-            # Recompute effective scores for remaining candidates (optional, for diversity)
-            # This is expensive but improves diversity - can be disabled for speed
         
         # Sort by timestamp for output
         selected.sort(key=lambda c: c.timestamp)
@@ -188,23 +238,31 @@ class NMSSelector:
         """
         Check if candidate should be suppressed by any selected frame.
         
+        ENHANCED: Now uses temporal-aware semantic threshold that adapts based
+        on the time difference between frames.
+        
         Returns:
             Tuple of (is_suppressed, reason)
         """
         for sel in selected:
-            # Temporal suppression
+            # Temporal suppression (unchanged - hard cutoff)
             time_diff = abs(candidate.timestamp - sel.timestamp)
             if time_diff < self.temporal_threshold_s:
                 return True, f"temporal (dt={time_diff:.2f}s < {self.temporal_threshold_s}s)"
             
-            # Semantic suppression
+            # Semantic suppression with temporal-aware threshold (NEW)
             if (self.use_semantic_suppression and 
                 candidate.embedding is not None and 
                 sel.embedding is not None):
                 
                 similarity = np.dot(candidate.embedding, sel.embedding)
-                if similarity > self.semantic_threshold:
-                    return True, f"semantic (sim={similarity:.3f} > {self.semantic_threshold})"
+                
+                # Get adaptive threshold based on temporal distance
+                effective_threshold = self._get_adaptive_threshold(time_diff)
+                
+                if similarity > effective_threshold:
+                    return True, (f"semantic (sim={similarity:.3f} > {effective_threshold:.3f} "
+                                f"[base={self.semantic_threshold:.3f}, dt={time_diff:.1f}s])")
         
         return False, None
 
@@ -229,12 +287,16 @@ class TemporalClusterer:
         min_frames_per_scene: int = 2,
         max_frames_per_scene: int = 10,
         min_temporal_gap_s: float = 0.5,
-        clustering_method: str = "nms",  # Changed default to nms
+        clustering_method: str = "nms",
         adaptive_density: bool = True,
         # NMS-specific parameters
         semantic_threshold: float = 0.88,
         use_semantic_suppression: bool = True,
-        diversity_bonus: float = 0.1
+        diversity_bonus: float = 0.1,
+        # NEW: Temporal-aware threshold parameters
+        use_temporal_aware_threshold: bool = True,
+        temporal_threshold_scaling: float = 0.3,
+        temporal_decay_rate: float = 5.0
     ):
         self.target_density = target_frame_density
         self.min_frames_per_scene = min_frames_per_scene
@@ -243,12 +305,15 @@ class TemporalClusterer:
         self.clustering_method = clustering_method
         self.adaptive_density = adaptive_density
         
-        # NMS selector
+        # NMS selector with temporal-aware thresholds
         self.nms_selector = NMSSelector(
             temporal_threshold_s=min_temporal_gap_s,
             semantic_threshold=semantic_threshold,
             use_semantic_suppression=use_semantic_suppression,
-            diversity_bonus=diversity_bonus
+            diversity_bonus=diversity_bonus,
+            use_temporal_aware_threshold=use_temporal_aware_threshold,
+            temporal_threshold_scaling=temporal_threshold_scaling,
+            temporal_decay_rate=temporal_decay_rate
         )
     
     def assign_scenes(

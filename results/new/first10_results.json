@@ -1,0 +1,3425 @@
+{
+  "metadata": {
+    "started_at": "2026-03-11T09:21:15.368798",
+    "input_directory": "data\\hussain_videos_subset",
+    "total_videos": 10,
+    "successful": 10,
+    "failed": 0,
+    "last_updated": "2026-03-11T09:47:40.074654"
+  },
+  "results": [
+    {
+      "status": "success",
+      "video_path": "data\\hussain_videos_subset\\__uCQMKry3w.mp4",
+      "video_name": "__uCQMKry3w.mp4",
+      "processed_at": "2026-03-11T09:22:58.695688",
+      "metadata": {
+        "duration": 30.03,
+        "fps": 29.97002997002997,
+        "width": 854,
+        "height": 480
+      },
+      "scenes": [
+        {
+          "scene_id": 0,
+          "start_time": 0.0,
+          "end_time": 24.190833333333334
+        },
+        {
+          "scene_id": 1,
+          "start_time": 24.190833333333334,
+          "end_time": 30.03
+        }
+      ],
+      "selected_frames": [
+        {
+          "timestamp": 0.0,
+          "scene_id": 0,
+          "importance_score": 8.517599999999998
+        },
+        {
+          "timestamp": 2.35,
+          "scene_id": 0,
+          "importance_score": 3.5489999999999995
+        },
+        {
+          "timestamp": 8.5,
+          "scene_id": 0,
+          "importance_score": 1.6900000000000002
+        },
+        {
+          "timestamp": 14.4,
+          "scene_id": 0,
+          "importance_score": 1.4300000000000002
+        },
+        {
+          "timestamp": 19.95,
+          "scene_id": 0,
+          "importance_score": 1.6900000000000002
+        },
+        {
+          "timestamp": 23.95,
+          "scene_id": 0,
+          "importance_score": 2.028
+        },
+        {
+          "timestamp": 24.15,
+          "scene_id": 0,
+          "importance_score": 3.6504000000000003
+        }
+      ],
+      "pipeline_stats": {
+        "total_frames_sampled": 47,
+        "frames_after_phash": 13,
+        "frames_after_ssim": 8,
+        "frames_after_clip": 7,
+        "final_frame_count": 7,
+        "reduction_rate": 0.851063829787234,
+        "processing_time_s": 99.62610983848572
+      },
+      "extraction": {
+        "ad_type": "brand_awareness",
+        "brand": {
+          "brand_name_text": "AMERICAN COUNCIL FOR CAPITAL FORMATION, THE NATIONAL MARINE MANUFACTURERS ASSOCIATION, AND THE NATIONAL COUNCIL OF CHAIN RESTAURANTS",
+          "logo_visible": false,
+          "logo_timestamps": [],
+          "brand_text_contrast": "medium"
+        },
+        "product": {
+          "product_name": "Ending ethanol mandates",
+          "industry": "Public Policy Advocacy"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": true,
+          "cta_type": "Tell Congress and the administration to end ethanol mandates"
+        },
+        "message": {
+          "primary_message": "Ethanol mandates are environmentally harmful and economically disadvantageous, and political support for them is declining.",
+          "tagline": "SMARTER FUEL"
+        },
+        "visual_elements": {
+          "text_density": "medium",
+          "dominant_colors": [
+            "green",
+            "blue",
+            "brown",
+            "white"
+          ],
+          "text_overlays": [
+            "ETHANOL MANDATE, A BOON TO IOWA ALONE, FACES RISING RESISTANCE",
+            "CORN ETHANOL PRODUCTION EMISSIONS ARE 6-66% HIGHER THAN PETROLEUM",
+            "LOWERING THE ETHANOL REQUIREMENT IS GOOD FOR CONSUMERS",
+            "ETHANOL IS NO LONGER THE THIRD RAIL OF THE IOWA CAUCUS",
+            "SMARTER FUEL",
+            "SPONSORED BY THE AMERICAN COUNCIL FOR CAPITAL FORMATION, THE NATIONAL MARINE MANUFACTURERS ASSOCIATION, AND THE NATIONAL COUNCIL OF CHAIN RESTAURANTS."
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-40, all ages",
+          "interests": [
+            "politics",
+            "environment",
+            "economy",
+            "agriculture"
+          ]
+        },
+        "topic": {
+          "topic_id": 37,
+          "topic_name": "Political candidates (support or opposition)",
+          "topic_confidence": "medium"
+        },
+        "sentiment": {
+          "primary_sentiment_id": 3,
+          "primary_sentiment_name": "Alarmed",
+          "secondary_sentiments": [
+            11,
+            26,
+            28
+          ],
+          "sentiment_intensity": "medium"
+        },
+        "engagement_metrics": {
+          "is_funny": 0.0,
+          "is_exciting": 0.1,
+          "effectiveness_score": 4
+        },
+        "persuasion_techniques": [
+          "emotion",
+          "authority"
+        ],
+        "_metadata": {
+          "ad_type": "brand_awareness",
+          "schema_mode": "adaptive",
+          "single_pass": true,
+          "num_frames": 7,
+          "video_duration": 30.03,
+          "has_audio_context": true,
+          "confidence": 0.9375
+        }
+      }
+    },
+    {
+      "status": "success",
+      "video_path": "data\\hussain_videos_subset\\_9rL1pPXblQ.mp4",
+      "video_name": "_9rL1pPXblQ.mp4",
+      "processed_at": "2026-03-11T09:23:04.123901",
+      "metadata": {
+        "duration": 23.656966666666666,
+        "fps": 29.97002997002997,
+        "width": 1920,
+        "height": 1080
+      },
+      "scenes": [
+        {
+          "scene_id": 0,
+          "start_time": 0.0,
+          "end_time": 23.456766666666667
+        }
+      ],
+      "selected_frames": [
+        {
+          "timestamp": 0.0,
+          "scene_id": 0,
+          "importance_score": 10.221119999999999
+        },
+        {
+          "timestamp": 1.4,
+          "scene_id": 0,
+          "importance_score": 3.2759999999999994
+        },
+        {
+          "timestamp": 23.4,
+          "scene_id": 0,
+          "importance_score": 2.3183999999999996
+        },
+        {
+          "timestamp": 23.5,
+          "scene_id": 0,
+          "importance_score": 3.4775999999999994
+        }
+      ],
+      "pipeline_stats": {
+        "total_frames_sampled": 19,
+        "frames_after_phash": 4,
+        "frames_after_ssim": 4,
+        "frames_after_clip": 4,
+        "final_frame_count": 4,
+        "reduction_rate": 0.7894736842105263,
+        "processing_time_s": 105.11902046203613
+      },
+      "extraction": {
+        "ad_type": "brand_awareness",
+        "brand": {
+          "brand_name_text": "THE COOL JAZZ MUSIC CHANNEL",
+          "logo_visible": false,
+          "logo_timestamps": [],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Cool Jazz Music Channel",
+          "industry": "Media and arts"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": true,
+          "cta_type": "Subscribe"
+        },
+        "message": {
+          "primary_message": "Discover professionally curated jazz playlists on the official YouTube Cool Jazz Music Channel.",
+          "tagline": null
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "brown",
+            "orange",
+            "white",
+            "black"
+          ],
+          "text_overlays": [
+            "THE COOL JAZZ MUSIC CHANNEL",
+            "SUBSCRIBE"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "all ages",
+          "interests": [
+            "jazz music",
+            "music streaming",
+            "curated playlists"
+          ]
+        },
+        "topic": {
+          "topic_id": 26,
+          "topic_name": "Media and arts",
+          "topic_confidence": "high"
+        },
+        "sentiment": {
+          "primary_sentiment_id": 8,
+          "primary_sentiment_name": "Calm",
+          "secondary_sentiments": [
+            15,
+            25
+          ],
+          "sentiment_intensity": "medium"
+        },
+        "engagement_metrics": {
+          "is_funny": 0.0,
+          "is_exciting": 0.4,
+          "effectiveness_score": 4
+        },
+        "persuasion_techniques": [
+          "emotion",
+          "authority"
+        ],
+        "_metadata": {
+          "ad_type": "brand_awareness",
+          "schema_mode": "adaptive",
+          "single_pass": true,
+          "num_frames": 4,
+          "video_duration": 23.656966666666666,
+          "has_audio_context": true,
+          "confidence": 0.821875
+        }
+      }
+    },
+    {
+      "status": "success",
+      "video_path": "data\\hussain_videos_subset\\_6rj5jisB7g.mp4",
+      "video_name": "_6rj5jisB7g.mp4",
+      "processed_at": "2026-03-11T09:28:10.217283",
+      "metadata": {
+        "duration": 60.4,
+        "fps": 25.0,
+        "width": 1280,
+        "height": 720
+      },
+      "scenes": [
+        {
+          "scene_id": 0,
+          "start_time": 0.0,
+          "end_time": 3.36
+        },
+        {
+          "scene_id": 1,
+          "start_time": 3.36,
+          "end_time": 5.16
+        },
+        {
+          "scene_id": 2,
+          "start_time": 5.16,
+          "end_time": 6.88
+        },
+        {
+          "scene_id": 3,
+          "start_time": 6.88,
+          "end_time": 8.92
+        },
+        {
+          "scene_id": 4,
+          "start_time": 8.92,
+          "end_time": 10.6
+        },
+        {
+          "scene_id": 5,
+          "start_time": 10.6,
+          "end_time": 11.4
+        },
+        {
+          "scene_id": 6,
+          "start_time": 11.4,
+          "end_time": 12.24
+        },
+        {
+          "scene_id": 7,
+          "start_time": 12.24,
+          "end_time": 13.96
+        },
+        {
+          "scene_id": 8,
+          "start_time": 13.96,
+          "end_time": 14.92
+        },
+        {
+          "scene_id": 9,
+          "start_time": 14.92,
+          "end_time": 15.84
+        },
+        {
+          "scene_id": 10,
+          "start_time": 15.84,
+          "end_time": 16.72
+        },
+        {
+          "scene_id": 11,
+          "start_time": 16.72,
+          "end_time": 17.64
+        },
+        {
+          "scene_id": 12,
+          "start_time": 17.64,
+          "end_time": 18.36
+        },
+        {
+          "scene_id": 13,
+          "start_time": 18.36,
+          "end_time": 19.72
+        },
+        {
+          "scene_id": 14,
+          "start_time": 19.72,
+          "end_time": 20.76
+        },
+        {
+          "scene_id": 15,
+          "start_time": 20.76,
+          "end_time": 21.6
+        },
+        {
+          "scene_id": 16,
+          "start_time": 21.6,
+          "end_time": 22.24
+        },
+        {
+          "scene_id": 17,
+          "start_time": 22.24,
+          "end_time": 22.88
+        },
+        {
+          "scene_id": 18,
+          "start_time": 22.88,
+          "end_time": 23.76
+        },
+        {
+          "scene_id": 19,
+          "start_time": 23.76,
+          "end_time": 24.48
+        },
+        {
+          "scene_id": 20,
+          "start_time": 24.48,
+          "end_time": 25.84
+        },
+        {
+          "scene_id": 21,
+          "start_time": 25.84,
+          "end_time": 27.32
+        },
+        {
+          "scene_id": 22,
+          "start_time": 27.32,
+          "end_time": 27.92
+        },
+        {
+          "scene_id": 23,
+          "start_time": 27.92,
+          "end_time": 29.0
+        },
+        {
+          "scene_id": 24,
+          "start_time": 29.0,
+          "end_time": 29.88
+        },
+        {
+          "scene_id": 25,
+          "start_time": 29.88,
+          "end_time": 31.36
+        },
+        {
+          "scene_id": 26,
+          "start_time": 31.36,
+          "end_time": 32.44
+        },
+        {
+          "scene_id": 27,
+          "start_time": 32.44,
+          "end_time": 33.2
+        },
+        {
+          "scene_id": 28,
+          "start_time": 33.2,
+          "end_time": 34.44
+        },
+        {
+          "scene_id": 29,
+          "start_time": 34.44,
+          "end_time": 35.4
+        },
+        {
+          "scene_id": 30,
+          "start_time": 35.4,
+          "end_time": 36.72
+        },
+        {
+          "scene_id": 31,
+          "start_time": 36.72,
+          "end_time": 37.68
+        },
+        {
+          "scene_id": 32,
+          "start_time": 37.68,
+          "end_time": 38.68
+        },
+        {
+          "scene_id": 33,
+          "start_time": 38.68,
+          "end_time": 39.52
+        },
+        {
+          "scene_id": 34,
+          "start_time": 39.52,
+          "end_time": 40.76
+        },
+        {
+          "scene_id": 35,
+          "start_time": 40.76,
+          "end_time": 41.76
+        },
+        {
+          "scene_id": 36,
+          "start_time": 41.76,
+          "end_time": 43.16
+        },
+        {
+          "scene_id": 37,
+          "start_time": 43.16,
+          "end_time": 44.28
+        },
+        {
+          "scene_id": 38,
+          "start_time": 44.28,
+          "end_time": 45.32
+        },
+        {
+          "scene_id": 39,
+          "start_time": 45.32,
+          "end_time": 46.24
+        },
+        {
+          "scene_id": 40,
+          "start_time": 46.24,
+          "end_time": 47.6
+        },
+        {
+          "scene_id": 41,
+          "start_time": 47.6,
+          "end_time": 48.92
+        },
+        {
+          "scene_id": 42,
+          "start_time": 48.92,
+          "end_time": 50.36
+        },
+        {
+          "scene_id": 43,
+          "start_time": 50.36,
+          "end_time": 51.36
+        },
+        {
+          "scene_id": 44,
+          "start_time": 51.36,
+          "end_time": 53.32
+        },
+        {
+          "scene_id": 45,
+          "start_time": 53.32,
+          "end_time": 55.84
+        },
+        {
+          "scene_id": 46,
+          "start_time": 55.84,
+          "end_time": 57.8
+        },
+        {
+          "scene_id": 47,
+          "start_time": 57.8,
+          "end_time": 60.4
+        }
+      ],
+      "selected_frames": [
+        {
+          "timestamp": 0.0,
+          "scene_id": 0,
+          "importance_score": 6.551999999999999
+        },
+        {
+          "timestamp": 3.35,
+          "scene_id": 0,
+          "importance_score": 3.042
+        },
+        {
+          "timestamp": 5.15,
+          "scene_id": 1,
+          "importance_score": 2.808
+        },
+        {
+          "timestamp": 6.9,
+          "scene_id": 3,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 12.25,
+          "scene_id": 7,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 13.95,
+          "scene_id": 7,
+          "importance_score": 1.8719999999999999
+        },
+        {
+          "timestamp": 14.9,
+          "scene_id": 8,
+          "importance_score": 1.56
+        },
+        {
+          "timestamp": 15.85,
+          "scene_id": 10,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 16.7,
+          "scene_id": 10,
+          "importance_score": 1.8719999999999999
+        },
+        {
+          "timestamp": 17.65,
+          "scene_id": 12,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 18.95,
+          "scene_id": 13,
+          "importance_score": 1.56
+        },
+        {
+          "timestamp": 19.7,
+          "scene_id": 13,
+          "importance_score": 2.028
+        },
+        {
+          "timestamp": 21.6,
+          "scene_id": 16,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 22.25,
+          "scene_id": 17,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 23.0,
+          "scene_id": 18,
+          "importance_score": 1.9319999999999997
+        },
+        {
+          "timestamp": 25.85,
+          "scene_id": 21,
+          "importance_score": 1.54
+        },
+        {
+          "timestamp": 27.9,
+          "scene_id": 22,
+          "importance_score": 2.0592
+        },
+        {
+          "timestamp": 29.0,
+          "scene_id": 24,
+          "importance_score": 2.4024
+        },
+        {
+          "timestamp": 31.35,
+          "scene_id": 25,
+          "importance_score": 1.7160000000000002
+        },
+        {
+          "timestamp": 34.45,
+          "scene_id": 29,
+          "importance_score": 3.1231200000000006
+        },
+        {
+          "timestamp": 45.3,
+          "scene_id": 38,
+          "importance_score": 1.8719999999999999
+        },
+        {
+          "timestamp": 53.3,
+          "scene_id": 44,
+          "importance_score": 1.56
+        },
+        {
+          "timestamp": 56.15,
+          "scene_id": 46,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 58.8,
+          "scene_id": 47,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 59.4,
+          "scene_id": 47,
+          "importance_score": 2.52
+        }
+      ],
+      "pipeline_stats": {
+        "total_frames_sampled": 103,
+        "frames_after_phash": 92,
+        "frames_after_ssim": 83,
+        "frames_after_clip": 35,
+        "final_frame_count": 25,
+        "reduction_rate": 0.7572815533980582,
+        "processing_time_s": 411.2379529476166
+      },
+      "extraction": {
+        "ad_type": "entertainment",
+        "brand": {
+          "brand_name_text": "Audi",
+          "logo_visible": true,
+          "logo_timestamps": [
+            3.4,
+            14.9,
+            34.5,
+            56.1,
+            59.4
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Audi R8",
+          "industry": "automotive"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "The Audi R8 is an object of such extreme value and desire that it becomes the ultimate leverage in a high-stakes standoff.",
+          "tagline": null
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "grey",
+            "black",
+            "white",
+            "dark green"
+          ],
+          "text_overlays": [
+            "Exit",
+            "3",
+            "The Audi R8",
+            "Audi"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-50",
+          "interests": [
+            "luxury cars",
+            "action movies",
+            "high-performance vehicles",
+            "cinematic thrillers"
+          ]
+        },
+        "topic": {
+          "topic_id": 9,
+          "topic_name": "Cars, automobiles (car sales, auto parts, car insurance, car repair, gas, motor oil, etc.)",
+          "topic_confidence": "high"
+        },
+        "sentiment": {
+          "primary_sentiment_id": 1,
+          "primary_sentiment_name": "Active",
+          "secondary_sentiments": [
+            4,
+            10,
+            25
+          ],
+          "sentiment_intensity": "high"
+        },
+        "engagement_metrics": {
+          "is_funny": 0.1,
+          "is_exciting": 0.9,
+          "effectiveness_score": 4
+        },
+        "persuasion_techniques": [
+          "emotion",
+          "value proposition"
+        ],
+        "_metadata": {
+          "ad_type": "entertainment",
+          "schema_mode": "adaptive",
+          "single_pass": true,
+          "num_frames": 25,
+          "video_duration": 60.4,
+          "has_audio_context": true,
+          "confidence": 0.871875
+        }
+      }
+    },
+    {
+      "status": "success",
+      "video_path": "data\\hussain_videos_subset\\_anNRzbAQQ8.mp4",
+      "video_name": "_anNRzbAQQ8.mp4",
+      "processed_at": "2026-03-11T09:30:27.230163",
+      "metadata": {
+        "duration": 31.06436666666667,
+        "fps": 29.97002997002997,
+        "width": 1280,
+        "height": 720
+      },
+      "scenes": [
+        {
+          "scene_id": 0,
+          "start_time": 0.0,
+          "end_time": 1.0010000000000001
+        },
+        {
+          "scene_id": 1,
+          "start_time": 1.0010000000000001,
+          "end_time": 2.135466666666667
+        },
+        {
+          "scene_id": 2,
+          "start_time": 2.135466666666667,
+          "end_time": 3.2365666666666666
+        },
+        {
+          "scene_id": 3,
+          "start_time": 3.2365666666666666,
+          "end_time": 4.3043000000000005
+        },
+        {
+          "scene_id": 4,
+          "start_time": 4.3043000000000005,
+          "end_time": 5.338666666666667
+        },
+        {
+          "scene_id": 5,
+          "start_time": 5.338666666666667,
+          "end_time": 6.339666666666667
+        },
+        {
+          "scene_id": 6,
+          "start_time": 6.339666666666667,
+          "end_time": 8.008000000000001
+        },
+        {
+          "scene_id": 7,
+          "start_time": 8.008000000000001,
+          "end_time": 11.344666666666667
+        },
+        {
+          "scene_id": 8,
+          "start_time": 11.344666666666667,
+          "end_time": 15.348666666666666
+        },
+        {
+          "scene_id": 9,
+          "start_time": 15.348666666666666,
+          "end_time": 16.282933333333332
+        },
+        {
+          "scene_id": 10,
+          "start_time": 16.282933333333332,
+          "end_time": 17.083733333333335
+        },
+        {
+          "scene_id": 11,
+          "start_time": 17.083733333333335,
+          "end_time": 18.018
+        },
+        {
+          "scene_id": 12,
+          "start_time": 18.018,
+          "end_time": 19.019000000000002
+        },
+        {
+          "scene_id": 13,
+          "start_time": 19.019000000000002,
+          "end_time": 19.953266666666668
+        },
+        {
+          "scene_id": 14,
+          "start_time": 19.953266666666668,
+          "end_time": 21.087733333333333
+        },
+        {
+          "scene_id": 15,
+          "start_time": 21.087733333333333,
+          "end_time": 21.988633333333333
+        },
+        {
+          "scene_id": 16,
+          "start_time": 21.988633333333333,
+          "end_time": 22.956266666666668
+        },
+        {
+          "scene_id": 17,
+          "start_time": 22.956266666666668,
+          "end_time": 23.990633333333335
+        },
+        {
+          "scene_id": 18,
+          "start_time": 23.990633333333335,
+          "end_time": 24.991633333333333
+        },
+        {
+          "scene_id": 19,
+          "start_time": 24.991633333333333,
+          "end_time": 26.593233333333334
+        },
+        {
+          "scene_id": 20,
+          "start_time": 26.593233333333334,
+          "end_time": 28.461766666666666
+        },
+        {
+          "scene_id": 21,
+          "start_time": 28.461766666666666,
+          "end_time": 28.995633333333334
+        },
+        {
+          "scene_id": 22,
+          "start_time": 28.995633333333334,
+          "end_time": 31.031
+        }
+      ],
+      "selected_frames": [
+        {
+          "timestamp": 0.0,
+          "scene_id": 0,
+          "importance_score": 4.199999999999999
+        },
+        {
+          "timestamp": 1.0,
+          "scene_id": 0,
+          "importance_score": 4.71744
+        },
+        {
+          "timestamp": 2.15,
+          "scene_id": 2,
+          "importance_score": 3.2759999999999994
+        },
+        {
+          "timestamp": 4.3,
+          "scene_id": 3,
+          "importance_score": 2.4336
+        },
+        {
+          "timestamp": 5.35,
+          "scene_id": 5,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 6.35,
+          "scene_id": 6,
+          "importance_score": 2.8392
+        },
+        {
+          "timestamp": 8.0,
+          "scene_id": 6,
+          "importance_score": 2.4336
+        },
+        {
+          "timestamp": 8.3,
+          "scene_id": 7,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 11.2,
+          "scene_id": 7,
+          "importance_score": 1.8719999999999999
+        },
+        {
+          "timestamp": 11.7,
+          "scene_id": 8,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 15.35,
+          "scene_id": 9,
+          "importance_score": 2.0020000000000002
+        },
+        {
+          "timestamp": 16.3,
+          "scene_id": 10,
+          "importance_score": 2.4024
+        },
+        {
+          "timestamp": 17.1,
+          "scene_id": 11,
+          "importance_score": 1.8479999999999999
+        },
+        {
+          "timestamp": 17.3,
+          "scene_id": 11,
+          "importance_score": 1.7160000000000002
+        },
+        {
+          "timestamp": 18.05,
+          "scene_id": 12,
+          "importance_score": 2.4024
+        },
+        {
+          "timestamp": 18.45,
+          "scene_id": 12,
+          "importance_score": 1.7160000000000002
+        },
+        {
+          "timestamp": 19.05,
+          "scene_id": 13,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 19.95,
+          "scene_id": 13,
+          "importance_score": 1.8719999999999999
+        },
+        {
+          "timestamp": 21.1,
+          "scene_id": 15,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 22.0,
+          "scene_id": 16,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 24.05,
+          "scene_id": 18,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 25.05,
+          "scene_id": 19,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 26.45,
+          "scene_id": 19,
+          "importance_score": 2.4336
+        },
+        {
+          "timestamp": 27.65,
+          "scene_id": 20,
+          "importance_score": 1.56
+        },
+        {
+          "timestamp": 28.45,
+          "scene_id": 20,
+          "importance_score": 6.132672
+        }
+      ],
+      "pipeline_stats": {
+        "total_frames_sampled": 157,
+        "frames_after_phash": 98,
+        "frames_after_ssim": 85,
+        "frames_after_clip": 34,
+        "final_frame_count": 25,
+        "reduction_rate": 0.8407643312101911,
+        "processing_time_s": 448.5289640426636
+      },
+      "extraction": {
+        "ad_type": "brand_awareness",
+        "brand": {
+          "brand_name_text": "Bernie Sanders",
+          "logo_visible": true,
+          "logo_timestamps": [
+            18.1,
+            19.9,
+            21.1,
+            22.0,
+            24.1,
+            25.1,
+            26.4,
+            27.6,
+            28.4
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Bernie Sanders for President",
+          "industry": "Political Campaign"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": true,
+          "cta_type": "Visit website"
+        },
+        "message": {
+          "primary_message": "Bernie Sanders is building a broad, grassroots movement of everyday Americans to reclaim the promise of America.",
+          "tagline": "Bernie 2016"
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "blue",
+            "red",
+            "white",
+            "green",
+            "brown"
+          ],
+          "text_overlays": [
+            "THEY'VE",
+            "AMERICA",
+            "Bernie",
+            "WE LOVE BERNIE",
+            "WWW.BERNIESANDERS.COM",
+            "APPROVED BY BERNIE SANDERS. PAID FOR BY BERNIE 2016"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "all ages",
+          "interests": [
+            "politics",
+            "social justice",
+            "community",
+            "American values"
+          ]
+        },
+        "topic": {
+          "topic_id": 37,
+          "topic_name": "Political candidates (support or opposition)",
+          "topic_confidence": "high"
+        },
+        "sentiment": {
+          "primary_sentiment_id": 21,
+          "primary_sentiment_name": "Inspired",
+          "secondary_sentiments": [
+            27,
+            9,
+            10
+          ],
+          "sentiment_intensity": "high"
+        },
+        "engagement_metrics": {
+          "is_funny": 0.0,
+          "is_exciting": 0.8,
+          "effectiveness_score": 5
+        },
+        "persuasion_techniques": [
+          "social proof",
+          "emotion",
+          "patriotism"
+        ],
+        "_metadata": {
+          "ad_type": "brand_awareness",
+          "schema_mode": "adaptive",
+          "single_pass": true,
+          "num_frames": 25,
+          "video_duration": 31.06436666666667,
+          "has_audio_context": true,
+          "confidence": 0.903125
+        }
+      }
+    },
+    {
+      "status": "success",
+      "video_path": "data\\hussain_videos_subset\\__C7sd_UDU0.mp4",
+      "video_name": "__C7sd_UDU0.mp4",
+      "processed_at": "2026-03-11T09:33:52.996909",
+      "metadata": {
+        "duration": 47.56,
+        "fps": 25.0,
+        "width": 854,
+        "height": 480
+      },
+      "scenes": [
+        {
+          "scene_id": 0,
+          "start_time": 0.0,
+          "end_time": 0.76
+        },
+        {
+          "scene_id": 1,
+          "start_time": 0.76,
+          "end_time": 3.76
+        },
+        {
+          "scene_id": 2,
+          "start_time": 3.76,
+          "end_time": 4.64
+        },
+        {
+          "scene_id": 3,
+          "start_time": 4.64,
+          "end_time": 6.64
+        },
+        {
+          "scene_id": 4,
+          "start_time": 6.64,
+          "end_time": 8.52
+        },
+        {
+          "scene_id": 5,
+          "start_time": 8.52,
+          "end_time": 9.6
+        },
+        {
+          "scene_id": 6,
+          "start_time": 9.6,
+          "end_time": 10.92
+        },
+        {
+          "scene_id": 7,
+          "start_time": 10.92,
+          "end_time": 12.68
+        },
+        {
+          "scene_id": 8,
+          "start_time": 12.68,
+          "end_time": 13.92
+        },
+        {
+          "scene_id": 9,
+          "start_time": 13.92,
+          "end_time": 15.12
+        },
+        {
+          "scene_id": 10,
+          "start_time": 15.12,
+          "end_time": 16.28
+        },
+        {
+          "scene_id": 11,
+          "start_time": 16.28,
+          "end_time": 19.56
+        },
+        {
+          "scene_id": 12,
+          "start_time": 19.56,
+          "end_time": 22.6
+        },
+        {
+          "scene_id": 13,
+          "start_time": 22.6,
+          "end_time": 28.52
+        },
+        {
+          "scene_id": 14,
+          "start_time": 28.52,
+          "end_time": 30.2
+        },
+        {
+          "scene_id": 15,
+          "start_time": 30.2,
+          "end_time": 31.88
+        },
+        {
+          "scene_id": 16,
+          "start_time": 31.88,
+          "end_time": 35.04
+        },
+        {
+          "scene_id": 17,
+          "start_time": 35.04,
+          "end_time": 37.88
+        },
+        {
+          "scene_id": 18,
+          "start_time": 37.88,
+          "end_time": 39.28
+        },
+        {
+          "scene_id": 19,
+          "start_time": 39.28,
+          "end_time": 40.56
+        },
+        {
+          "scene_id": 20,
+          "start_time": 40.56,
+          "end_time": 47.56
+        }
+      ],
+      "selected_frames": [
+        {
+          "timestamp": 0.0,
+          "scene_id": 0,
+          "importance_score": 4.199999999999999
+        },
+        {
+          "timestamp": 1.3,
+          "scene_id": 1,
+          "importance_score": 2.3400000000000003
+        },
+        {
+          "timestamp": 3.75,
+          "scene_id": 1,
+          "importance_score": 3.042
+        },
+        {
+          "timestamp": 4.15,
+          "scene_id": 2,
+          "importance_score": 2.3400000000000003
+        },
+        {
+          "timestamp": 4.5,
+          "scene_id": 2,
+          "importance_score": 3.0420000000000003
+        },
+        {
+          "timestamp": 5.5,
+          "scene_id": 3,
+          "importance_score": 1.3
+        },
+        {
+          "timestamp": 10.9,
+          "scene_id": 6,
+          "importance_score": 1.7939999999999998
+        },
+        {
+          "timestamp": 11.7,
+          "scene_id": 7,
+          "importance_score": 1.9435
+        },
+        {
+          "timestamp": 12.9,
+          "scene_id": 8,
+          "importance_score": 1.56
+        },
+        {
+          "timestamp": 14.5,
+          "scene_id": 9,
+          "importance_score": 1.4949999999999999
+        },
+        {
+          "timestamp": 16.3,
+          "scene_id": 11,
+          "importance_score": 2.5116
+        },
+        {
+          "timestamp": 19.2,
+          "scene_id": 11,
+          "importance_score": 2.0592
+        },
+        {
+          "timestamp": 23.1,
+          "scene_id": 13,
+          "importance_score": 3.7477440000000004
+        },
+        {
+          "timestamp": 28.5,
+          "scene_id": 13,
+          "importance_score": 1.9734
+        },
+        {
+          "timestamp": 30.2,
+          "scene_id": 15,
+          "importance_score": 2.6208
+        },
+        {
+          "timestamp": 33.35,
+          "scene_id": 16,
+          "importance_score": 1.3
+        },
+        {
+          "timestamp": 37.35,
+          "scene_id": 17,
+          "importance_score": 1.8719999999999999
+        },
+        {
+          "timestamp": 37.9,
+          "scene_id": 18,
+          "importance_score": 2.5116
+        },
+        {
+          "timestamp": 39.3,
+          "scene_id": 19,
+          "importance_score": 2.5116
+        },
+        {
+          "timestamp": 40.55,
+          "scene_id": 19,
+          "importance_score": 1.56
+        },
+        {
+          "timestamp": 43.9,
+          "scene_id": 20,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 45.9,
+          "scene_id": 20,
+          "importance_score": 3.276
+        }
+      ],
+      "pipeline_stats": {
+        "total_frames_sampled": 146,
+        "frames_after_phash": 124,
+        "frames_after_ssim": 101,
+        "frames_after_clip": 26,
+        "final_frame_count": 22,
+        "reduction_rate": 0.8493150684931507,
+        "processing_time_s": 753.9920291900635
+      },
+      "extraction": {
+        "ad_type": "brand_awareness",
+        "brand": {
+          "brand_name_text": "stopbullyingnow.com",
+          "logo_visible": false,
+          "logo_timestamps": [],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Bullying and suicide prevention awareness",
+          "industry": "Non-profit / Public Service"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": true,
+          "cta_type": "Visit website"
+        },
+        "message": {
+          "primary_message": "Bullying has severe, life-threatening consequences, including suicide.",
+          "tagline": null
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "black",
+            "white",
+            "blue",
+            "pink",
+            "red"
+          ],
+          "text_overlays": [
+            "NOT!!! U ugly bitch :P",
+            "19,000 bullied students attempt to commit suicide each year",
+            "stopbullyingnow.com"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": true
+        },
+        "target_audience": {
+          "age_group": "13-25",
+          "interests": [
+            "social issues",
+            "mental health",
+            "education",
+            "anti-bullying"
+          ]
+        },
+        "topic": {
+          "topic_id": 36,
+          "topic_name": "Self esteem, bullying, cyber bullying",
+          "topic_confidence": "high"
+        },
+        "sentiment": {
+          "primary_sentiment_id": 28,
+          "primary_sentiment_name": "Sad",
+          "secondary_sentiments": [
+            2,
+            3,
+            13
+          ],
+          "sentiment_intensity": "high"
+        },
+        "engagement_metrics": {
+          "is_funny": 0.0,
+          "is_exciting": 0.2,
+          "effectiveness_score": 5
+        },
+        "persuasion_techniques": [
+          "emotion",
+          "fear appeal",
+          "shock value",
+          "statistics"
+        ],
+        "_metadata": {
+          "ad_type": "brand_awareness",
+          "schema_mode": "adaptive",
+          "single_pass": true,
+          "num_frames": 22,
+          "video_duration": 47.56,
+          "has_audio_context": true,
+          "confidence": 0.871875
+        }
+      }
+    },
+    {
+      "status": "success",
+      "video_path": "data\\hussain_videos_subset\\_E3VBQa-nAU.mp4",
+      "video_name": "_E3VBQa-nAU.mp4",
+      "processed_at": "2026-03-11T09:34:18.891859",
+      "metadata": {
+        "duration": 40.04,
+        "fps": 25.0,
+        "width": 1920,
+        "height": 1080
+      },
+      "scenes": [
+        {
+          "scene_id": 0,
+          "start_time": 0.0,
+          "end_time": 1.72
+        },
+        {
+          "scene_id": 1,
+          "start_time": 1.72,
+          "end_time": 4.24
+        },
+        {
+          "scene_id": 2,
+          "start_time": 4.24,
+          "end_time": 5.76
+        },
+        {
+          "scene_id": 3,
+          "start_time": 5.76,
+          "end_time": 6.92
+        },
+        {
+          "scene_id": 4,
+          "start_time": 6.92,
+          "end_time": 7.84
+        },
+        {
+          "scene_id": 5,
+          "start_time": 7.84,
+          "end_time": 9.24
+        },
+        {
+          "scene_id": 6,
+          "start_time": 9.24,
+          "end_time": 10.28
+        },
+        {
+          "scene_id": 7,
+          "start_time": 10.28,
+          "end_time": 11.0
+        },
+        {
+          "scene_id": 8,
+          "start_time": 11.0,
+          "end_time": 12.68
+        },
+        {
+          "scene_id": 9,
+          "start_time": 12.68,
+          "end_time": 14.44
+        },
+        {
+          "scene_id": 10,
+          "start_time": 14.44,
+          "end_time": 15.44
+        },
+        {
+          "scene_id": 11,
+          "start_time": 15.44,
+          "end_time": 18.08
+        },
+        {
+          "scene_id": 12,
+          "start_time": 18.08,
+          "end_time": 19.2
+        },
+        {
+          "scene_id": 13,
+          "start_time": 19.2,
+          "end_time": 21.12
+        },
+        {
+          "scene_id": 14,
+          "start_time": 21.12,
+          "end_time": 22.68
+        },
+        {
+          "scene_id": 15,
+          "start_time": 22.68,
+          "end_time": 31.48
+        },
+        {
+          "scene_id": 16,
+          "start_time": 31.48,
+          "end_time": 33.36
+        },
+        {
+          "scene_id": 17,
+          "start_time": 33.36,
+          "end_time": 35.64
+        },
+        {
+          "scene_id": 18,
+          "start_time": 35.64,
+          "end_time": 38.64
+        },
+        {
+          "scene_id": 19,
+          "start_time": 38.64,
+          "end_time": 40.04
+        }
+      ],
+      "selected_frames": [
+        {
+          "timestamp": 0.0,
+          "scene_id": 0,
+          "importance_score": 5.459999999999999
+        },
+        {
+          "timestamp": 1.7,
+          "scene_id": 0,
+          "importance_score": 3.6504
+        },
+        {
+          "timestamp": 4.25,
+          "scene_id": 2,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 5.75,
+          "scene_id": 2,
+          "importance_score": 2.3322
+        },
+        {
+          "timestamp": 5.95,
+          "scene_id": 3,
+          "importance_score": 1.9435
+        },
+        {
+          "timestamp": 6.85,
+          "scene_id": 3,
+          "importance_score": 2.028
+        },
+        {
+          "timestamp": 6.95,
+          "scene_id": 4,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 7.5,
+          "scene_id": 4,
+          "importance_score": 1.56
+        },
+        {
+          "timestamp": 7.85,
+          "scene_id": 5,
+          "importance_score": 2.8392
+        },
+        {
+          "timestamp": 9.25,
+          "scene_id": 6,
+          "importance_score": 2.8392
+        },
+        {
+          "timestamp": 10.3,
+          "scene_id": 7,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 11.0,
+          "scene_id": 8,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 11.5,
+          "scene_id": 8,
+          "importance_score": 1.3
+        },
+        {
+          "timestamp": 12.7,
+          "scene_id": 9,
+          "importance_score": 2.8392
+        },
+        {
+          "timestamp": 14.45,
+          "scene_id": 10,
+          "importance_score": 2.7208999999999994
+        },
+        {
+          "timestamp": 15.45,
+          "scene_id": 11,
+          "importance_score": 2.7208999999999994
+        },
+        {
+          "timestamp": 19.2,
+          "scene_id": 13,
+          "importance_score": 3.1231200000000006
+        },
+        {
+          "timestamp": 27.35,
+          "scene_id": 15,
+          "importance_score": 1.6900000000000002
+        },
+        {
+          "timestamp": 30.5,
+          "scene_id": 15,
+          "importance_score": 2.92032
+        },
+        {
+          "timestamp": 31.5,
+          "scene_id": 16,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 34.6,
+          "scene_id": 17,
+          "importance_score": 1.6900000000000002
+        },
+        {
+          "timestamp": 35.6,
+          "scene_id": 17,
+          "importance_score": 3.0420000000000007
+        },
+        {
+          "timestamp": 35.7,
+          "scene_id": 18,
+          "importance_score": 3.549
+        },
+        {
+          "timestamp": 38.65,
+          "scene_id": 19,
+          "importance_score": 6.856667999999999
+        }
+      ],
+      "pipeline_stats": {
+        "total_frames_sampled": 97,
+        "frames_after_phash": 62,
+        "frames_after_ssim": 56,
+        "frames_after_clip": 27,
+        "final_frame_count": 24,
+        "reduction_rate": 0.7525773195876289,
+        "processing_time_s": 368.6655626296997
+      },
+      "extraction": {
+        "ad_type": "product_demo",
+        "brand": {
+          "brand_name_text": "Panasonic",
+          "logo_visible": true,
+          "logo_timestamps": [
+            19.2,
+            38.6
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Lumix GX80",
+          "industry": "technology"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "Capture and save the perfect high-quality photo from stunning 4K video footage.",
+          "tagline": "Shoot select and save"
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "blue",
+            "green",
+            "white",
+            "red",
+            "black"
+          ],
+          "text_overlays": [
+            "Save this image?",
+            "Yes",
+            "No",
+            "TEAM GB",
+            "Panasonic",
+            "OFFICIAL CAMERA PARTNER"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-40",
+          "interests": [
+            "photography",
+            "travel",
+            "family",
+            "gadgets"
+          ]
+        },
+        "topic": {
+          "topic_id": 10,
+          "topic_name": "Electronics",
+          "topic_confidence": "high"
+        },
+        "sentiment": {
+          "primary_sentiment_id": 16,
+          "primary_sentiment_name": "Emotional",
+          "secondary_sentiments": [
+            8,
+            9,
+            30
+          ],
+          "sentiment_intensity": "medium"
+        },
+        "engagement_metrics": {
+          "is_funny": 0.3,
+          "is_exciting": 0.4,
+          "effectiveness_score": 4
+        },
+        "persuasion_techniques": [
+          "emotion",
+          "product demonstration"
+        ],
+        "_metadata": {
+          "ad_type": "product_demo",
+          "schema_mode": "adaptive",
+          "single_pass": true,
+          "num_frames": 24,
+          "video_duration": 40.04,
+          "has_audio_context": true,
+          "confidence": 0.9375
+        }
+      }
+    },
+    {
+      "status": "success",
+      "video_path": "data\\hussain_videos_subset\\_G-PTQ2OWe4.mp4",
+      "video_name": "_G-PTQ2OWe4.mp4",
+      "processed_at": "2026-03-11T09:42:32.184377",
+      "metadata": {
+        "duration": 30.2302,
+        "fps": 29.97002997002997,
+        "width": 320,
+        "height": 240
+      },
+      "scenes": [
+        {
+          "scene_id": 0,
+          "start_time": 0.0,
+          "end_time": 1.1344666666666667
+        },
+        {
+          "scene_id": 1,
+          "start_time": 1.1344666666666667,
+          "end_time": 2.3023000000000002
+        },
+        {
+          "scene_id": 2,
+          "start_time": 2.3023000000000002,
+          "end_time": 3.336666666666667
+        },
+        {
+          "scene_id": 3,
+          "start_time": 3.336666666666667,
+          "end_time": 5.238566666666666
+        },
+        {
+          "scene_id": 4,
+          "start_time": 5.238566666666666,
+          "end_time": 6.673333333333334
+        },
+        {
+          "scene_id": 5,
+          "start_time": 6.673333333333334,
+          "end_time": 7.2072
+        },
+        {
+          "scene_id": 6,
+          "start_time": 7.2072,
+          "end_time": 8.842166666666667
+        },
+        {
+          "scene_id": 7,
+          "start_time": 8.842166666666667,
+          "end_time": 10.2102
+        },
+        {
+          "scene_id": 8,
+          "start_time": 10.2102,
+          "end_time": 11.177833333333334
+        },
+        {
+          "scene_id": 9,
+          "start_time": 11.177833333333334,
+          "end_time": 12.078733333333334
+        },
+        {
+          "scene_id": 10,
+          "start_time": 12.078733333333334,
+          "end_time": 12.9129
+        },
+        {
+          "scene_id": 11,
+          "start_time": 12.9129,
+          "end_time": 14.5145
+        },
+        {
+          "scene_id": 12,
+          "start_time": 14.5145,
+          "end_time": 15.382033333333334
+        },
+        {
+          "scene_id": 13,
+          "start_time": 15.382033333333334,
+          "end_time": 16.082733333333334
+        },
+        {
+          "scene_id": 14,
+          "start_time": 16.082733333333334,
+          "end_time": 18.151466666666668
+        },
+        {
+          "scene_id": 15,
+          "start_time": 18.151466666666668,
+          "end_time": 19.886533333333333
+        },
+        {
+          "scene_id": 16,
+          "start_time": 19.886533333333333,
+          "end_time": 20.6206
+        },
+        {
+          "scene_id": 17,
+          "start_time": 20.6206,
+          "end_time": 22.756066666666666
+        },
+        {
+          "scene_id": 18,
+          "start_time": 22.756066666666666,
+          "end_time": 24.557866666666666
+        },
+        {
+          "scene_id": 19,
+          "start_time": 24.557866666666666,
+          "end_time": 25.091733333333334
+        },
+        {
+          "scene_id": 20,
+          "start_time": 25.091733333333334,
+          "end_time": 30.2302
+        }
+      ],
+      "selected_frames": [
+        {
+          "timestamp": 0.0,
+          "scene_id": 0,
+          "importance_score": 6.551999999999999
+        },
+        {
+          "timestamp": 0.5,
+          "scene_id": 0,
+          "importance_score": 3.6504
+        },
+        {
+          "timestamp": 1.15,
+          "scene_id": 1,
+          "importance_score": 3.5489999999999995
+        },
+        {
+          "timestamp": 2.3,
+          "scene_id": 1,
+          "importance_score": 3.042
+        },
+        {
+          "timestamp": 2.75,
+          "scene_id": 2,
+          "importance_score": 3.0420000000000003
+        },
+        {
+          "timestamp": 3.35,
+          "scene_id": 3,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 5.25,
+          "scene_id": 4,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 6.7,
+          "scene_id": 5,
+          "importance_score": 2.8392
+        },
+        {
+          "timestamp": 7.8,
+          "scene_id": 6,
+          "importance_score": 2.028
+        },
+        {
+          "timestamp": 8.85,
+          "scene_id": 7,
+          "importance_score": 3.2650799999999993
+        },
+        {
+          "timestamp": 10.1,
+          "scene_id": 7,
+          "importance_score": 2.028
+        },
+        {
+          "timestamp": 10.35,
+          "scene_id": 8,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 11.2,
+          "scene_id": 9,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 12.2,
+          "scene_id": 10,
+          "importance_score": 2.99299
+        },
+        {
+          "timestamp": 14.5,
+          "scene_id": 11,
+          "importance_score": 2.2308000000000003
+        },
+        {
+          "timestamp": 15.4,
+          "scene_id": 13,
+          "importance_score": 2.4024
+        },
+        {
+          "timestamp": 16.1,
+          "scene_id": 14,
+          "importance_score": 2.99299
+        },
+        {
+          "timestamp": 16.7,
+          "scene_id": 14,
+          "importance_score": 2.2308000000000003
+        },
+        {
+          "timestamp": 18.35,
+          "scene_id": 15,
+          "importance_score": 2.8392
+        },
+        {
+          "timestamp": 19.75,
+          "scene_id": 15,
+          "importance_score": 2.028
+        },
+        {
+          "timestamp": 19.9,
+          "scene_id": 16,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 22.65,
+          "scene_id": 17,
+          "importance_score": 2.4336
+        },
+        {
+          "timestamp": 23.25,
+          "scene_id": 18,
+          "importance_score": 2.028
+        },
+        {
+          "timestamp": 25.6,
+          "scene_id": 20,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 29.95,
+          "scene_id": 20,
+          "importance_score": 4.520879999999999
+        }
+      ],
+      "pipeline_stats": {
+        "total_frames_sampled": 230,
+        "frames_after_phash": 120,
+        "frames_after_ssim": 90,
+        "frames_after_clip": 41,
+        "final_frame_count": 25,
+        "reduction_rate": 0.8913043478260869,
+        "processing_time_s": 519.1832506656647
+      },
+      "extraction": {
+        "ad_type": "product_demo",
+        "brand": {
+          "brand_name_text": "Queasy Bake",
+          "logo_visible": true,
+          "logo_timestamps": [
+            8.8,
+            11.2,
+            12.2,
+            18.4,
+            19.9,
+            25.6
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Queasy Bake Cookerator",
+          "industry": "Games and toys"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": true,
+          "cta_type": "Visit website"
+        },
+        "message": {
+          "primary_message": "Make gross-looking but tasty treats with the Queasy Bake Cookerator.",
+          "tagline": "Queasy Bake looks gross, tasty, great!"
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "purple",
+            "green",
+            "yellow",
+            "white"
+          ],
+          "text_overlays": [
+            "Actual cooking time 8-9 minutes",
+            "www.queasybake.com",
+            "Queasy Bake"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "6-12",
+          "interests": [
+            "toys",
+            "cooking",
+            "gross-out humor"
+          ]
+        },
+        "topic": {
+          "topic_id": 21,
+          "topic_name": "Games and toys",
+          "topic_confidence": "high"
+        },
+        "sentiment": {
+          "primary_sentiment_id": 1,
+          "primary_sentiment_name": "Active",
+          "secondary_sentiments": [
+            6,
+            9,
+            30
+          ],
+          "sentiment_intensity": "high"
+        },
+        "engagement_metrics": {
+          "is_funny": 0.7,
+          "is_exciting": 0.8,
+          "effectiveness_score": 4
+        },
+        "persuasion_techniques": [
+          "emotion",
+          "product demo"
+        ],
+        "_metadata": {
+          "ad_type": "product_demo",
+          "schema_mode": "adaptive",
+          "single_pass": true,
+          "num_frames": 25,
+          "video_duration": 30.2302,
+          "has_audio_context": true,
+          "confidence": 0.903125
+        }
+      }
+    },
+    {
+      "status": "success",
+      "video_path": "data\\hussain_videos_subset\\_F0XLsyU1rY.mp4",
+      "video_name": "_F0XLsyU1rY.mp4",
+      "processed_at": "2026-03-11T09:42:45.495999",
+      "metadata": {
+        "duration": 95.220125,
+        "fps": 23.976023976023978,
+        "width": 1920,
+        "height": 1080
+      },
+      "scenes": [
+        {
+          "scene_id": 0,
+          "start_time": 0.0,
+          "end_time": 5.797458333333333
+        },
+        {
+          "scene_id": 1,
+          "start_time": 5.797458333333333,
+          "end_time": 7.007
+        },
+        {
+          "scene_id": 2,
+          "start_time": 7.007,
+          "end_time": 9.759749999999999
+        },
+        {
+          "scene_id": 3,
+          "start_time": 9.759749999999999,
+          "end_time": 11.76175
+        },
+        {
+          "scene_id": 4,
+          "start_time": 11.76175,
+          "end_time": 13.096416666666666
+        },
+        {
+          "scene_id": 5,
+          "start_time": 13.096416666666666,
+          "end_time": 14.723041666666665
+        },
+        {
+          "scene_id": 6,
+          "start_time": 14.723041666666665,
+          "end_time": 15.682333333333332
+        },
+        {
+          "scene_id": 7,
+          "start_time": 15.682333333333332,
+          "end_time": 17.68433333333333
+        },
+        {
+          "scene_id": 8,
+          "start_time": 17.68433333333333,
+          "end_time": 19.227541666666664
+        },
+        {
+          "scene_id": 9,
+          "start_time": 19.227541666666664,
+          "end_time": 19.978291666666664
+        },
+        {
+          "scene_id": 10,
+          "start_time": 19.978291666666664,
+          "end_time": 23.064708333333332
+        },
+        {
+          "scene_id": 11,
+          "start_time": 23.064708333333332,
+          "end_time": 24.31595833333333
+        },
+        {
+          "scene_id": 12,
+          "start_time": 24.31595833333333,
+          "end_time": 26.651625
+        },
+        {
+          "scene_id": 13,
+          "start_time": 26.651625,
+          "end_time": 28.445083333333333
+        },
+        {
+          "scene_id": 14,
+          "start_time": 28.445083333333333,
+          "end_time": 30.238541666666663
+        },
+        {
+          "scene_id": 15,
+          "start_time": 30.238541666666663,
+          "end_time": 32.07370833333333
+        },
+        {
+          "scene_id": 16,
+          "start_time": 32.07370833333333,
+          "end_time": 33.908874999999995
+        },
+        {
+          "scene_id": 17,
+          "start_time": 33.908874999999995,
+          "end_time": 35.70233333333333
+        },
+        {
+          "scene_id": 18,
+          "start_time": 35.70233333333333,
+          "end_time": 37.49579166666666
+        },
+        {
+          "scene_id": 19,
+          "start_time": 37.49579166666666,
+          "end_time": 39.33095833333333
+        },
+        {
+          "scene_id": 20,
+          "start_time": 39.33095833333333,
+          "end_time": 40.24854166666666
+        },
+        {
+          "scene_id": 21,
+          "start_time": 40.24854166666666,
+          "end_time": 42.500791666666665
+        },
+        {
+          "scene_id": 22,
+          "start_time": 42.500791666666665,
+          "end_time": 44.37766666666666
+        },
+        {
+          "scene_id": 23,
+          "start_time": 44.37766666666666,
+          "end_time": 46.83845833333333
+        },
+        {
+          "scene_id": 24,
+          "start_time": 46.83845833333333,
+          "end_time": 47.75604166666666
+        },
+        {
+          "scene_id": 25,
+          "start_time": 47.75604166666666,
+          "end_time": 48.506791666666665
+        },
+        {
+          "scene_id": 26,
+          "start_time": 48.506791666666665,
+          "end_time": 52.46908333333333
+        },
+        {
+          "scene_id": 27,
+          "start_time": 52.46908333333333,
+          "end_time": 54.262541666666664
+        },
+        {
+          "scene_id": 28,
+          "start_time": 54.262541666666664,
+          "end_time": 56.056
+        },
+        {
+          "scene_id": 29,
+          "start_time": 56.056,
+          "end_time": 58.51679166666666
+        },
+        {
+          "scene_id": 30,
+          "start_time": 58.51679166666666,
+          "end_time": 59.51779166666666
+        },
+        {
+          "scene_id": 31,
+          "start_time": 59.51779166666666,
+          "end_time": 64.60620833333333
+        },
+        {
+          "scene_id": 32,
+          "start_time": 64.60620833333333,
+          "end_time": 67.85945833333332
+        },
+        {
+          "scene_id": 33,
+          "start_time": 67.85945833333332,
+          "end_time": 71.23783333333333
+        },
+        {
+          "scene_id": 34,
+          "start_time": 71.23783333333333,
+          "end_time": 74.74133333333333
+        },
+        {
+          "scene_id": 35,
+          "start_time": 74.74133333333333,
+          "end_time": 76.5765
+        },
+        {
+          "scene_id": 36,
+          "start_time": 76.5765,
+          "end_time": 78.953875
+        },
+        {
+          "scene_id": 37,
+          "start_time": 78.953875,
+          "end_time": 79.954875
+        },
+        {
+          "scene_id": 38,
+          "start_time": 79.954875,
+          "end_time": 85.75233333333333
+        },
+        {
+          "scene_id": 39,
+          "start_time": 85.75233333333333,
+          "end_time": 86.46137499999999
+        },
+        {
+          "scene_id": 40,
+          "start_time": 86.46137499999999,
+          "end_time": 87.12870833333332
+        },
+        {
+          "scene_id": 41,
+          "start_time": 87.12870833333332,
+          "end_time": 87.87945833333333
+        },
+        {
+          "scene_id": 42,
+          "start_time": 87.87945833333333,
+          "end_time": 88.54679166666666
+        },
+        {
+          "scene_id": 43,
+          "start_time": 88.54679166666666,
+          "end_time": 95.220125
+        }
+      ],
+      "selected_frames": [
+        {
+          "timestamp": 0.0,
+          "scene_id": 0,
+          "importance_score": 6.551999999999999
+        },
+        {
+          "timestamp": 5.75,
+          "scene_id": 0,
+          "importance_score": 3.042
+        },
+        {
+          "timestamp": 6.2,
+          "scene_id": 1,
+          "importance_score": 2.535
+        },
+        {
+          "timestamp": 6.7,
+          "scene_id": 1,
+          "importance_score": 3.0420000000000003
+        },
+        {
+          "timestamp": 9.8,
+          "scene_id": 3,
+          "importance_score": 2.5116
+        },
+        {
+          "timestamp": 10.0,
+          "scene_id": 3,
+          "importance_score": 3.2650799999999993
+        },
+        {
+          "timestamp": 14.4,
+          "scene_id": 5,
+          "importance_score": 2.3322
+        },
+        {
+          "timestamp": 15.7,
+          "scene_id": 7,
+          "importance_score": 2.0929999999999995
+        },
+        {
+          "timestamp": 17.7,
+          "scene_id": 8,
+          "importance_score": 2.093
+        },
+        {
+          "timestamp": 20.0,
+          "scene_id": 10,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 23.05,
+          "scene_id": 10,
+          "importance_score": 2.4336
+        },
+        {
+          "timestamp": 30.25,
+          "scene_id": 15,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 32.1,
+          "scene_id": 16,
+          "importance_score": 2.093
+        },
+        {
+          "timestamp": 37.5,
+          "scene_id": 19,
+          "importance_score": 2.093
+        },
+        {
+          "timestamp": 40.25,
+          "scene_id": 21,
+          "importance_score": 2.3023
+        },
+        {
+          "timestamp": 42.5,
+          "scene_id": 21,
+          "importance_score": 2.36808
+        },
+        {
+          "timestamp": 46.85,
+          "scene_id": 24,
+          "importance_score": 2.3023
+        },
+        {
+          "timestamp": 53.9,
+          "scene_id": 27,
+          "importance_score": 2.0592
+        },
+        {
+          "timestamp": 76.6,
+          "scene_id": 36,
+          "importance_score": 2.093
+        },
+        {
+          "timestamp": 78.95,
+          "scene_id": 36,
+          "importance_score": 2.3322
+        },
+        {
+          "timestamp": 85.25,
+          "scene_id": 38,
+          "importance_score": 2.4335999999999998
+        },
+        {
+          "timestamp": 85.75,
+          "scene_id": 38,
+          "importance_score": 3.9180959999999994
+        },
+        {
+          "timestamp": 86.45,
+          "scene_id": 39,
+          "importance_score": 3.0139199999999993
+        },
+        {
+          "timestamp": 87.9,
+          "scene_id": 42,
+          "importance_score": 2.9301999999999997
+        },
+        {
+          "timestamp": 88.55,
+          "scene_id": 43,
+          "importance_score": 6.856667999999999
+        }
+      ],
+      "pipeline_stats": {
+        "total_frames_sampled": 140,
+        "frames_after_phash": 115,
+        "frames_after_ssim": 94,
+        "frames_after_clip": 45,
+        "final_frame_count": 25,
+        "reduction_rate": 0.8214285714285714,
+        "processing_time_s": 738.2587401866913
+      },
+      "extraction": {
+        "ad_type": "product_demo",
+        "brand": {
+          "brand_name_text": "BAUER",
+          "logo_visible": true,
+          "logo_timestamps": [
+            6.7,
+            14.4,
+            88.5
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Supreme TotalOne MX3",
+          "industry": "Sports equipment and activities"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "Showcasing the power and precision of the Bauer Supreme TotalOne MX3 hockey stick through a field goal challenge with NHL star Steven Stamkos.",
+          "tagline": null
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "black",
+            "green",
+            "blue",
+            "white",
+            "yellow"
+          ],
+          "text_overlays": [
+            "SUPREME",
+            "STEVEN STAMKOS",
+            "FIELD GOAL CHALLENGE",
+            "BAUER",
+            "SUPREME TOTALONE MX3",
+            "36 YARDS",
+            "91 YARDS",
+            "PREFERRED EQUIPMENT SUPPLIER"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "all ages",
+          "interests": [
+            "hockey",
+            "sports",
+            "NHL",
+            "Steven Stamkos",
+            "athletic performance"
+          ]
+        },
+        "topic": {
+          "topic_id": 27,
+          "topic_name": "Sports equipment and activities",
+          "topic_confidence": "high"
+        },
+        "sentiment": {
+          "primary_sentiment_id": 1,
+          "primary_sentiment_name": "Active",
+          "secondary_sentiments": [
+            10,
+            21,
+            5
+          ],
+          "sentiment_intensity": "high"
+        },
+        "engagement_metrics": {
+          "is_funny": 0.1,
+          "is_exciting": 0.8,
+          "effectiveness_score": 4
+        },
+        "persuasion_techniques": [
+          "celebrity endorsement",
+          "product demonstration"
+        ],
+        "_metadata": {
+          "ad_type": "product_demo",
+          "schema_mode": "adaptive",
+          "single_pass": true,
+          "num_frames": 25,
+          "video_duration": 95.220125,
+          "has_audio_context": true,
+          "confidence": 0.871875
+        }
+      }
+    },
+    {
+      "status": "success",
+      "video_path": "data\\hussain_videos_subset\\_GBSwxyPuaE.mp4",
+      "video_name": "_GBSwxyPuaE.mp4",
+      "processed_at": "2026-03-11T09:45:29.665962",
+      "metadata": {
+        "duration": 98.34782608695652,
+        "fps": 23.0,
+        "width": 1920,
+        "height": 1080
+      },
+      "scenes": [
+        {
+          "scene_id": 0,
+          "start_time": 0.0,
+          "end_time": 5.260869565217392
+        },
+        {
+          "scene_id": 1,
+          "start_time": 5.260869565217392,
+          "end_time": 6.739130434782608
+        },
+        {
+          "scene_id": 2,
+          "start_time": 6.739130434782608,
+          "end_time": 10.130434782608695
+        },
+        {
+          "scene_id": 3,
+          "start_time": 10.130434782608695,
+          "end_time": 11.478260869565217
+        },
+        {
+          "scene_id": 4,
+          "start_time": 11.478260869565217,
+          "end_time": 13.826086956521738
+        },
+        {
+          "scene_id": 5,
+          "start_time": 13.826086956521738,
+          "end_time": 15.130434782608695
+        },
+        {
+          "scene_id": 6,
+          "start_time": 15.130434782608695,
+          "end_time": 16.391304347826086
+        },
+        {
+          "scene_id": 7,
+          "start_time": 16.391304347826086,
+          "end_time": 17.08695652173913
+        },
+        {
+          "scene_id": 8,
+          "start_time": 17.08695652173913,
+          "end_time": 20.869565217391305
+        },
+        {
+          "scene_id": 9,
+          "start_time": 20.869565217391305,
+          "end_time": 22.17391304347826
+        },
+        {
+          "scene_id": 10,
+          "start_time": 22.17391304347826,
+          "end_time": 24.0
+        },
+        {
+          "scene_id": 11,
+          "start_time": 24.0,
+          "end_time": 25.52173913043478
+        },
+        {
+          "scene_id": 12,
+          "start_time": 25.52173913043478,
+          "end_time": 28.26086956521739
+        },
+        {
+          "scene_id": 13,
+          "start_time": 28.26086956521739,
+          "end_time": 30.217391304347824
+        },
+        {
+          "scene_id": 14,
+          "start_time": 30.217391304347824,
+          "end_time": 31.608695652173914
+        },
+        {
+          "scene_id": 15,
+          "start_time": 31.608695652173914,
+          "end_time": 33.65217391304348
+        },
+        {
+          "scene_id": 16,
+          "start_time": 33.65217391304348,
+          "end_time": 35.26086956521739
+        },
+        {
+          "scene_id": 17,
+          "start_time": 35.26086956521739,
+          "end_time": 36.47826086956522
+        },
+        {
+          "scene_id": 18,
+          "start_time": 36.47826086956522,
+          "end_time": 39.73913043478261
+        },
+        {
+          "scene_id": 19,
+          "start_time": 39.73913043478261,
+          "end_time": 41.82608695652174
+        },
+        {
+          "scene_id": 20,
+          "start_time": 41.82608695652174,
+          "end_time": 43.78260869565217
+        },
+        {
+          "scene_id": 21,
+          "start_time": 43.78260869565217,
+          "end_time": 49.73913043478261
+        },
+        {
+          "scene_id": 22,
+          "start_time": 49.73913043478261,
+          "end_time": 53.0
+        },
+        {
+          "scene_id": 23,
+          "start_time": 53.0,
+          "end_time": 55.26086956521739
+        },
+        {
+          "scene_id": 24,
+          "start_time": 55.26086956521739,
+          "end_time": 56.47826086956522
+        },
+        {
+          "scene_id": 25,
+          "start_time": 56.47826086956522,
+          "end_time": 62.04347826086956
+        },
+        {
+          "scene_id": 26,
+          "start_time": 62.04347826086956,
+          "end_time": 63.69565217391305
+        },
+        {
+          "scene_id": 27,
+          "start_time": 63.69565217391305,
+          "end_time": 65.95652173913044
+        },
+        {
+          "scene_id": 28,
+          "start_time": 65.95652173913044,
+          "end_time": 67.52173913043478
+        },
+        {
+          "scene_id": 29,
+          "start_time": 67.52173913043478,
+          "end_time": 68.52173913043478
+        },
+        {
+          "scene_id": 30,
+          "start_time": 68.52173913043478,
+          "end_time": 70.34782608695652
+        },
+        {
+          "scene_id": 31,
+          "start_time": 70.34782608695652,
+          "end_time": 71.69565217391305
+        },
+        {
+          "scene_id": 32,
+          "start_time": 71.69565217391305,
+          "end_time": 74.08695652173913
+        },
+        {
+          "scene_id": 33,
+          "start_time": 74.08695652173913,
+          "end_time": 98.34782608695652
+        }
+      ],
+      "selected_frames": [
+        {
+          "timestamp": 0.0,
+          "scene_id": 0,
+          "importance_score": 6.551999999999999
+        },
+        {
+          "timestamp": 5.25,
+          "scene_id": 0,
+          "importance_score": 2.808
+        },
+        {
+          "timestamp": 6.75,
+          "scene_id": 2,
+          "importance_score": 2.5199999999999996
+        },
+        {
+          "timestamp": 10.15,
+          "scene_id": 3,
+          "importance_score": 2.184
+        },
+        {
+          "timestamp": 11.5,
+          "scene_id": 4,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 12.55,
+          "scene_id": 4,
+          "importance_score": 1.7939999999999998
+        },
+        {
+          "timestamp": 15.15,
+          "scene_id": 6,
+          "importance_score": 2.6207999999999996
+        },
+        {
+          "timestamp": 17.1,
+          "scene_id": 8,
+          "importance_score": 3.40704
+        },
+        {
+          "timestamp": 20.4,
+          "scene_id": 8,
+          "importance_score": 2.79864
+        },
+        {
+          "timestamp": 21.5,
+          "scene_id": 9,
+          "importance_score": 1.7939999999999998
+        },
+        {
+          "timestamp": 21.85,
+          "scene_id": 9,
+          "importance_score": 2.028
+        },
+        {
+          "timestamp": 22.2,
+          "scene_id": 10,
+          "importance_score": 2.8392
+        },
+        {
+          "timestamp": 25.5,
+          "scene_id": 11,
+          "importance_score": 2.4335999999999998
+        },
+        {
+          "timestamp": 31.6,
+          "scene_id": 14,
+          "importance_score": 2.4335999999999998
+        },
+        {
+          "timestamp": 33.8,
+          "scene_id": 16,
+          "importance_score": 2.5116
+        },
+        {
+          "timestamp": 37.15,
+          "scene_id": 18,
+          "importance_score": 1.9435
+        },
+        {
+          "timestamp": 39.75,
+          "scene_id": 19,
+          "importance_score": 2.99299
+        },
+        {
+          "timestamp": 43.8,
+          "scene_id": 21,
+          "importance_score": 2.1252
+        },
+        {
+          "timestamp": 56.5,
+          "scene_id": 25,
+          "importance_score": 2.99299
+        },
+        {
+          "timestamp": 62.05,
+          "scene_id": 26,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 63.7,
+          "scene_id": 27,
+          "importance_score": 2.8392
+        },
+        {
+          "timestamp": 65.95,
+          "scene_id": 27,
+          "importance_score": 2.028
+        },
+        {
+          "timestamp": 67.5,
+          "scene_id": 28,
+          "importance_score": 2.4336
+        },
+        {
+          "timestamp": 70.35,
+          "scene_id": 31,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 87.8,
+          "scene_id": 33,
+          "importance_score": 2.3400000000000003
+        }
+      ],
+      "pipeline_stats": {
+        "total_frames_sampled": 182,
+        "frames_after_phash": 151,
+        "frames_after_ssim": 134,
+        "frames_after_clip": 43,
+        "final_frame_count": 25,
+        "reduction_rate": 0.8626373626373627,
+        "processing_time_s": 670.7625541687012
+      },
+      "extraction": {
+        "ad_type": "brand_awareness",
+        "brand": {
+          "brand_name_text": "Everytown.org",
+          "logo_visible": false,
+          "logo_timestamps": [],
+          "brand_text_contrast": "medium"
+        },
+        "product": {
+          "product_name": "Gun safety awareness",
+          "industry": "Security and safety services"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": true,
+          "cta_type": "Visit website"
+        },
+        "message": {
+          "primary_message": "Prevent accidental child gun deaths through responsible gun ownership and community conversation.",
+          "tagline": null
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "red",
+            "blue",
+            "white",
+            "black"
+          ],
+          "text_overlays": [
+            "2.22.2014",
+            "4:58PM",
+            "WILL",
+            "WILL YOU STOP",
+            "WILL YOU STOP THIS?",
+            "CLICK HERE",
+            "You have another chance to stop a child from being killed. Start the conversation about responsible gun ownership in your home and community.",
+            "ACT NOW",
+            "Everytown.org/scenes"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "all ages",
+          "interests": [
+            "parenting",
+            "safety",
+            "social issues"
+          ]
+        },
+        "topic": {
+          "topic_id": 33,
+          "topic_name": "Safety, safe driving, fire safety",
+          "topic_confidence": "high"
+        },
+        "sentiment": {
+          "primary_sentiment_id": 3,
+          "primary_sentiment_name": "Alarmed",
+          "secondary_sentiments": [
+            13,
+            11
+          ],
+          "sentiment_intensity": "high"
+        },
+        "engagement_metrics": {
+          "is_funny": 0.0,
+          "is_exciting": 0.4,
+          "effectiveness_score": 5
+        },
+        "persuasion_techniques": [
+          "emotion",
+          "fear appeal",
+          "urgency"
+        ],
+        "_metadata": {
+          "ad_type": "brand_awareness",
+          "schema_mode": "adaptive",
+          "single_pass": true,
+          "num_frames": 25,
+          "video_duration": 98.34782608695652,
+          "has_audio_context": true,
+          "confidence": 0.871875
+        }
+      }
+    },
+    {
+      "status": "success",
+      "video_path": "data\\hussain_videos_subset\\_BZsIY6PUPU.mp4",
+      "video_name": "_BZsIY6PUPU.mp4",
+      "processed_at": "2026-03-11T09:47:36.312096",
+      "metadata": {
+        "duration": 76.53479166666666,
+        "fps": 23.976023976023978,
+        "width": 1920,
+        "height": 1080
+      },
+      "scenes": [
+        {
+          "scene_id": 0,
+          "start_time": 0.0,
+          "end_time": 3.545208333333333
+        },
+        {
+          "scene_id": 1,
+          "start_time": 3.545208333333333,
+          "end_time": 6.339666666666666
+        },
+        {
+          "scene_id": 2,
+          "start_time": 6.339666666666666,
+          "end_time": 9.342666666666666
+        },
+        {
+          "scene_id": 3,
+          "start_time": 9.342666666666666,
+          "end_time": 11.094416666666666
+        },
+        {
+          "scene_id": 4,
+          "start_time": 11.094416666666666,
+          "end_time": 12.554208333333332
+        },
+        {
+          "scene_id": 5,
+          "start_time": 12.554208333333332,
+          "end_time": 15.181833333333332
+        },
+        {
+          "scene_id": 6,
+          "start_time": 15.181833333333332,
+          "end_time": 15.890875
+        },
+        {
+          "scene_id": 7,
+          "start_time": 15.890875,
+          "end_time": 18.810458333333333
+        },
+        {
+          "scene_id": 8,
+          "start_time": 18.810458333333333,
+          "end_time": 19.686333333333334
+        },
+        {
+          "scene_id": 9,
+          "start_time": 19.686333333333334,
+          "end_time": 24.691333333333333
+        },
+        {
+          "scene_id": 10,
+          "start_time": 24.691333333333333,
+          "end_time": 26.77675
+        },
+        {
+          "scene_id": 11,
+          "start_time": 26.77675,
+          "end_time": 28.486791666666665
+        },
+        {
+          "scene_id": 12,
+          "start_time": 28.486791666666665,
+          "end_time": 29.988291666666665
+        },
+        {
+          "scene_id": 13,
+          "start_time": 29.988291666666665,
+          "end_time": 31.614916666666666
+        },
+        {
+          "scene_id": 14,
+          "start_time": 31.614916666666666,
+          "end_time": 33.408375
+        },
+        {
+          "scene_id": 15,
+          "start_time": 33.408375,
+          "end_time": 34.909875
+        },
+        {
+          "scene_id": 16,
+          "start_time": 34.909875,
+          "end_time": 37.07870833333333
+        },
+        {
+          "scene_id": 17,
+          "start_time": 37.07870833333333,
+          "end_time": 39.122416666666666
+        },
+        {
+          "scene_id": 18,
+          "start_time": 39.122416666666666,
+          "end_time": 39.99829166666667
+        },
+        {
+          "scene_id": 19,
+          "start_time": 39.99829166666667,
+          "end_time": 40.87416666666666
+        },
+        {
+          "scene_id": 20,
+          "start_time": 40.87416666666666,
+          "end_time": 43.83545833333333
+        },
+        {
+          "scene_id": 21,
+          "start_time": 43.83545833333333,
+          "end_time": 45.295249999999996
+        },
+        {
+          "scene_id": 22,
+          "start_time": 45.295249999999996,
+          "end_time": 46.921875
+        },
+        {
+          "scene_id": 23,
+          "start_time": 46.921875,
+          "end_time": 48.047999999999995
+        },
+        {
+          "scene_id": 24,
+          "start_time": 48.047999999999995,
+          "end_time": 57.47408333333333
+        },
+        {
+          "scene_id": 25,
+          "start_time": 57.47408333333333,
+          "end_time": 62.72933333333333
+        },
+        {
+          "scene_id": 26,
+          "start_time": 62.72933333333333,
+          "end_time": 76.53479166666666
+        }
+      ],
+      "selected_frames": [
+        {
+          "timestamp": 0.0,
+          "scene_id": 0,
+          "importance_score": 5.039999999999999
+        },
+        {
+          "timestamp": 0.2,
+          "scene_id": 0,
+          "importance_score": 3.2759999999999994
+        },
+        {
+          "timestamp": 3.55,
+          "scene_id": 1,
+          "importance_score": 3.5489999999999995
+        },
+        {
+          "timestamp": 4.05,
+          "scene_id": 1,
+          "importance_score": 1.9500000000000002
+        },
+        {
+          "timestamp": 6.35,
+          "scene_id": 2,
+          "importance_score": 4.258799999999999
+        },
+        {
+          "timestamp": 7.25,
+          "scene_id": 2,
+          "importance_score": 1.9500000000000002
+        },
+        {
+          "timestamp": 9.4,
+          "scene_id": 3,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 15.95,
+          "scene_id": 7,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 24.7,
+          "scene_id": 10,
+          "importance_score": 2.3659999999999997
+        },
+        {
+          "timestamp": 25.6,
+          "scene_id": 10,
+          "importance_score": 1.6900000000000002
+        },
+        {
+          "timestamp": 26.8,
+          "scene_id": 11,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 28.5,
+          "scene_id": 12,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 30.0,
+          "scene_id": 13,
+          "importance_score": 2.1839999999999997
+        },
+        {
+          "timestamp": 31.6,
+          "scene_id": 13,
+          "importance_score": 1.7160000000000002
+        },
+        {
+          "timestamp": 33.4,
+          "scene_id": 14,
+          "importance_score": 1.584
+        },
+        {
+          "timestamp": 34.0,
+          "scene_id": 15,
+          "importance_score": 1.7160000000000002
+        },
+        {
+          "timestamp": 37.1,
+          "scene_id": 17,
+          "importance_score": 2.0020000000000002
+        },
+        {
+          "timestamp": 38.85,
+          "scene_id": 17,
+          "importance_score": 1.7160000000000002
+        },
+        {
+          "timestamp": 39.15,
+          "scene_id": 18,
+          "importance_score": 2.0020000000000002
+        },
+        {
+          "timestamp": 40.0,
+          "scene_id": 19,
+          "importance_score": 2.0020000000000002
+        },
+        {
+          "timestamp": 45.4,
+          "scene_id": 22,
+          "importance_score": 2.0020000000000002
+        },
+        {
+          "timestamp": 48.45,
+          "scene_id": 24,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 48.55,
+          "scene_id": 24,
+          "importance_score": 1.8199999999999998
+        },
+        {
+          "timestamp": 62.75,
+          "scene_id": 26,
+          "importance_score": 2.093
+        },
+        {
+          "timestamp": 74.95,
+          "scene_id": 26,
+          "importance_score": 3.9312000000000005
+        }
+      ],
+      "pipeline_stats": {
+        "total_frames_sampled": 253,
+        "frames_after_phash": 167,
+        "frames_after_ssim": 137,
+        "frames_after_clip": 42,
+        "final_frame_count": 25,
+        "reduction_rate": 0.9011857707509882,
+        "processing_time_s": 1472.1816284656525
+      },
+      "extraction": {
+        "ad_type": "entertainment",
+        "brand": {
+          "brand_name_text": "Lotus Biscoff",
+          "logo_visible": true,
+          "logo_timestamps": [
+            0.2,
+            15.9,
+            31.6,
+            40.0,
+            45.4,
+            48.5,
+            75.0
+          ],
+          "brand_text_contrast": "high"
+        },
+        "product": {
+          "product_name": "Biscoff European Cookie Spread",
+          "industry": "Food & Beverage"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "Biscoff is a unique spread made entirely out of cookies.",
+          "tagline": null
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "black",
+            "red",
+            "yellow",
+            "brown"
+          ],
+          "text_overlays": [
+            "Lotus Biscoff European Cookie Spread",
+            "Crunchy",
+            "All Natural",
+            "FilmCow.com"
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "18-35",
+          "interests": [
+            "internet humor",
+            "puppets",
+            "snacks",
+            "surreal comedy"
+          ]
+        },
+        "topic": {
+          "topic_id": 4,
+          "topic_name": "Seasoning, condiments, ketchup",
+          "topic_confidence": "high"
+        },
+        "sentiment": {
+          "primary_sentiment_id": 6,
+          "primary_sentiment_name": "Amused",
+          "secondary_sentiments": [
+            1,
+            13,
+            30
+          ],
+          "sentiment_intensity": "high"
+        },
+        "engagement_metrics": {
+          "is_funny": 0.9,
+          "is_exciting": 0.5,
+          "effectiveness_score": 4
+        },
+        "persuasion_techniques": [
+          "humor",
+          "emotion"
+        ],
+        "_metadata": {
+          "ad_type": "entertainment",
+          "schema_mode": "adaptive",
+          "single_pass": true,
+          "num_frames": 25,
+          "video_duration": 76.53479166666666,
+          "has_audio_context": true,
+          "confidence": 0.921875
+        }
+      }
+    }
+  ]
+}

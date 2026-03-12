@@ -1,0 +1,81 @@
+{
+  "video": {
+    "path": "data\\hussain_videos\\_wZSB0b9OCA.mp4",
+    "name": "_wZSB0b9OCA",
+    "duration": 30.029999999999998,
+    "resolution": "1920x1080",
+    "fps": 23.976023976023978
+  },
+  "shared_pipeline": {
+    "time_seconds": 66.94797563552856,
+    "scenes_detected": 15,
+    "total_candidates": 106,
+    "after_phash": 77,
+    "after_ssim": 77,
+    "after_clip": 35,
+    "frames_after_dedup": 35,
+    "audio_segments": 9,
+    "key_phrases_found": 0,
+    "audio_mood": "dramatic"
+  },
+  "methods": {
+    "nms": {
+      "selection_time_seconds": 0.5658934116363525,
+      "extraction_time_seconds": 34.33475351333618,
+      "total_time_seconds": 34.900646924972534,
+      "final_frames": 23,
+      "importance_range": [
+        1.2,
+        5.039999999999999
+      ],
+      "extraction": {
+        "error": "JSON parse error",
+        "raw_response": "\n{\n  \"brand\": {\n    \"brand_name_text\": \"Visit the Philippines\",\n    \"logo_visible\": true,\n    \"logo_timestamps\": [\n      27.1,\n      28.8\n    ],\n    \"brand_text_contrast\": \"medium\"\n  },\n  \"product\": {\n    \"product_name\": \"Tourism in the Philippines\",\n    \"industry\": \"Travel & Tourism\"\n  },\n  \"promotion\": {\n    \"promo_present\": false,\n    \"promo_text\": null,\n    \"promo_deadline\": null,\n    \"price_value\": null\n  },\n  \"call_to_action\": {\n    \"cta_present\": true,\n    \"cta_type\": \"Visit the Philippin"
+      }
+    },
+    "kmeans": {
+      "selection_time_seconds": 2.3948473930358887,
+      "extraction_time_seconds": 37.65389919281006,
+      "total_time_seconds": 40.04874658584595,
+      "final_frames": 24,
+      "importance_range": [
+        1.2,
+        5.039999999999999
+      ],
+      "extraction": {
+        "error": "JSON parse error",
+        "raw_response": "\n{\n  \"brand\": {\n    \"brand_name_text\": \"VISIT THE PHILIPPINES\",\n    \"logo_visible\": true,\n    \"logo_timestamps\": [\n      27.1,\n      28.8\n    ],\n    \"brand_text_contrast\": \"medium\"\n  },\n  \"product\": {\n    \"product_name\": \"Tourism in the Philippines\",\n    \"industry\": \"Travel & Tourism\"\n  },\n  \"promotion\": {\n    \"promo_present\": true,\n    \"promo_text\": \"VISIT THE PHILIPPINES 2015 / VISIT THE PHILIPPINES AGAIN 2016\",\n    \"promo_deadline\": null,\n    \"price_value\": null\n  },\n  \"call_to_action\": {\n   "
+      }
+    },
+    "hybrid": {
+      "selection_time_seconds": 0.753448486328125,
+      "extraction_time_seconds": 34.77511930465698,
+      "total_time_seconds": 35.52856779098511,
+      "final_frames": 23,
+      "importance_range": [
+        1.2,
+        5.039999999999999
+      ],
+      "extraction": {
+        "error": "JSON parse error",
+        "raw_response": "\n{\n  \"brand\": {\n    \"brand_name_text\": \"Visit the Philippines\",\n    \"logo_visible\": true,\n    \"logo_timestamps\": [\n      27.1,\n      28.8\n    ],\n    \"brand_text_contrast\": \"medium\"\n  },\n  \"product\": {\n    \"product_name\": \"Tourism in the Philippines\",\n    \"industry\": \"Travel & Tourism\"\n  },\n  \"promotion\": {\n    \"promo_present\": false,\n    \"promo_text\": null,\n    \"promo_deadline\": null,\n    \"price_value\": null\n  },\n  \"call_to_action\": {\n    \"cta_present\": true,\n    \"cta_type\": \"Visit a destination"
+      }
+    }
+  },
+  "comparison": {
+    "ad_type_agreement": true,
+    "ad_types": {
+      "nms": null,
+      "kmeans": null,
+      "hybrid": null
+    },
+    "primary_message_agreement": true,
+    "text_overlay_counts": {
+      "nms": 0,
+      "kmeans": 0,
+      "hybrid": 0
+    },
+    "fastest_method": "nms",
+    "most_overlays_method": "nms"
+  }
+}

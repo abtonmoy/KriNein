@@ -1,0 +1,296 @@
+{
+  "video": {
+    "path": "data\\hussain_videos\\0tteHhYh9rU.mp4",
+    "name": "0tteHhYh9rU",
+    "duration": 40.00663333333333,
+    "resolution": "640x480",
+    "fps": 29.97002997002997
+  },
+  "shared_pipeline": {
+    "time_seconds": 30.636956691741943,
+    "scenes_detected": 17,
+    "total_candidates": 50,
+    "after_phash": 35,
+    "after_ssim": 33,
+    "after_clip": 16,
+    "frames_after_dedup": 16,
+    "audio_segments": 5,
+    "key_phrases_found": 4,
+    "audio_mood": "neutral"
+  },
+  "methods": {
+    "nms": {
+      "selection_time_seconds": 0.01799941062927246,
+      "extraction_time_seconds": 27.998133420944214,
+      "total_time_seconds": 28.016132831573486,
+      "final_frames": 16,
+      "importance_range": [
+        1.2,
+        5.039999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": null,
+          "logo_visible": false,
+          "logo_timestamps": [],
+          "brand_text_contrast": null
+        },
+        "product": {
+          "product_name": "Public service announcement on speeding",
+          "industry": "Government / Public Safety"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "The psychological consequences, such as guilt and haunting memories, of killing a child by speeding are inescapable and follow you everywhere.",
+          "tagline": "It's 30 for a reason."
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "grey",
+            "blue",
+            "green",
+            "black"
+          ],
+          "text_overlays": [
+            "It's 30 for a reason."
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-55",
+          "interests": [
+            "Driving",
+            "Public safety",
+            "Parenting"
+          ]
+        },
+        "persuasion_techniques": [
+          "Emotional appeal",
+          "Fear appeal",
+          "Storytelling"
+        ],
+        "emotional_appeal": {
+          "primary_emotion": "Guilt",
+          "storytelling_elements": [
+            "A day in the life",
+            "Symbolism",
+            "Psychological haunting",
+            "Implied backstory"
+          ],
+          "brand_values_conveyed": [
+            "Responsibility",
+            "Safety",
+            "Awareness"
+          ]
+        },
+        "_metadata": {
+          "ad_type": "brand_awareness",
+          "schema_mode": "adaptive",
+          "num_frames": 16,
+          "video_duration": 40.00663333333333,
+          "has_audio_context": true
+        }
+      }
+    },
+    "kmeans": {
+      "selection_time_seconds": 0.028041839599609375,
+      "extraction_time_seconds": 28.35421895980835,
+      "total_time_seconds": 28.38226079940796,
+      "final_frames": 16,
+      "importance_range": [
+        1.2,
+        5.039999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": null,
+          "logo_visible": false,
+          "logo_timestamps": [],
+          "brand_text_contrast": null
+        },
+        "product": {
+          "product_name": "Road Safety Awareness",
+          "industry": "Public Service"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "The emotional and psychological trauma of causing a fatal accident due to speeding is inescapable and will haunt you throughout your daily life.",
+          "tagline": "It's 30 for a reason."
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "grey",
+            "blue",
+            "green",
+            "black"
+          ],
+          "text_overlays": [
+            "It's 30 for a reason."
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-55",
+          "interests": [
+            "Driving",
+            "Public safety",
+            "Parenting"
+          ]
+        },
+        "persuasion_techniques": [
+          "Emotional appeal",
+          "Fear appeal",
+          "Storytelling",
+          "Shock value"
+        ],
+        "emotional_appeal": {
+          "primary_emotion": "Guilt",
+          "storytelling_elements": [
+            "Symbolism",
+            "Problem/Consequence narrative",
+            "Character study",
+            "Suspense and reveal"
+          ],
+          "brand_values_conveyed": [
+            "Responsibility",
+            "Safety",
+            "Awareness"
+          ]
+        },
+        "_metadata": {
+          "ad_type": "brand_awareness",
+          "schema_mode": "adaptive",
+          "num_frames": 16,
+          "video_duration": 40.00663333333333,
+          "has_audio_context": true
+        }
+      }
+    },
+    "hybrid": {
+      "selection_time_seconds": 0.02962970733642578,
+      "extraction_time_seconds": 29.438393115997314,
+      "total_time_seconds": 29.46802282333374,
+      "final_frames": 16,
+      "importance_range": [
+        1.2,
+        5.039999999999999
+      ],
+      "extraction": {
+        "brand": {
+          "brand_name_text": null,
+          "logo_visible": false,
+          "logo_timestamps": [],
+          "brand_text_contrast": null
+        },
+        "product": {
+          "product_name": "Road Safety Awareness",
+          "industry": "Public Service"
+        },
+        "promotion": {
+          "promo_present": false,
+          "promo_text": null,
+          "promo_deadline": null,
+          "price_value": null
+        },
+        "call_to_action": {
+          "cta_present": false,
+          "cta_type": null
+        },
+        "message": {
+          "primary_message": "The emotional and psychological trauma of causing a fatal accident due to speeding is inescapable and will haunt you throughout your daily life.",
+          "tagline": "It's 30 for a reason."
+        },
+        "visual_elements": {
+          "text_density": "low",
+          "dominant_colors": [
+            "grey",
+            "blue",
+            "green",
+            "black"
+          ],
+          "text_overlays": [
+            "It's 30 for a reason."
+          ]
+        },
+        "content_rating": {
+          "is_nsfw": false
+        },
+        "target_audience": {
+          "age_group": "25-55",
+          "interests": [
+            "Driving",
+            "Public safety",
+            "Parenting"
+          ]
+        },
+        "persuasion_techniques": [
+          "Emotional appeal",
+          "Fear appeal",
+          "Storytelling",
+          "Shock value"
+        ],
+        "emotional_appeal": {
+          "primary_emotion": "Guilt",
+          "storytelling_elements": [
+            "Symbolism",
+            "Problem/Consequence narrative",
+            "Character study",
+            "Suspense and reveal"
+          ],
+          "brand_values_conveyed": [
+            "Responsibility",
+            "Safety",
+            "Awareness"
+          ]
+        },
+        "_metadata": {
+          "ad_type": "brand_awareness",
+          "schema_mode": "adaptive",
+          "num_frames": 16,
+          "video_duration": 40.00663333333333,
+          "has_audio_context": true
+        }
+      }
+    }
+  },
+  "comparison": {
+    "ad_type_agreement": true,
+    "ad_types": {
+      "nms": "brand_awareness",
+      "kmeans": "brand_awareness",
+      "hybrid": "brand_awareness"
+    },
+    "primary_message_agreement": false,
+    "text_overlay_counts": {
+      "nms": 1,
+      "kmeans": 1,
+      "hybrid": 1
+    },
+    "fastest_method": "nms",
+    "most_overlays_method": "nms"
+  }
+}
