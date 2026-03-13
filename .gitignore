@@ -45,7 +45,6 @@ uv.lock
 # Jupyter Notebook
 .ipynb_checkpoints
 *.ipynb_checkpoints/
-notebooks/.ipynb_checkpoints/
 
 # Testing
 .pytest_cache/
@@ -61,31 +60,21 @@ coverage.xml
 *.log
 logs/
 
-# Video files (uncomment if you don't want to track videos)
-# *.mp4
-# *.avi
-# *.mov
-# *.mkv
-# *.webm
-# *.flv
-
-# Data directories (adjust based on your needs)
-data/ads/ads/videos/*.mp4
-data/ads/ads/videos/*.avi
-data/*/videos/*.mp4
-data/*/videos/*.avi
-*.zip
+# Data directories
+data/
+!data/.gitkeep
 
 # Output directories
 output/
 outputs/
-# results/
-results1/
+results/
+benchmark_results/
+ablation_results/
 temp/
 tmp/
 cache/
 
-# Extracted frames and processed data
+# Extracted frames and processed images
 *.jpg
 *.jpeg
 *.png
@@ -95,13 +84,12 @@ cache/
 !assets/**/*.png
 !assets/**/*.jpg
 
-# Model files (uncomment if models are large)
-# *.pth
-# *.pt
-# *.ckpt
-# *.h5
-# *.pb
-# models/
+# Model files
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.pb
 
 # Environment files
 .env
@@ -137,8 +125,6 @@ dmypy.json
 *.swp
 .~lock.*
 
-# custom
-data/hussain_videos/
-*.mp4
+# Download artifacts
 download_log.txt
-data\hussain_videos_subset
+download_progress.json

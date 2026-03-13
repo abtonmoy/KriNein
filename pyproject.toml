@@ -1,24 +1,45 @@
 [project]
-name = "video-analysis-pipeline-research"
-version = "0.1.0"
-description = "Add your description here"
+name = "KriNein"
+version = "1.0.0"
+description = "A clean, efficient library for video content analysis and frame extraction"
 readme = "README.md"
 requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "KriNein Team" }
+]
+keywords = [
+    "video",
+    "analysis",
+    "frame-extraction",
+    "deduplication",
+    "scene-detection",
+    "computer-vision",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Multimedia :: Video :: Conversion",
+]
+
 dependencies = [
     "anthropic>=0.75.0",
     "ffmpeg-python>=0.2.0",
     "google-genai>=1.56.0",
     "google-generativeai>=0.8.6",
     "imagehash>=4.3.2",
-    "ipykernel>=7.1.0",
     "librosa>=0.10.1",
-    "llvmlite>=0.41.0",
     "matplotlib>=3.10.8",
     "numba>=0.58.0",
     "numpy>=1.24,<2.4",
     "open-clip-torch>=3.2.0",
     "openai>=2.14.0",
-    "openai-whisper>=20250625",
     "opencv-python>=4.11.0.86",
     "pandas>=2.3.3",
     "pillow>=12.0.0",
@@ -44,8 +65,34 @@ dependencies = [
     "graphviz>=0.21",
 ]
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = [
     "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
+    "ipykernel>=7.1.0",
 ]
+
+[project.scripts]
+krainein = "video_analyzer.cli:main"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
