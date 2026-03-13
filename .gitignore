@@ -128,3 +128,5 @@ dmypy.json
 # Download artifacts
 download_log.txt
 download_progress.json
+
+.claude
